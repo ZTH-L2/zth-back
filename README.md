@@ -16,9 +16,9 @@ dowload docker (and docker desktop)
 #### 3 ####
 open a terminal, go in zth-backend directory and type : \
 $ docker compose up -d\
-or\ 
+or
 $ docker compose up\
-this will allow you to have a local back : php, mysql db and phpmyadmin\
+this will allow you to have a local back : php, mysql db and phpmyadmin
 to access the api : port 8080 : localhost:8080/public\ 
 to access phpmyadmin : port 8001 : localhost:8001\
 
