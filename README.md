@@ -28,3 +28,12 @@ if you used $ docker compose up :\
   (you can also do "$ docker compose down" after)\
 else:\
   $ docker compose down
+
+#### thanks to ####
+Heargo : GitHub
+
+Nouvelle Techno : YouTube
+Gary Clarke     : YouTube
+Vincent Stevenson : YouTube
+
+and others on the internet
