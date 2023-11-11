@@ -1,17 +1,17 @@
 # zth-back
 
 ### important ###
-do not delet .env of .gitignore\
+do not delet .env of .gitignore
 
 ### Usage ###
 
 #### 1 ####
 copy .env.example into a new .env file at the root of zth-backend (same level as .env.example)\
 .env will contain your local code to your local database\
-do not delet .env.example\
+do not delet .env.example
 
 #### 2 ####
-dowload docker (and docker desktop)\
+dowload docker (and docker desktop)
 
 #### 3 ####
 open a terminal, go in zth-backend directory and type : \
@@ -27,4 +27,4 @@ if you used $ docker compose up :\
   ctrl + c\
   (you can also do "$ docker compose down" after)\
 else:\
-  $ docker compose down\
+  $ docker compose down
