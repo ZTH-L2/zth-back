@@ -1,0 +1,17 @@
+# Gary Clarke YT
+FROM php:8.2-apache
+
+RUN apt-get update && apt-get upgrade -y
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+
+# _____ COMPOSER ____
+
+# ENV COMPOSER_ALLOW_SUPERUSER=1
+# COPY --from=composer:2.4 /usr/bin/composer /usr/bin/composer
+# COPY ./webapp/composer.* ./
+# RUN composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction
+# COPY ./webapp ./
+
+# RUN composer dump-autoload --optimize
+
+EXPOSE 80

@@ -1,0 +1,29 @@
+version: "latest"
+services:
+  webapp:
+    volumes:
+      - "./app:/var/www/html" # link the current directory with the /var/www/html one
+    ports:
+      - 8080:80 # link the ports
+    build:
+      dockerfile: ./php/DockerFile
+    env_file:
+      - .env
+  db:
+    env_file:
+      - .env
+    image: mysql:latest
+    volumes:
+      - mysqldata:/var/lib/mysql
+      - "./db:/docker-entrypoint-initdb.d" # sync persistent sql files with container
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8001:80
+    env_file:
+      - .env
+
+volumes:
+  mysqldata:
