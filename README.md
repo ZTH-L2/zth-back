@@ -19,8 +19,8 @@ $ docker compose up -d\
 or
 $ docker compose up\
 this will allow you to have a local back : php, mysql db and phpmyadmin
-to access the api : port 8080 : localhost:8080/public\ 
-to access phpmyadmin : port 8001 : localhost:8001\
+to access the api : port 8080 : localhost:8080/public 
+to access phpmyadmin : port 8001 : localhost:8001
 
 once you are finish do :\
 if you used $ docker compose up :\
