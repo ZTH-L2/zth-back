@@ -1,0 +1,28 @@
+
+# this config allow access to all file and folder
+# and redirect to index.php if it doesn't exist
+
+RewriteEngine on
+RewriteBase /var/www/html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php [L,QSA]
+
+
+# this config redirect everything to index.php
+# accept all file that exist..
+# do not infinitly loop
+
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteBase /var/www/html
+
+#     # Exclude index.php and all PHP files from redirection
+#     RewriteRule ^(index\.php|.+\.php)$ - [L]
+
+#     # Redirect all other requests to index.php
+#     # QSA is used to conserv the path used
+#     RewriteCond %{REQUEST_URI} !^/index\.php$
+#     RewriteRule ^(.*)$ /index.php [L,QSA]
+# </IfModule>
+

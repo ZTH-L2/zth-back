@@ -4,6 +4,8 @@ FROM php:8.2-apache
 RUN apt-get update && apt-get upgrade -y
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
+# this line allows apache to use the .htaccess
+RUN a2enmod rewrite
 # _____ COMPOSER ____
 
 # ENV COMPOSER_ALLOW_SUPERUSER=1
