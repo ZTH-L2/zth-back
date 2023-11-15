@@ -3,6 +3,7 @@ services:
   webapp:
     volumes:
       - "./app:/var/www/html" # link the current directory with the /var/www/html one
+      - "./custom_apache2.conf:/etc/apache2/apache2.conf"
     ports:
       - 8080:80 # link the ports
     build:
