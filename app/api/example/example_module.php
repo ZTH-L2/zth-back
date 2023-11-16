@@ -2,5 +2,8 @@
 require_once "modules/module.php";
 require_once "controlleur.php";
 
-$dict = ["GET" => 'get'];
+$dict = [
+    "OPTION" => 'option',
+    "GET" => 'get'
+];
 $example_module = new Module($dict);

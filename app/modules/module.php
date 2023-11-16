@@ -11,7 +11,7 @@ class Module
         echo "debug";
     }
     public function api($method, $params){
-        // $method should be one of GET, POST, PUT, DELET
+        // $method should be one of OPTION, GET, POST, PUT, DELET
         if (array_key_exists($method, $this->api_function_dict))
         {
             $this->api_function_dict[$method]($params);

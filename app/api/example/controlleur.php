@@ -1,5 +1,11 @@
 <?php
 
+
+function option($params){
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Headers: *');
+    header('Access-Control-Allow-Methods: GET');
+}
 /*
 This fill is purely for example
 We should make all the checks here 
@@ -36,3 +42,5 @@ function get($params){
     }
     
 };
+
+
