@@ -9,10 +9,9 @@ if ($requestUri !== "/")
 {
     // This pattern matches with /moduleexample and /moduleexample/param1/param2/...
     $pattern = "/^\/[a-z]{1,}(\/[0-9a-z]{1,})?/";
-    $matches = [];
 
     // if the uri matches with the pattern
-    if (preg_match($pattern, $requestUri, $matches))
+    if (preg_match($pattern, $requestUri))
     {
 
         $params = explode("/", $requestUri);
@@ -22,7 +21,6 @@ if ($requestUri !== "/")
         {
             $method = $_SERVER['REQUEST_METHOD'];
             $params = array_slice($params, 2);
-
             $modules[$module]->api($method, $params);
         }
         else
@@ -44,7 +42,7 @@ if ($requestUri !== "/")
 }
 else
 {
-    echo "Welcome to our api, we currently have the /example route available.<br>";
+    echo "Welcome to our api, we currently have the /example/exparam/1 route available.<br>";
     echo "If you type an uri unavailable, you will face a not found error.";
 }
 
