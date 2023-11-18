@@ -10,26 +10,16 @@ function option_course($params){
 }
 
 function get_course($params){
-    if (is_logged_in())
-    {
-        if (is_admin())
-        {
             $conn = db_connect();
             $id = $params[0];
             return json_encode(["succes"=>true,"message"=>select_course($conn, $id)]);
         }
-        else
-        {
-            return permission_denied_error_message();
-        }
-    }
-    else
-    {
-        return authentification_required_error_message();
-    }
-}
 
 function post_course($params){
+    if (is_logged_in())
+    {
+        if (is_admin())
+        {
             if (update_post_var())
             {
                 $conn = db_connect();
@@ -60,6 +50,16 @@ function post_course($params){
             {
                 no_data_error_message();   
             }
+        }
+        else
+        {
+            return permission_denied_error_message();
+        }
+    }
+    else
+    {
+        return authentification_required_error_message();
+    }
 }
 
 function del_course($params){
