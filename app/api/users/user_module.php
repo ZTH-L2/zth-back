@@ -8,8 +8,16 @@ $dict = [
         "function" => 'option_user'
     ],
     "POST" => [
-        "params" => ["/register/"],
-        "function" => 'register'
+        "routes" => [
+            [
+                "params" => ["/register/"],
+                "function" => 'register'
+            ],
+            [
+                "params" => ["/login/"],
+                "function" => 'login'
+            ]
+        ]
     ]
 ];
 

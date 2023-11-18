@@ -13,7 +13,35 @@ class Module
         // $method should be one of OPTION, GET, POST, PUT, DELET
         if (array_key_exists($method, $this->api_function_dict))
         {
-            if (array_key_exists("params", $this->api_function_dict[$method]))
+            if (array_key_exists("routes", $this->api_function_dict[$method]))
+            {
+                $param_len = count($params);
+                foreach ($this->api_function_dict[$method]["routes"] as $route)
+                {
+                    if ($param_len == count($route["params"]))
+                    {
+                        $wrong_match = false;
+                        for ($i = 0; $i < $param_len; $i++) {
+                            // if one parameter does not match one regex 
+                            // of needed params it fails
+                            $regex = $route["params"][$i];
+                            if (!preg_match($regex, $params[$i])){
+                                $wrong_match = true;
+                                break;
+                            }
+                        }
+                        if (!$wrong_match){
+                            $route["function"]($params);
+                            return;
+                        }
+                    }
+                };
+                // If we get here it means that we have not found a route matching the params
+                http_response_code(404);
+                echo json_encode(['error' => 'Resource not found | remove me : params does\'t match any route']);
+                
+            }
+            else if(array_key_exists("params", $this->api_function_dict[$method]))
             {
                 $param_len = count($params);
                 if ($param_len == count($this->api_function_dict[$method]["params"]))
@@ -28,6 +56,7 @@ class Module
                             return;
                         }
                     }
+                    $this->api_function_dict[$method]["function"]($params);
                 }
                 else
                 {
@@ -36,7 +65,10 @@ class Module
                     return;
                 }
             }
-            $this->api_function_dict[$method]["function"]($params);
+            else
+            {
+                $this->api_function_dict[$method]["function"]($params);
+            }
         }
         else
         {

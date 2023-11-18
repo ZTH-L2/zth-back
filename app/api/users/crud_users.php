@@ -55,19 +55,34 @@ if($ret=mysqli_query($conn, $sql)){
 }
 return $ret;
 }
-    
 
-function select_all_user($conn){
+function select_user_by_username($conn, $username){
 
-/* fonction pour selectionner tous les 'user' dans la table
-     *              entree: element de connexion
-     *              sortie: tableau d'elements
-*/
-
-$sql = "SELECT * FROM `users`";
-$ret=mysqli_fetch_all(mysqli_query($conn, $sql));
-return $ret ;
+     /* fonction pour selectionner un(e) 'user' en fonction de username
+          *              entree: element de connexion
+          *                      username: username de 'user' a recuperer
+          *              sortie: element
+     */
+     
+     $sql = "SELECT * FROM `users` WHERE `username`='$username'";
+     if($ret=mysqli_query($conn, $sql)){
+         $ret=mysqli_fetch_assoc($ret);
+     }
+     return $ret;
 }
+// This is not really secure / usefull to get all user
+
+// function select_all_user($conn){
+
+// /* fonction pour selectionner tous les 'user' dans la table
+//      *              entree: element de connexion
+//      *              sortie: tableau d'elements
+// */
+
+// $sql = "SELECT * FROM `users`";
+// $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
+// return $ret ;
+// }
     
 
 function select_all_user_with_parameter($conn, $parameter_name, $parameter_value){

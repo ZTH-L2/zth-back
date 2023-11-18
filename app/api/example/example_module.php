@@ -7,8 +7,12 @@ $dict = [
         "function" => 'option_example'
     ],
     "GET" => [
-        "params" => ["/exparam/", "/[0-9]/"],
-        "function" => 'get_example'
+        "routes" => [
+            [
+                "params" => ["/exparam/", "/[0-9]/"],
+                "function" => 'get_example'
+            ]
+        ]
     ]
 ];
 $example_module = new Module($dict);

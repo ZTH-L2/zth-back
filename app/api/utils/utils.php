@@ -15,6 +15,13 @@ function update_post_var(){
     return !is_null($_POST);
 }
 
+function success_json_custom($message){
+    echo json_encode([
+        "success"=> true,
+        "message"=> $message
+    ]);
+}
+
 function error_json_custom($message){
     echo json_encode([
         "success"=> false,
