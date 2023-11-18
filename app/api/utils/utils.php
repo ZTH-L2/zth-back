@@ -50,7 +50,7 @@ function error_message_json($statusCode, $message){
 // Explanation: Indicates that the request could not be understood by the server due to malformed syntax, missing parameters, or invalid input.
 // Example: Sending a request with missing required parameters.
 function no_data_error_message(){
-    return error_json_custom(400 ,"400 Bad Request: the body or the data of the request doesn't have any information or we couldn't access it.");
+    return error_message_json(400 ,"400 Bad Request: the body or the data of the request doesn't have any information or we couldn't access it.");
 }
 
 function invalid_format_data_error_message(){
