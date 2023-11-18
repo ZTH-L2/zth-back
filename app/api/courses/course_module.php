@@ -6,18 +6,18 @@ require_once "controlleur.php";
 $dict = [
     "GET" => [
         "params" => ["/[0-9]{1,}/"],
-        "function" => 'get_major'
+        "function" => 'get_course'
     ],
     "POST" => [
-        "function" => 'post_major'
+        "function" => 'post_course'
     ],
     "PUT" => [
-        "function" => 'put_major'
+        "function" => 'put_course'
     ],
     "DELETE" => [
         "params" => ["/[0-9]{1,}/"],
-        "function" => 'del_major'
+        "function" => 'del_course'
     ]
 ];
 
-$major_module = new Module($dict);
+$course_module = new Module($dict);

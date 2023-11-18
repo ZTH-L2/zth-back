@@ -2,7 +2,7 @@
 header('Access-Control-Allow-Origin: *');
 
 require_once "api/utils/utils.php";
-require_once "api/majors/crud_majors.php";
+require_once "cruds/crud_majors.php";
 require_once "api/db_connect.php";
 function option_major($params){
     header('Access-Control-Allow-Headers: *');
@@ -10,48 +10,83 @@ function option_major($params){
 }
 
 function get_major($params){
-    echo json_encode(["succes"=>true,"message"=>select_major(db_connect(), $params[0])]);
+
+            $conn = db_connect();
+            $id = $params[0];
+            return json_encode(["succes"=>true,"message"=>select_major($conn, $id)]);
+
 }
 
 function post_major($params){
-    if (update_post_var())
+    if (is_logged_in())
     {
-    $conn = db_connect();
+        if (is_admin())
+        {
+            if (update_post_var())
+            {
+                $conn = db_connect();
 
-    // get the data
-    if (isset($_POST["name"]))
-    {
-        $name_dirty = $_POST["name"];
+                // get the data
+                if (isset($_POST["name"]))
+                {
+                    $name_dirty = $_POST["name"];
+                }
+                else
+                {
+                    invalid_format_data_error_message();
+                    return;
+                }
+
+                // sanitize the data
+                $name = filter_var($name_dirty);
+
+                if (!$name)
+                {
+                    unsafe_data_error_message();
+                    return;
+                }
+
+                return json_encode(["succes" => true, "message" => create_major($conn, $name)]);
+            }
+            else
+            {
+                no_data_error_message();   
+            }
+        }
+        else
+        {
+            return permission_denied_error_message();
+        }
     }
     else
     {
-        error_json_custom("The data in not formated correctly (invalid keys)");
-        return;
-    }
-
-    // sanitize the data
-    $name = filter_var($name_dirty);
-
-    if (!$name)
-    {
-        error_json_custom("The data is not safe");
-        return;
-    }
-
-    echo json_encode(["succes" => true, "message" => create_major(db_connect(), $name)]);
-    }
-
-    else
-    {
-    no_data_error();   
+        return authentification_required_error_message();
     }
 }
 
 function del_major($params){
-    echo json_encode(["succes"=>true,"message"=>delete_major(db_connect(), $params[0])]);
+    if (is_logged_in())
+    {
+        if (is_admin())
+        {
+    return json_encode(["succes"=>true,"message"=>delete_major(db_connect(), $params[0])]);
+}
+else
+{
+    return permission_denied_error_message();
+}
+}
+else
+{
+return authentification_required_error_message();
+}
 }
 
 function put_major($params){
+    if (is_logged_in())
+    {
+        if (is_admin())
+        {
     if (update_post_var())
     {
     $conn = db_connect();
@@ -64,7 +99,7 @@ function put_major($params){
     }
     else
     {
-        error_json_custom("The data in not formated correctly (invalid keys)");
+        invalid_format_data_error_message();
         return;
     }
 
@@ -75,14 +110,24 @@ function put_major($params){
 
     if (!$name)
     {
-        error_json_custom("The data is not safe");
+        unsafe_data_error_message();
         return;
     }
 
-    echo json_encode(["succes" => true, "message" => update_major(db_connect(), $name, $id)]);
+    return json_encode(["succes" => true, "message" => update_major(db_connect(), $name, $id)]);
 }
 
 else{
-    no_data_error();   
+    no_data_error_message();   
+}
+}
+else
+{
+    return permission_denied_error_message();
+}
+}
+else
+{
+return authentification_required_error_message();
 }
 }

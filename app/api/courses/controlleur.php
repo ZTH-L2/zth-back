@@ -2,20 +2,20 @@
 header('Access-Control-Allow-Origin: *');
 
 require_once "api/utils/utils.php";
-require_once "cruds/crud_years.php";
+require_once "cruds/crud_courses.php";
 require_once "api/db_connect.php";
-function option_year($params){
+function option_course($params){
     header('Access-Control-Allow-Headers: *');
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 }
 
-function get_year($params){
-   
-    return json_encode(["succes"=>true,"message"=>select_year(db_connect(), $params[0])]);
+function get_course($params){
+            $conn = db_connect();
+            $id = $params[0];
+            return json_encode(["succes"=>true,"message"=>select_course($conn, $id)]);
+        }
 
-}
-
-function post_year($params){
+function post_course($params){
     if (is_logged_in())
     {
         if (is_admin())
@@ -37,17 +37,18 @@ function post_year($params){
 
                 // sanitize the data
                 $name = filter_var($name_dirty);
+
                 if (!$name)
                 {
                     unsafe_data_error_message();
                     return;
                 }
 
-                return json_encode(["succes" => true, "message" => create_year($conn, $name)]);
+                return json_encode(["succes" => true, "message" => create_course($conn, $name)]);
             }
             else
             {
-            no_data_error_message();   
+                no_data_error_message();   
             }
         }
         else
@@ -61,13 +62,12 @@ function post_year($params){
     }
 }
 
-
-function del_year($params){
+function del_course($params){
     if (is_logged_in())
     {
         if (is_admin())
         {
-    return json_encode(["succes"=>true,"message"=>delete_year(db_connect(), $params[0])]);
+    return json_encode(["succes"=>true,"message"=>delete_course(db_connect(), $params[0])]);
 }
 else
 {
@@ -77,12 +77,11 @@ else
 else
 {
 return authentification_required_error_message();
-
 }
 }
 
-function put_year($params){
-     if (is_logged_in())
+function put_course($params){
+    if (is_logged_in())
     {
         if (is_admin())
         {
@@ -91,10 +90,10 @@ function put_year($params){
     $conn = db_connect();
 
     // get the data
-    if (isset($_POST["name"]) && (isset($_POST["id_year"])))
+    if (isset($_POST["name"]) && (isset($_POST["id_course"])))
     {
         $name_dirty = $_POST["name"];
-        $id_dirty = $_POST["id_year"];
+        $id_dirty = $_POST["id_course"];
     }
     else
     {
@@ -113,7 +112,7 @@ function put_year($params){
         return;
     }
 
-    return json_encode(["succes" => true, "message" => update_year(db_connect(), $name, $id)]);
+    return json_encode(["succes" => true, "message" => update_course(db_connect(), $name, $id)]);
 }
 
 else{
