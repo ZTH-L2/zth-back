@@ -45,7 +45,8 @@ CREATE TABLE `comments` (
   `id_user` int(11) NOT NULL,
   `id_parent_comment` int(11) NOT NULL,
   `nb_like` int(11) NOT NULL,
-  `nb_report` int(11) NOT NULL
+  `nb_report` int(11) NOT NULL,
+  `content` TEXT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

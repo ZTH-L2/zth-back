@@ -8,7 +8,7 @@
 
         
         
-function create_comment($conn, $id_post, $id_user, $id_parent_comment, $nb_like, $nb_report){
+function create_comment($conn, $id_post, $id_user, $id_parent_comment, $nb_like, $nb_report, $markdownContent){
 
 /* fonction pour ajouter / creer un(e) new 'comment'
      *              entree: element de connexion
@@ -16,37 +16,68 @@ function create_comment($conn, $id_post, $id_user, $id_parent_comment, $nb_like,
      *              sortie: sql request
 */
 
-$sql = "INSERT INTO `comments`(`id_post`, `id_user`, `id_parent_comment`, `nb_like`, `nb_report`) VALUES('$id_post', '$id_user', '$id_parent_comment', '$nb_like', '$nb_report') ";
-return mysqli_query($conn, $sql);
+// chat gpt made
+$sql = "INSERT INTO `comments` (`id_post`, `id_user`, `id_parent_comment`, `nb_like`, `nb_report`, `content`) VALUES (?, ?, ?, ?, ?, ?)";
+$stmt = mysqli_prepare($conn, $sql);
+
+if ($stmt) {
+    mysqli_stmt_bind_param($stmt, "iiiiis", $id_post, $id_user, $id_parent_comment, $nb_like, $nb_report, $markdownContent);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    return true; // Return true on success
+} else {
+    return false; // Return false on failure
+}
+
 }
     
         
-        
-function update_comment($conn, $id_post, $id_user, $id_parent_comment, $nb_like, $nb_report, $id){
-
-/* fonction pour update / modifier un(e) 'comment' en fonction de l'id
- *              entree: element de connexion
- *                      toutes les variables: valeurs des colonnes
- *              sortie: sql request
- */
-
-$sql = "UPDATE `comments` set `id_post`='$id_post', `id_user`='$id_user', `id_parent_comment`='$id_parent_comment', `nb_like`='$nb_like', `nb_report`='$nb_report' WHERE`id_comment`=$id";
-return mysqli_query($conn, $sql);
-}
-    
+function update_comment($conn, $id_comment, $new_content) {
+     $sql = "UPDATE `comments` SET `content` = ? WHERE `id_comment` = ?";
+ 
+     $stmt = mysqli_prepare($conn, $sql);
+ 
+     if ($stmt) {
+         mysqli_stmt_bind_param($stmt, "si", $new_content, $id_comment);
+         mysqli_stmt_execute($stmt);
+         mysqli_stmt_close($stmt);
+         return true; // Return true on success
+     } else {
+         return false; // Return false on failure
+     }
+ }
 
 
 function update_comment_with_parameter($conn, $parameter_name, $parameter_value, $id){
 
-/* fonction pour update / modifier un(e) 'comment' en fonction d'un parametre
- *              entree: element de connexion
- *                      $parameter_name: nom du parametre a modifier
-                        $parameter_value: valeur du parametre a modifier
- *              sortie: sql request
- */
-
-$sql = "UPDATE `comments` set `$parameter_name`='$parameter_value' WHERE `id_comment`=$id";
-return mysqli_query($conn, $sql);
+     /* fonction pour update / modifier un(e) 'comment' en fonction d'un parametre
+     *              entree: element de connexion
+     *                      $parameter_name: nom du parametre a modifier
+                         $parameter_value: valeur du parametre a modifier
+     *              sortie: sql request
+     */
+     if ($parameter_name == "nb_like" || $parameter_name == "nb_report" || $parameter_name == "content")
+     {
+          $sql = "UPDATE `comments` set `$parameter_name`=? WHERE `id_comment`=?";
+          $stmt = mysqli_prepare($conn, $sql);
+     
+          if ($stmt) 
+          {
+               mysqli_stmt_bind_param($stmt, "si", $parameter_value, $id);
+               mysqli_stmt_execute($stmt);
+               mysqli_stmt_close($stmt);
+               return true; // Return true on success
+          } 
+          else 
+          {
+               return false; // Return false on failure
+          }
+     }
+     else
+     {
+          return false;
+     }
+    
 }
     
 
