@@ -190,7 +190,6 @@ function register($params){
             return $data["error"];
         }
         
-        $id = $_SESSION["id_user"];
         $username = $data["username"];
         $mail = $data["mail"];
         $password_hashed = $data["password_hashed"];
