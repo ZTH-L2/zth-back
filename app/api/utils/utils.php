@@ -14,6 +14,17 @@ function update_post_var(){
     return !is_null($_POST);
 }
 
+// Private
+function is_logged_in(){
+    return isset($_SESSION["id_user"]);
+}
+// Private
+function is_admin(){
+    // should be called only if is_logged_in has returned true
+    // but can handle the case where is_logged_in has returned false
+    return isset($_SESSION["permission"]) && $_SESSION["permission"] == 1;
+}
+
 
 function message_json($statusCode, $key, $message){
     http_response_code($statusCode);

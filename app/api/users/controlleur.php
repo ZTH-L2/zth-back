@@ -2,16 +2,15 @@
 session_start();
 header('Access-Control-Allow-Origin: *');
 require_once "api/utils/utils.php";
-require_once "api/users/crud_users.php";
+require_once "cruds/crud_users.php";
 require_once "api/db_connect.php";
 
-
+// Public
 function option_user($params){
     header('Access-Control-Allow-Headers: *');
     header('Access-Control-Allow-Methods: OPTION, GET, POST, PUT, DELETE');
 }
-
-// Protected by admin
+// Public Protected by admin
 function get_user_by_id($params){
     if (is_logged_in())
     {
@@ -42,7 +41,7 @@ function get_user_by_id($params){
         return authentification_required_error_message();
     }
 }
-// Protected by admin
+// Public Protected by admin
 function delet_user_by_id($params){
     if (is_logged_in())
     {
@@ -97,12 +96,11 @@ function delet_user_by_id($params){
         return authentification_required_error_message();
     }
 }
-
+// Public Require authentification
 function login($params){
     if (update_post_var())
     {
-        $conn = db_connect();
-
+        
         // get the data
         if (isset($_POST["username"]) && isset($_POST["password"]))
         {
@@ -117,12 +115,13 @@ function login($params){
         // sanitize the data
         $username = filter_var($username_dirty);
         $password_raw = filter_var($password_dirty_raw);
-
+        
         if (!$username || !$password_raw)
         {
             return unsafe_data_error_message();
         }
-
+        
+        $conn = db_connect();
         // search for username in users
         $user = select_user_by_username($conn, $username);
         // if not found
@@ -173,12 +172,12 @@ function login($params){
         return no_data_error_message();
     }
 }
-
+// Public Not protected
 function logout($params){
     session_unset();
     return success_message_json(204, "204 No Content: Logged out successfully.");
 }
-
+// Public 
 function register($params){
     if (update_post_var())
     {
@@ -217,7 +216,7 @@ function register($params){
     }
     
 }
-
+// Public Protected by authentification
 function update_my_account($params){
     if (is_logged_in())
     {
@@ -254,6 +253,11 @@ function update_my_account($params){
 
         if ($res)
         {
+            // set the session 
+
+            $_SESSION["mail"] = $mail;
+            $_SESSION["username"] = $username;
+
             // 204 is shorter but 200 allows us to write a message.
             $res = success_message_json(200, "200 OK: Updated user's information successfully.") ;
         }
@@ -270,7 +274,7 @@ function update_my_account($params){
         return authentification_required_error_message();
     }
 }
-
+// Public Protected by authentification
 function delete_my_account($params){
     if (is_logged_in())
     {
@@ -302,19 +306,8 @@ function delete_my_account($params){
     }
 }
 
-
-function is_logged_in(){
-    return  isset($_SESSION["id_user"]);
-}
-
-function is_admin(){
-    // should be called only if is_logged_in has returned true
-    // but can handle the case where is_logged_in has returned false
-    return isset($_SESSION["permission"]) && $_SESSION["permission"] == 1;
-}
-
-function handle_username_mail_password()
-{
+// Private
+function handle_username_mail_password(){
     // get the data
     if (isset($_POST["username"]) && isset($_POST["mail"]) && isset($_POST["password"]))
     {
@@ -353,18 +346,39 @@ function handle_username_mail_password()
     // check if the user name is available
     if(count(select_all_user_with_parameter($conn, "username", $username)) != 0)
     {
-        return ["error" => cant_be_used_data_error_message()];
+        if (!isset($_SESSION["username"]) || $username != $_SESSION["username"])
+        {
+            return ["error" => cant_be_used_data_error_message()];
+        }
     }
 
     // check if the mail is available
     if(count(select_all_user_with_parameter($conn, "mail", $mail)) != 0)
     {
-        return ["error" => cant_be_used_data_error_message()];
+        if (!isset($_SESSION["mail"]) || $mail != $_SESSION["mail"] )
+        {
+            return ["error" => cant_be_used_data_error_message()];
+        }
     }
 
-    // Hash the password
-    $password_hashed = password_hash($password_raw, PASSWORD_DEFAULT);
-
+    if (isset($_SESSION["id_user"]))
+    {
+        $user = select_user($conn, $_SESSION["id_user"]);
+        if (!password_verify($password_raw, select_user($conn, $_SESSION["id_user"])["password"]))
+        {
+            // Hash the new password
+            $password_hashed = password_hash($password_raw, PASSWORD_DEFAULT);
+        }
+        else
+        {
+            $password_hashed = $user["password"];
+        }
+    }
+    else
+    {
+        $password_hashed = password_hash($password_raw, PASSWORD_DEFAULT);
+    }
+    
     $data = [
         "username" => $username,
         "mail" => $mail,
@@ -373,7 +387,7 @@ function handle_username_mail_password()
 
     return $data;
 }
-
+// Private
 function make_data_of_user($tab){
     $data = [
         "id_user" => $tab["id_user"],
