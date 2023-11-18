@@ -193,7 +193,7 @@ function register($params){
         $id = $_SESSION["id_user"];
         $username = $data["username"];
         $mail = $data["mail"];
-        $password_hashed = $data[""]
+        $password_hashed = $data["password_hashed"];
         // Set the final variables
         $permission = 0;
         $restricted = 0;
