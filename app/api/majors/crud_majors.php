@@ -89,7 +89,7 @@ function select_all_major_with_parameter($conn, $parameter_name, $parameter_valu
      *              sortie: tableau d'elements
 */
 
-$sql = "SELECT * FROM `majors` WHERE `$parameter_name`=$parameter_value";
+$sql = "SELECT * FROM `majors` WHERE `$parameter_name`='$parameter_value'";
 $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
 return $ret ;
 }
