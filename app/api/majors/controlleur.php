@@ -39,11 +39,12 @@ function post_major($params){
     }
 
     echo json_encode(["succes" => true, "message" => create_major(db_connect(), $name)]);
-}
+    }
 
-else{
+    else
+    {
     no_data_error();   
-}
+    }
 }
 
 function del_major($params){
