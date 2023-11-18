@@ -182,24 +182,24 @@ function logout($params){
 function register($params){
     if (update_post_var())
     {
-        $conn = db_connect();
-
+        
         $data = handle_username_mail_password();
         // checkout the function to see what could have caused error
         if (array_key_exists("error", $data))
         {
             return $data["error"];
         }
-
+        
         $id = $_SESSION["id_user"];
         $username = $data["username"];
         $mail = $data["mail"];
-
+        $password_hashed = $data[""]
         // Set the final variables
         $permission = 0;
         $restricted = 0;
         $first_connexion = date("Y-m-d");
-
+        
+        $conn = db_connect();
         // register the user in the db
         $res = create_user($conn, $mail, $username, $password_hashed, $permission, $restricted, $first_connexion);
         if ($res)
@@ -251,7 +251,7 @@ function update_my_account($params){
 
         $conn = db_connect();
         // CRUD function
-        $res = update_user($conn, $mail, $username, $password, $permission, $restricted, $first_connexion, $id);
+        $res = update_user($conn, $mail, $username, $password_hashed, $permission, $restricted, $first_connexion, $id);
 
         if ($res)
         {
@@ -370,7 +370,7 @@ function handle_username_mail_password()
     $data = [
         "username" => $username,
         "mail" => $mail,
-        "password_hashes" => $password_hashed
+        "password_hashed" => $password_hashed
     ];
 
     return $data;
