@@ -303,6 +303,44 @@ ALTER TABLE `years`
 ALTER TABLE `subscription`
   MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT;
 
+ALTER TABLE `comments`
+  MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `authors`
+  MODIFY `id_author` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `courses`
+  MODIFY `id_course` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `grades`
+  MODIFY `id_grade` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `likes`
+  MODIFY `id_like` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `majors`
+  MODIFY `id_major` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `majors_courses_link`
+  MODIFY `id_majors_courses_link` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `posts`
+  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `reports_comments`
+  MODIFY `id_report_comment` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `reports_posts`
+  MODIFY `id_report_post` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `subscription`
+  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `users`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `years`
+  MODIFY `id_year` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Contraintes pour les tables déchargées
 --
