@@ -300,7 +300,6 @@ function delete_my_account($params){
     {
         return authentification_required_error_message();
     }
-    return;
 }
 
 
