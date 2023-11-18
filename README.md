@@ -14,7 +14,7 @@ do not delet .env.example
 
 #### 2
 
-dowload docker (and docker desktop)
+download docker (and docker desktop)
 
 #### 3
 
