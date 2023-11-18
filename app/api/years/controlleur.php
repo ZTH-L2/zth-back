@@ -2,7 +2,7 @@
 header('Access-Control-Allow-Origin: *');
 
 require_once "api/utils/utils.php";
-require_once "api/years/crud_years.php";
+require_once "cruds/crud_years.php";
 require_once "api/db_connect.php";
 function option_year($params){
     header('Access-Control-Allow-Headers: *');
@@ -10,47 +10,94 @@ function option_year($params){
 }
 
 function get_year($params){
-    echo json_encode(["succes"=>true,"message"=>select_year(db_connect(), $params[0])]);
+    if (is_logged_in())
+    {
+        if (is_admin())
+        {
+    return json_encode(["succes"=>true,"message"=>select_year(db_connect(), $params[0])]);
+}
+else
+{
+    return permission_denied_error_message();
+}
+}
+else
+{
+return authentification_required_error_message();
+}
 }
 
 function post_year($params){
-    if (update_post_var())
+    if (is_logged_in())
     {
-    $conn = db_connect();
+        if (is_admin())
+        {
+            if (update_post_var())
+            {
+                $conn = db_connect();
 
-    // get the data
-    if (isset($_POST["name"]))
-    {
-        $name_dirty = $_POST["name"];
+                // get the data
+                if (isset($_POST["name"]))
+                {
+                    $name_dirty = $_POST["name"];
+                }
+                else
+                {
+                    invalid_format_data_error_message();
+                    return;
+                }
+
+                // sanitize the data
+                $name = filter_var($name_dirty);
+                if (!$name)
+                {
+                    unsafe_data_error_message();
+                    return;
+                }
+
+                return json_encode(["succes" => true, "message" => create_year($conn, $name)]);
+            }
+            else
+            {
+            no_data_error_message();   
+            }
+        }
+        else
+        {
+            return permission_denied_error_message();
+        }
     }
     else
     {
-        error_json_custom("The data in not formated correctly (invalid keys)");
-        return;
+        return authentification_required_error_message();
     }
-
-    // sanitize the data
-    $name = filter_var($name_dirty);
-
-    if (!$name)
-    {
-        error_json_custom("The data is not safe");
-        return;
-    }
-
-    echo json_encode(["succes" => true, "message" => create_year(db_connect(), $name)]);
 }
 
-else{
-    no_data_error();   
-}
-}
 
 function del_year($params){
-    echo json_encode(["succes"=>true,"message"=>delete_year(db_connect(), $params[0])]);
+    if (is_logged_in())
+    {
+        if (is_admin())
+        {
+    return json_encode(["succes"=>true,"message"=>delete_year(db_connect(), $params[0])]);
+}
+else
+{
+    return permission_denied_error_message();
+}
+}
+else
+{
+return authentification_required_error_message();
+
+}
 }
 
 function put_year($params){
+     if (is_logged_in())
+    {
+        if (is_admin())
+        {
     if (update_post_var())
     {
     $conn = db_connect();
@@ -63,7 +110,7 @@ function put_year($params){
     }
     else
     {
-        error_json_custom("The data in not formated correctly (invalid keys)");
+        invalid_format_data_error_message();
         return;
     }
 
@@ -74,14 +121,24 @@ function put_year($params){
 
     if (!$name)
     {
-        error_json_custom("The data is not safe");
+        unsafe_data_error_message();
         return;
     }
 
-    echo json_encode(["succes" => true, "message" => update_year(db_connect(), $name, $id)]);
+    return json_encode(["succes" => true, "message" => update_year(db_connect(), $name, $id)]);
 }
 
 else{
-    no_data_error();   
+    no_data_error_message();   
+}
+}
+else
+{
+    return permission_denied_error_message();
+}
+}
+else
+{
+return authentification_required_error_message();
 }
 }

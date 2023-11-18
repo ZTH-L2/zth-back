@@ -5,6 +5,7 @@ require_once "controlleur.php";
 
 $dict = [
     "GET" => [
+        "params" => ["/[0-9]{1,}/"],
         "function" => 'get_major'
     ],
     "POST" => [
@@ -14,6 +15,7 @@ $dict = [
         "function" => 'put_major'
     ],
     "DELETE" => [
+        "params" => ["/[0-9]{1,}/"],
         "function" => 'del_major'
     ]
 ];
