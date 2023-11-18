@@ -10,7 +10,7 @@ class Module
 
     public function api($method, $params){
         header('Content-Type: application/json');
-        // $method should be one of OPTION, GET, POST, PUT, DELET
+        // $method should be one of OPTION, GET, POST, PUT, DELETE
         if (array_key_exists($method, $this->api_function_dict))
         {
             if (array_key_exists("routes", $this->api_function_dict[$method]))
@@ -31,7 +31,7 @@ class Module
                             }
                         }
                         if (!$wrong_match){
-                            $route["function"]($params);
+                            echo $route["function"]($params);
                             return;
                         }
                     }
@@ -56,18 +56,17 @@ class Module
                             return;
                         }
                     }
-                    $this->api_function_dict[$method]["function"]($params);
+                    echo $this->api_function_dict[$method]["function"]($params);
                 }
                 else
                 {
                     http_response_code(404);
                     echo json_encode(['error' => 'Resource not found | remove me : wrong len of params']);
-                    return;
                 }
             }
             else
             {
-                $this->api_function_dict[$method]["function"]($params);
+                echo $this->api_function_dict[$method]["function"]($params);
             }
         }
         else
