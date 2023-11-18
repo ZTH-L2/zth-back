@@ -10,21 +10,9 @@ function option_year($params){
 }
 
 function get_year($params){
-    if (is_logged_in())
-    {
-        if (is_admin())
-        {
+   
     return json_encode(["succes"=>true,"message"=>select_year(db_connect(), $params[0])]);
-}
-else
-{
-    return permission_denied_error_message();
-}
-}
-else
-{
-return authentification_required_error_message();
-}
+
 }
 
 function post_year($params){
