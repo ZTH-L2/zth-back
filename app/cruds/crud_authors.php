@@ -8,7 +8,7 @@
 
         
         
-function create_auteur($conn, $id_user, $id_post){
+function create_author($conn, $id_user, $id_post){
 
 /* fonction pour ajouter / creer un(e) new 'auteur'
      *              entree: element de connexion
@@ -22,7 +22,7 @@ return mysqli_query($conn, $sql);
     
         
         
-function update_auteur($conn, $id_user, $id_post, $id){
+function update_author($conn, $id_user, $id_post, $id){
 
 /* fonction pour update / modifier un(e) 'auteur' en fonction de l'id
  *              entree: element de connexion
@@ -36,7 +36,7 @@ return mysqli_query($conn, $sql);
     
 
 
-function update_auteur_with_parameter($conn, $parameter_name, $parameter_value, $id){
+function update_author_with_parameter($conn, $parameter_name, $parameter_value, $id){
 
 /* fonction pour update / modifier un(e) 'auteur' en fonction d'un parametre
  *              entree: element de connexion
@@ -51,7 +51,7 @@ return mysqli_query($conn, $sql);
     
 
 
-function select_auteur($conn, $id){
+function select_author($conn, $id){
 
 /* fonction pour selectionner un(e) 'auteur' en fonction de l'id
      *              entree: element de connexion
@@ -67,7 +67,7 @@ return $ret;
 }
     
 
-function select_all_auteur($conn){
+function select_all_author($conn){
 
 /* fonction pour selectionner tous les 'auteur' dans la table
      *              entree: element de connexion
@@ -80,7 +80,7 @@ return $ret ;
 }
     
 
-function select_all_auteur_with_parameter($conn, $parameter_name, $parameter_value){
+function select_all_author_with_parameter($conn, $parameter_name, $parameter_value){
 
 /* fonction pour selectionner tous les 'auteur' dans la table en fonction d'un parametre
      *              entree: element de connexion
@@ -96,7 +96,7 @@ return $ret ;
     
 
 
-function delete_auteur($conn, $id){
+function delete_author($conn, $id){
 
 /* fonction pour supprimer un(e) 'auteur' en fonction de l'id
      *              entree: element de connexion
