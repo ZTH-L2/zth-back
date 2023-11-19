@@ -4,6 +4,7 @@ header('Access-Control-Allow-Origin: *');
 require_once "api/utils/utils.php";
 require_once "cruds/crud_majors.php";
 require_once "api/db_connect.php";
+require_once "api/majors_courses_link/controlleur.php";
 function option_major($params){
     header('Access-Control-Allow-Headers: *');
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
@@ -114,7 +115,7 @@ function put_major($params){
         return;
     }
 
-    return json_encode(["succes" => true, "message" => update_major(db_connect(), $name, $id)]);
+    return json_encode(["succes" => true, "message" => update_major($conn, $name, $id)]);
 }
 
 else{

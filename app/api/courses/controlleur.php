@@ -28,6 +28,7 @@ function post_course($params){
                 if (isset($_POST["name"]))
                 {
                     $name_dirty = $_POST["name"];
+                    $subs = $_POST["subs"];
                 }
                 else
                 {
@@ -43,8 +44,14 @@ function post_course($params){
                     unsafe_data_error_message();
                     return;
                 }
+                json_encode(["succes" => true, "message" => create_course($conn, $name)]);
+                $id = select_max($conn);
+                $id = $id["MAX(`id_course`)"];
+                for ($i = 0; $i < count($subs); $i++){
+                   private_post_majors_courses_link($id, $subs[$i]["id_major"], $subs[$i]["id_year"]);
+                }
+                return;
 
-                return json_encode(["succes" => true, "message" => create_course($conn, $name)]);
             }
             else
             {

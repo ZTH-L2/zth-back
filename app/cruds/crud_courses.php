@@ -20,7 +20,13 @@ $sql = "INSERT INTO `courses`(`name`) VALUES('$name') ";
 return mysqli_query($conn, $sql);
 }
     
-        
+function select_max($conn){
+     $sql = "SELECT MAX(`id_course`) FROM `courses`";
+     if($ret=mysqli_query($conn, $sql)){
+          $ret=mysqli_fetch_assoc($ret);
+      }
+      return $ret;
+      }
         
 function update_course($conn, $name, $id){
 
