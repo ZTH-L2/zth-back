@@ -8,7 +8,7 @@
 
         
         
-function create_subscription($conn, $id_user, $id_major){
+function create_subscription($conn, $id_user, $id_major, $id_year){
 
 /* fonction pour ajouter / creer un(e) new 'subscription'
      *              entree: element de connexion
@@ -16,13 +16,13 @@ function create_subscription($conn, $id_user, $id_major){
      *              sortie: sql request
 */
 
-$sql = "INSERT INTO `subscriptions`(`id_user`, `id_major`) VALUES('$id_user', '$id_major') ";
+$sql = "INSERT INTO `subscriptions`(`id_user`, `id_major`, `id_year`) VALUES('$id_user', '$id_major', '$id_year') ";
 return mysqli_query($conn, $sql);
 }
     
         
         
-function update_subscription($conn, $id_user, $id_major, $id){
+function update_subscription($conn, $id_user, $id_major, $id_year, $id){
 
 /* fonction pour update / modifier un(e) 'subscription' en fonction de l'id
  *              entree: element de connexion
@@ -30,7 +30,7 @@ function update_subscription($conn, $id_user, $id_major, $id){
  *              sortie: sql request
  */
 
-$sql = "UPDATE `subscriptions` set `id_user`='$id_user', `id_major`='$id_major' WHERE`id_subscription`=$id";
+$sql = "UPDATE `subscriptions` set `id_user`='$id_user', `id_major`='$id_major', `id_year`='$id_year' WHERE`id_subscription`=$id";
 return mysqli_query($conn, $sql);
 }
     
