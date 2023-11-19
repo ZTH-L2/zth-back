@@ -4,6 +4,9 @@ header('Access-Control-Allow-Origin: *');
 require_once "api/utils/utils.php";
 require_once "cruds/crud_subscriptions.php";
 require_once "api/db_connect.php";
+require_once "api/majors/controlleur.php";
+require_once "api/years/controlleur.php";
+
 function option_subscription($params){
     header('Access-Control-Allow-Headers: *');
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
@@ -23,6 +26,31 @@ function get_subscription($params){
     }
 }
 
+function get_subscription_by_id($params){
+    if (is_logged_in())
+    {
+        $conn = db_connect();
+        $id = $_SESSION["id_user"];
+        $res = select_subscription_by_user($conn, $id);
+        if (is_null($res))
+        {
+            return json_encode([]);
+        }
+        else
+        {
+            $data = [];
+            for ($i=0; $i < count($res); $i++)
+            {
+                $data[] = ["major_name" => get_major_name($res[$i][2]), "year_name" => get_year_name($res[$i][3])];
+            }
+            return json_encode($data);
+        }
+    }
+    else
+    {
+        return authentification_required_error_message();
+    }
+}
 function post_subscription($params){
     if (is_logged_in())
     {

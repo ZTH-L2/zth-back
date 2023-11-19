@@ -5,8 +5,17 @@ require_once "controlleur.php";
 
 $dict = [
     "GET" => [
-        "params" => ["/[0-9]{1,}/"],
-        "function" => 'get_subscription'
+        "routes" => [
+            [
+                "params" => ["/[0-9]{1,}/"],
+                "function" => 'get_subscription'
+            ],
+            [
+                "params" => ["/user/"],
+                "function" => 'get_subscription_by_id'
+            ]
+        
+        ]
     ],
     "POST" => [
         "function" => 'post_subscription'
@@ -18,6 +27,6 @@ $dict = [
         "params" => ["/[0-9]{1,}/"],
         "function" => 'del_subscription'
     ]
-];
+    ];
 
 $subscription_module = new Module($dict);

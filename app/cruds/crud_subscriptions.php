@@ -65,7 +65,19 @@ if($ret=mysqli_query($conn, $sql)){
 }
 return $ret;
 }
-    
+
+function select_subscription_by_user($conn, $id){
+
+     /* fonction pour selectionner un(e) 'subscription' en fonction de l'id
+          *              entree: element de connexion
+          *                      id: id de 'subscription' a recuperer
+          *              sortie: element
+     */
+     
+     $sql = "SELECT * FROM `subscriptions` WHERE `id_user`=$id";
+     $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
+     return $ret;
+     }
 
 function select_all_subscription($conn){
 

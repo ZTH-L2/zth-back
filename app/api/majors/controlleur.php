@@ -24,6 +24,11 @@ function get_major($params){
     }
 }
 
+function get_major_name($id_major){
+    $conn = db_connect();
+    $res = select_major($conn, $id_major);
+    return $res["name"];
+}
 function post_major($params){
     if (is_logged_in())
     {
