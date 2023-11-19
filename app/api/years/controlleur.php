@@ -10,9 +10,17 @@ function option_year($params){
 }
 
 function get_year($params){
-   
-    return json_encode(["succes"=>true,"message"=>select_year(db_connect(), $params[0])]);
-
+    $conn = db_connect();
+    $id = $params[0];
+    $res = select_year($conn, $id);
+    if (is_null($res))
+    {
+        return json_encode([]);
+    }
+    else
+    {
+        return json_encode($res);
+    }
 }
 
 function post_year($params){
@@ -43,7 +51,15 @@ function post_year($params){
                     return;
                 }
 
-                return json_encode(["succes" => true, "message" => create_year($conn, $name)]);
+                $res = create_year($conn, $name);
+                if ($res)
+                {
+                    return success_message_json(201, "201 Created: New year successfully created");
+                }
+                else
+                {
+                    return error_message_json(500, "500 Internal Server Error: Could not create the year");
+                }
             }
             else
             {
@@ -66,67 +82,82 @@ function del_year($params){
     if (is_logged_in())
     {
         if (is_admin())
+        {  
+            $conn = db_connect();
+            delete_year($conn, $params[0]);
+            if (mysqli_affected_rows($conn) > 0)
+            {
+                return success_message_json(200, "200 OK: Deleted year successfully");
+            }
+            else
+            {
+                return success_message_json(200, "200 OK: Deleted nothing but successfull");
+            }
+        }
+        else
         {
-    return json_encode(["succes"=>true,"message"=>delete_year(db_connect(), $params[0])]);
-}
-else
-{
-    return permission_denied_error_message();
-}
-}
-else
-{
-return authentification_required_error_message();
-
-}
-}
-
-function put_year($params){
-     if (is_logged_in())
-    {
-        if (is_admin())
-        {
-    if (update_post_var())
-    {
-    $conn = db_connect();
-
-    // get the data
-    if (isset($_POST["name"]) && (isset($_POST["id_year"])))
-    {
-        $name_dirty = $_POST["name"];
-        $id_dirty = $_POST["id_year"];
+            return permission_denied_error_message();
+        }
     }
     else
     {
-        invalid_format_data_error_message();
-        return;
+        return authentification_required_error_message();
     }
+}
 
-    // sanitize the data
-    $name = filter_var($name_dirty);
-    $id = filter_var($id_dirty);
-
-
-    if (!$name)
+function put_year($params){
+    if (is_logged_in())
     {
-        unsafe_data_error_message();
-        return;
+        if (is_admin())
+        {
+            if (update_post_var())
+            {
+                $conn = db_connect();
+                
+                // get the data
+                if (isset($_POST["name"]) && (isset($_POST["id_year"])))
+                {
+                    $name_dirty = $_POST["name"];
+                    $id_dirty = $_POST["id_year"];
+                }
+                else
+                {
+                    invalid_format_data_error_message();
+                    return;
+                }
+            
+                // sanitize the data
+                $name = filter_var($name_dirty);
+                $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
+            
+            
+                if (!$name || !$id)
+                {
+                    unsafe_data_error_message();
+                    return;
+                }
+                $res = update_year($conn, $name, $id);
+                if ($res)
+                {
+                    return success_message_json(200, "200 OK: Updated major's information successfully.") ;
+                }
+                else
+                {
+                    return error_message_json(500, "500 Internal Server Error: Could not update major's information.");
+                }
+            }
+            else
+            {
+                no_data_error_message();   
+            }
+        }
+        else
+        {
+            return permission_denied_error_message();
+        }
     }
-
-    return json_encode(["succes" => true, "message" => update_year(db_connect(), $name, $id)]);
-}
-
-else{
-    no_data_error_message();   
-}
-}
-else
-{
-    return permission_denied_error_message();
-}
-}
-else
-{
-return authentification_required_error_message();
-}
+    else
+    {
+        return authentification_required_error_message();
+    }
 }

@@ -59,7 +59,7 @@ function post_major($params){
                 }
                 else
                 {
-                    $res = error_message_json(500, "500 Internal Server Error: Could not create the major");
+                    return error_message_json(500, "500 Internal Server Error: Could not create the major");
                 }
             }
             else
@@ -130,13 +130,13 @@ function put_major($params){
                 $name = filter_var($name_dirty);
                 $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
 
-                if (!$name)
+                if (!$name || !$id)
                 {
                     unsafe_data_error_message();
                     return;
                 }
             
-                $res = json_encode(["succes" => true, "message" => update_major($conn, $name, $id)]);
+                $res = update_major($conn, $name, $id);
                 if ($res)
                 {
                     return success_message_json(200, "200 OK: Updated major's information successfully.") ;
