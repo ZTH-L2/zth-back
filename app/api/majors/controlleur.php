@@ -128,7 +128,7 @@ function put_major($params){
             
                 // sanitize the data
                 $name = filter_var($name_dirty);
-                $id = filter_var($id_dirty, "FILTER_VALIDATE_INT");
+                $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
 
                 if (!$name)
                 {
