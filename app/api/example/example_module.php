@@ -9,7 +9,7 @@ $dict = [
     "GET" => [
         "routes" => [
             [
-                "params" => ["/exparam/", "/[0-9]/"],
+                "params" => ["/^exparam$/", "/^[0-9]$/"],
                 "function" => 'get_example'
             ]
         ]

@@ -6,6 +6,8 @@ require_once "api/comments/comment_module.php";
 require_once "api/years/year_module.php";
 require_once "api/courses/course_module.php";
 require_once "api/majors_courses_link/majors_courses_link_module.php";
+require_once "api/subscriptions/subscription_module.php";
+
 
 
 $modules = [
@@ -15,5 +17,6 @@ $modules = [
     "major" => $major_module,
     "year" => $year_module,
     "course" => $course_module,
-    "majors_courses_link" => $majors_courses_link_module
+    "majors_courses_link" => $majors_courses_link_module,
+    "subscription" => $subscription_module
 ];
