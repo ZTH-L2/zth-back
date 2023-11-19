@@ -5,7 +5,7 @@ require_once "controlleur.php";
 
 $dict = [
     "GET" => [
-        "params" => ["/[0-9]{1,}/"],
+        "params" => ["/^[0-9]{1,}$/"],
         "function" => 'get_course'
     ],
     "POST" => [
@@ -15,7 +15,7 @@ $dict = [
         "function" => 'put_course'
     ],
     "DELETE" => [
-        "params" => ["/[0-9]{1,}/"],
+        "params" => ["/^[0-9]{1,}$/"],
         "function" => 'del_course'
     ]
 ];

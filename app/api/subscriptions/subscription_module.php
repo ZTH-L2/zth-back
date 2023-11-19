@@ -7,11 +7,11 @@ $dict = [
     "GET" => [
         "routes" => [
             [
-                "params" => ["/[0-9]{1,}/"],
+                "params" => ["/^[0-9]{1,}$/"],
                 "function" => 'get_subscription'
             ],
             [
-                "params" => ["/user/"],
+                "params" => ["/^user$/"],
                 "function" => 'get_subscription_by_id'
             ]
         
@@ -24,7 +24,7 @@ $dict = [
         "function" => 'put_subscription'
     ],
     "DELETE" => [
-        "params" => ["/[0-9]{1,}/"],
+        "params" => ["/^[0-9]{1,}$/"],
         "function" => 'del_subscription'
     ]
     ];
