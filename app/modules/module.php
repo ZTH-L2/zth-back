@@ -1,5 +1,4 @@
 <?php
-
 class Module
 {
     private $api_function_dict;

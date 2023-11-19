@@ -1,5 +1,4 @@
 <?php
-session_start();
 header('Access-Control-Allow-Origin: *');
 require_once "api/utils/utils.php";
 require_once "cruds/crud_users.php";
@@ -179,19 +178,61 @@ function logout($params){
 }
 // Public 
 function register($params){
-    if (update_post_var())
+    if (is_logged_in())
     {
-        
-        $data = handle_username_mail_password();
-        // checkout the function to see what could have caused error
-        if (array_key_exists("error", $data))
+        return error_message_json(403,"403 Forbidden: You are already logged in. Registration is not allowed while logged in.");
+    }
+
+    if (update_post_var())
+    {   
+        if (isset($_POST["username"]) && isset($_POST["mail"]) && isset($_POST["password"]))
         {
-            return $data["error"];
+            $username_dirty = $_POST["username"];
+            $mail_dirty = $_POST["mail"];
+            $password_dirty_raw = $_POST["password"];
+        }
+        else
+        {
+            return invalid_format_data_error_message();
+        }
+
+        // sanitize the data
+        $username = filter_var($username_dirty);
+        $mail = filter_var($mail_dirty, FILTER_SANITIZE_EMAIL);
+        $password_raw = filter_var($password_dirty_raw);
+        
+        if (!$username || !$mail || !$password_raw)
+        {
+            return unsafe_data_error_message();
+        }
+
+        // validate the data format
+        $password_regex  = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
+        $username_regex  = '/^[a-zA-Z0-9_-]{3,16}$/';
+        
+        if (!filter_var($username, FILTER_VALIDATE_REGEXP, ["options" => ["regexp" => $username_regex]]) ||
+        !filter_var($password_raw, FILTER_VALIDATE_REGEXP, ["options" => ["regexp" => $password_regex]]) || 
+            !filter_var($mail, FILTER_VALIDATE_EMAIL))
+        {
+            return enforce_data_policy_error_message();
+            
         }
         
-        $username = $data["username"];
-        $mail = $data["mail"];
-        $password_hashed = $data["password_hashed"];
+        $conn = db_connect();
+        // check if the user name is available
+        if(count(select_all_user_with_parameter($conn, "username", $username)) != 0)
+        {
+            return cant_be_used_data_error_message();
+        }
+
+        // check if the mail is available
+        if(count(select_all_user_with_parameter($conn, "mail", $mail)) != 0)
+        {
+            return cant_be_used_data_error_message();
+        }
+
+        $password_hashed = password_hash($password_raw, PASSWORD_DEFAULT);
+        
         // Set the final variables
         $permission = 0;
         $restricted = 0;
@@ -232,17 +273,66 @@ function update_my_account($params){
             return no_data_error_message();
         }
 
-        $data = handle_username_mail_password();
-        // checkout the function to see what could have caused error
-        if (array_key_exists("error", $data))
+        // get the data
+        if (isset($_POST["username"]) && isset($_POST["mail"]) && isset($_POST["password"]))
         {
-            return $data["error"];
+            $username_dirty = $_POST["username"];
+            $mail_dirty = $_POST["mail"];
+            $password_dirty_raw = $_POST["password"];
+        }
+        else
+        {
+            return invalid_format_data_error_message();
+        }
+
+        // sanitize the data
+        $username = filter_var($username_dirty);
+        $mail = filter_var($mail_dirty, FILTER_SANITIZE_EMAIL);
+        $password_raw = filter_var($password_dirty_raw);
+        
+        if (!$username || !$mail || !$password_raw)
+        {
+            return unsafe_data_error_message();
+        }
+
+        // validate the data format
+        $password_regex  = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
+        $username_regex  = '/^[a-zA-Z0-9_-]{3,16}$/';
+        
+        if (!filter_var($username, FILTER_VALIDATE_REGEXP, ["options" => ["regexp" => $username_regex]]) ||
+        !filter_var($password_raw, FILTER_VALIDATE_REGEXP, ["options" => ["regexp" => $password_regex]]) || 
+            !filter_var($mail, FILTER_VALIDATE_EMAIL))
+        {
+            return enforce_data_policy_error_message();
+            
+        }
+        
+        $conn = db_connect();
+        // check if the user name is available
+        if($username != $_SESSION["username"] && count(select_all_user_with_parameter($conn, "username", $username)) != 0)
+        {
+            return cant_be_used_data_error_message();
+        }
+
+        // check if the mail is available
+        if($mail != $_SESSION["mail"] && count(select_all_user_with_parameter($conn, "mail", $mail)) != 0)
+        {
+            return cant_be_used_data_error_message();
+        }
+
+    
+        $user = select_user($conn, $_SESSION["id_user"]);
+        if (!password_verify($password_raw, select_user($conn, $_SESSION["id_user"])["password"]))
+        {
+            // Hash the new password
+            $password_hashed = password_hash($password_raw, PASSWORD_DEFAULT);
+        }
+        else
+        {
+            $password_hashed = $user["password"];
         }
 
         $id = $_SESSION["id_user"];
-        $username = $data["username"];
-        $mail = $data["mail"];
-        $password_hashed = $data["password_hashed"];
         $permission = $_SESSION["permission"];
         $restricted = $_SESSION["restricted"];
         $first_connexion = $_SESSION["first_connexion"];
@@ -306,87 +396,6 @@ function delete_my_account($params){
     }
 }
 
-// Private
-function handle_username_mail_password(){
-    // get the data
-    if (isset($_POST["username"]) && isset($_POST["mail"]) && isset($_POST["password"]))
-    {
-        $username_dirty = $_POST["username"];
-        $mail_dirty = $_POST["mail"];
-        $password_dirty_raw = $_POST["password"];
-    }
-    else
-    {
-        return ["error" => invalid_format_data_error_message()];
-    }
-
-    // sanitize the data
-    $username = filter_var($username_dirty);
-    $mail = filter_var($mail_dirty, FILTER_SANITIZE_EMAIL);
-    $password_raw = filter_var($password_dirty_raw);
-    
-    if (!$username || !$mail || !$password_raw)
-    {
-        return ["error" => unsafe_data_error_message()];
-    }
-
-    // validate the data format
-    $password_regex  = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
-    $username_regex  = '/^[a-zA-Z0-9_-]{3,16}$/';
-    
-    if (!filter_var($username, FILTER_VALIDATE_REGEXP, ["options" => ["regexp" => $username_regex]]) ||
-    !filter_var($password_raw, FILTER_VALIDATE_REGEXP, ["options" => ["regexp" => $password_regex]]) || 
-        !filter_var($mail, FILTER_VALIDATE_EMAIL))
-    {
-        return ["error" => enforce_data_policy_error_message()];
-        
-    }
-    
-    $conn = db_connect();
-    // check if the user name is available
-    if(count(select_all_user_with_parameter($conn, "username", $username)) != 0)
-    {
-        if (!isset($_SESSION["username"]) || $username != $_SESSION["username"])
-        {
-            return ["error" => cant_be_used_data_error_message()];
-        }
-    }
-
-    // check if the mail is available
-    if(count(select_all_user_with_parameter($conn, "mail", $mail)) != 0)
-    {
-        if (!isset($_SESSION["mail"]) || $mail != $_SESSION["mail"] )
-        {
-            return ["error" => cant_be_used_data_error_message()];
-        }
-    }
-
-    if (isset($_SESSION["id_user"]))
-    {
-        $user = select_user($conn, $_SESSION["id_user"]);
-        if (!password_verify($password_raw, select_user($conn, $_SESSION["id_user"])["password"]))
-        {
-            // Hash the new password
-            $password_hashed = password_hash($password_raw, PASSWORD_DEFAULT);
-        }
-        else
-        {
-            $password_hashed = $user["password"];
-        }
-    }
-    else
-    {
-        $password_hashed = password_hash($password_raw, PASSWORD_DEFAULT);
-    }
-    
-    $data = [
-        "username" => $username,
-        "mail" => $mail,
-        "password_hashed" => $password_hashed
-    ];
-
-    return $data;
-}
 // Private
 function make_data_of_user($tab){
     $data = [

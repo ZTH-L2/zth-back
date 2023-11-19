@@ -68,6 +68,10 @@ function invalid_format_data_error_message(){
     return error_message_json(400, "400 Bad Request: The request could not be understood or processed due to invalid data format.");
 }
 
+function invalid_data_error_message(){
+    return error_message_json(400, "400 Bad Request: The request could not be understood or processed due to invalid data.");
+}
+
 function unsafe_data_error_message(){
     return error_message_json(400, "400 Bad Request: The submitted data contains invalid or malicious content.");
 }
