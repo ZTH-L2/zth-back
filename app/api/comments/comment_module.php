@@ -13,7 +13,6 @@ $dict = [
                 "params" => ["/^byuser$/","/^[0-9]{1,}$/","/^[0-9]{1}$/","/^[0-9]{1,2}$/"],
                 "function" => 'get_by_user_page_amount_sorted_by_report'
             ],
-            
             // public - by post 
             [   // /id_post/total
                 "params" => ["/^[0-9]{1,}$/","/^total$/"],

@@ -8,7 +8,7 @@ require_once "api/db_connect.php";
 // Public
 function option_comment($params){
     header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: OPTION, DELETE','GET');
+    header('Access-Control-Allow-Methods: OPTION, GET, POST, PUT, DELETE');
 }
 
 function get_by_user_page_amount_sorted_by_report($params){
