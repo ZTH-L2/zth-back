@@ -59,7 +59,7 @@ function select_author($conn, $id){
      *              sortie: element
 */
 
-$sql = "SELECT * FROM `authors` WHERE `id_author `=$id";
+$sql = "SELECT * FROM `authors` WHERE `id_author`=$id";
 if($ret=mysqli_query($conn, $sql)){
     $ret=mysqli_fetch_assoc($ret);
 }
