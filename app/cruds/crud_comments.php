@@ -30,8 +30,7 @@ if ($stmt) {
 }
 
 }
-    
-        
+     
 function update_comment($conn, $id_comment, $new_content) {
      $sql = "UPDATE `comments` SET `content` = ? WHERE `id_comment` = ?";
  
@@ -120,7 +119,7 @@ function select_all_comment_with_parameter($conn, $parameter_name, $parameter_va
      *              sortie: tableau d'elements
 */
 
-$sql = "SELECT * FROM `comments` WHERE `$parameter_name`=$parameter_value";
+$sql = "SELECT * FROM `comments` WHERE `$parameter_name`='$parameter_value'";
 $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
 return $ret ;
 }

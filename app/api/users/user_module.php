@@ -11,11 +11,11 @@ $dict = [
         "routes" => [
             [
                 // admin only
-                "params" => ["/[0-9]{1,}/"],
+                "params" => ["/^[0-9]{1,}$/"],
                 "function" => 'get_user_by_id'
             ],
             [
-                "params" => ["/logout/"],
+                "params" => ["/^logout$/"],
                 "function" => 'logout'
             ]
         ]
@@ -24,11 +24,11 @@ $dict = [
     "POST" => [
         "routes" => [
             [
-                "params" => ["/register/"],
+                "params" => ["/^register$/"],
                 "function" => 'register'
             ],
             [
-                "params" => ["/login/"],
+                "params" => ["/^login$/"],
                 "function" => 'login'
             ]
         ]
@@ -46,7 +46,7 @@ $dict = [
         "routes" => [
             [
                 // admin only
-                "params" => ["/[0-9]{1,}/"],
+                "params" => ["/^[0-9]{1,}$/"],
                 "function" => 'delet_user_by_id'
             ],
             [
