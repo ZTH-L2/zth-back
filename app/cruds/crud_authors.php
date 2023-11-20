@@ -65,7 +65,32 @@ if($ret=mysqli_query($conn, $sql)){
 }
 return $ret;
 }
-    
+
+function select_author_by_user($conn, $id){
+
+     /* fonction pour selectionner un(e) 'auteur' en fonction de l'id
+          *              entree: element de connexion
+          *                      id: id de 'auteur' a recuperer
+          *              sortie: element
+     */
+     
+     $sql = "SELECT * FROM `authors` WHERE `id_user`=$id";
+     $ret = mysqli_query($conn, $sql);
+     return rs_to_tab($ret);
+}
+
+function select_author_by_post($conn, $id){
+
+     /* fonction pour selectionner un(e) 'auteur' en fonction de l'id
+          *              entree: element de connexion
+          *                      id: id de 'auteur' a recuperer
+          *              sortie: element
+     */
+     
+     $sql = "SELECT * FROM `authors` WHERE `id_post`=$id";
+     $ret = mysqli_query($conn, $sql);
+     return rs_to_tab($ret);
+}
 
 function select_all_author($conn){
 
@@ -106,6 +131,15 @@ function delete_author($conn, $id){
 
 $sql = "DELETE FROM `authors` WHERE `id_author`=$id";
 return mysqli_query($conn, $sql);
+}
+
+function rs_to_tab($rs){
+     // met le paramètre $rs sous forme de tableau 
+      $tab=[]; 
+      while($row=mysqli_fetch_assoc($rs)){
+           $tab[]=$row;	
+     }
+      return $tab;
 }
 
 ?>

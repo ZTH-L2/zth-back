@@ -18,9 +18,11 @@ $dict = [
         ]
     ],
     "POST" => [
+        "params" => [],
         "function" => 'post_subscription'
     ],
     "PUT" => [
+        "params" => [],
         "function" => 'put_subscription'
     ],
     "DELETE" => [

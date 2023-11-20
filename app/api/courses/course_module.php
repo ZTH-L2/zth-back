@@ -9,9 +9,11 @@ $dict = [
         "function" => 'get_course'
     ],
     "POST" => [
+        "params" => [],
         "function" => 'post_course'
     ],
     "PUT" => [
+        "params" => [],
         "function" => 'put_course'
     ],
     "DELETE" => [

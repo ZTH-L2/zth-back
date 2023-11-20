@@ -9,9 +9,11 @@ $dict = [
         "function" => 'get_major'
     ],
     "POST" => [
+        "params" => [],
         "function" => 'post_major'
     ],
     "PUT" => [
+        "params" => [],
         "function" => 'put_major'
     ],
     "DELETE" => [

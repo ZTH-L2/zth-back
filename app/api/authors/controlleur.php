@@ -24,6 +24,33 @@ function get_author($params){
     }
 }
 
+function get_author_by_user($params){
+    $conn = db_connect();
+    $id = $params[1];
+    $res = select_author_by_user($conn, $id);
+    if (is_null($res))
+    {
+        return json_encode([]);
+    }
+    else
+    {
+        return json_encode($res);
+    }
+}
+
+function get_author_by_post($params){
+    $conn = db_connect();
+    $id = $params[1];
+    $res = select_author_by_post($conn, $id);
+    if (is_null($res))
+    {
+        return json_encode([]);
+    }
+    else
+    {
+        return json_encode($res);
+    }
+}
 
 function post_author($params){
     if (is_logged_in())

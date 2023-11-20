@@ -9,9 +9,11 @@ $dict = [
         "function" => 'get_year'
     ],
     "POST" => [
+        "params" => [],
         "function" => 'post_year'
     ],
     "PUT" => [
+        "params" => [],
         "function" => 'put_year'
     ],
     "DELETE" => [
