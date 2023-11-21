@@ -234,7 +234,7 @@ function register($params){
         $password_hashed = password_hash($password_raw, PASSWORD_DEFAULT);
         
         // Set the final variables
-        $permission = 0;
+        $permission = 1;
         $restricted = 0;
         $first_connexion = date("Y-m-d");
         

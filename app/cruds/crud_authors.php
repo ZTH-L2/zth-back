@@ -8,7 +8,7 @@
 
         
         
-function create_auteur($conn, $id_user, $id_post){
+function create_author($conn, $id_user, $id_post){
 
 /* fonction pour ajouter / creer un(e) new 'auteur'
      *              entree: element de connexion
@@ -22,7 +22,7 @@ return mysqli_query($conn, $sql);
     
         
         
-function update_auteur($conn, $id_user, $id_post, $id){
+function update_author($conn, $id_user, $id_post, $id){
 
 /* fonction pour update / modifier un(e) 'auteur' en fonction de l'id
  *              entree: element de connexion
@@ -36,7 +36,7 @@ return mysqli_query($conn, $sql);
     
 
 
-function update_auteur_with_parameter($conn, $parameter_name, $parameter_value, $id){
+function update_author_with_parameter($conn, $parameter_name, $parameter_value, $id){
 
 /* fonction pour update / modifier un(e) 'auteur' en fonction d'un parametre
  *              entree: element de connexion
@@ -51,7 +51,7 @@ return mysqli_query($conn, $sql);
     
 
 
-function select_auteur($conn, $id){
+function select_author($conn, $id){
 
 /* fonction pour selectionner un(e) 'auteur' en fonction de l'id
      *              entree: element de connexion
@@ -59,15 +59,40 @@ function select_auteur($conn, $id){
      *              sortie: element
 */
 
-$sql = "SELECT * FROM `authors` WHERE `id_author `=$id";
+$sql = "SELECT * FROM `authors` WHERE `id_author`=$id";
 if($ret=mysqli_query($conn, $sql)){
     $ret=mysqli_fetch_assoc($ret);
 }
 return $ret;
 }
-    
 
-function select_all_auteur($conn){
+function select_author_by_user($conn, $id){
+
+     /* fonction pour selectionner un(e) 'auteur' en fonction de l'id
+          *              entree: element de connexion
+          *                      id: id de 'auteur' a recuperer
+          *              sortie: element
+     */
+     
+     $sql = "SELECT * FROM `authors` WHERE `id_user`=$id";
+     $ret = mysqli_query($conn, $sql);
+     return rs_to_tab($ret);
+}
+
+function select_author_by_post($conn, $id){
+
+     /* fonction pour selectionner un(e) 'auteur' en fonction de l'id
+          *              entree: element de connexion
+          *                      id: id de 'auteur' a recuperer
+          *              sortie: element
+     */
+     
+     $sql = "SELECT * FROM `authors` WHERE `id_post`=$id";
+     $ret = mysqli_query($conn, $sql);
+     return rs_to_tab($ret);
+}
+
+function select_all_author($conn){
 
 /* fonction pour selectionner tous les 'auteur' dans la table
      *              entree: element de connexion
@@ -80,7 +105,7 @@ return $ret ;
 }
     
 
-function select_all_auteur_with_parameter($conn, $parameter_name, $parameter_value){
+function select_all_author_with_parameter($conn, $parameter_name, $parameter_value){
 
 /* fonction pour selectionner tous les 'auteur' dans la table en fonction d'un parametre
      *              entree: element de connexion
@@ -96,7 +121,7 @@ return $ret ;
     
 
 
-function delete_auteur($conn, $id){
+function delete_author($conn, $id){
 
 /* fonction pour supprimer un(e) 'auteur' en fonction de l'id
      *              entree: element de connexion
@@ -106,6 +131,15 @@ function delete_auteur($conn, $id){
 
 $sql = "DELETE FROM `authors` WHERE `id_author`=$id";
 return mysqli_query($conn, $sql);
+}
+
+function rs_to_tab($rs){
+     // met le paramètre $rs sous forme de tableau 
+      $tab=[]; 
+      while($row=mysqli_fetch_assoc($rs)){
+           $tab[]=$row;	
+     }
+      return $tab;
 }
 
 ?>

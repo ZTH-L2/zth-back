@@ -9,9 +9,11 @@ $dict = [
         "function" => 'get_majors_courses_link'
     ],
     "POST" => [
+        "params" => [],
         "function" => 'post_majors_courses_link'
     ],
     "PUT" => [
+        "params" => [],
         "function" => 'put_majors_courses_link'
     ],
     "DELETE" => [

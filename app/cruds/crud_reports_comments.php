@@ -16,7 +16,7 @@ function create_report_comment($conn, $id_user, $id_comment, $report){
      *              sortie: sql request
 */
 
-$sql = "INSERT INTO `reports_comments`(`id_user`, `id_comment`, `report`) VALUES('$id_user', '$id_comment', '$report') ";
+$sql = "INSERT INTO `reports_comments`(`id_user`, `id_comment`, `report`) VALUES('$id_user', '$id_comment', '$report')";
 return mysqli_query($conn, $sql);
 }
     

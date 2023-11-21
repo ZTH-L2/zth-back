@@ -6,20 +6,20 @@ require_once "controlleur.php";
 $dict = [
     "GET" => [
         "params" => ["/^[0-9]{1,}$/"],
-        "function" => 'get_year'
+        "function" => 'get_post'
     ],
     "POST" => [
         "params" => [],
-        "function" => 'post_year'
+        "function" => 'post_post'
     ],
     "PUT" => [
         "params" => [],
-        "function" => 'put_year'
+        "function" => 'put_post'
     ],
     "DELETE" => [
         "params" => ["/^[0-9]{1,}$/"],
-        "function" => 'del_year'
+        "function" => 'del_post'
     ]
 ];
 
-$year_module = new Module($dict);
+$post_module = new Module($dict);
