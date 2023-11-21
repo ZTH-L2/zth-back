@@ -5,12 +5,28 @@ require_once "controlleur.php";
 
 $dict = [
     "GET" => [
-        "params" => ["/^[0-9]{1,}$/"],
-        "function" => 'get_grade'
+        "routes" => [
+            [
+                "params" => [],
+                "function" => 'post_grade_admin'
+            ],
+            [
+                "params" => ["/^user$/"],
+                "function" => 'post_grade'
+            ]
+        ]
     ],
     "POST" => [
-        "params" => [],
-        "function" => 'post_grade'
+        "routes" => [
+            [
+                "params" => ["/^[0-9]{1,}$/"],
+                "function" => 'post_grade_admin'
+            ],
+            [
+                "params" => ["/^post$/"],
+                "function" => 'post_grade'
+            ]
+        ]
     ],
     "PUT" => [
         "routes" => [

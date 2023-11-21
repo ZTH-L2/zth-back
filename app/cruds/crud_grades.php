@@ -76,7 +76,19 @@ if($ret=mysqli_query($conn, $sql)){
 }
 return $ret;
 }
-    
+
+function select_grade_post($conn, $id){
+
+     /* fonction pour selectionner un(e) 'grade' en fonction de l'id
+          *              entree: element de connexion
+          *                      id: id de 'grade' a recuperer
+          *              sortie: element
+     */
+     
+     $sql = "SELECT AVG(`grade`) FROM `grades` WHERE `id_post`=$id";
+     $res = mysqli_query($conn, $sql);
+     return rs_to_tab($res);
+     }
 function select_grade_user_post($conn, $id_user, $id_post){
 
      /* fonction pour selectionner un(e) 'grade' en fonction de l'id
