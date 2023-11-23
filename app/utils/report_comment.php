@@ -15,29 +15,29 @@ $dict = [
 
     "POST" => [
         "params" => ["/comment/"],
-        "function" => 'create_comment'
+        "function" => 'create_report_comment'
     ],
 
     "GET" => [
         "routes" => [
             [
-                "params" => ["/^comment$/","/[0-9][update,]/"],
-                "function" => 'update_comment'
+                "params" => ["/^comment$/","/[0-9][report,]/","/[0-9][update,]/"],
+                "function" => 'update_report_comment'
             ],
 
             [
-                "params" => ["/^comment$/","/[0-9][update,]/","/[0-9][parametres?,]/"],
-                "function" => 'update_comment_with_parameter'
+                "params" => ["/^comment$/","/[0-9][report,]/","/[0-9][update,]/","/[0-9][parametres?,]/"],
+                "function" => 'update_report_comment_with_parameter'
             ],
 
             [
-                "params" => ["/^comment$/","/[0-9][select,]/"],
-                "function" => 'select_comment'
+                "params" => ["/^comment$/","/[0-9][report,]/","/[0-9][select,]/"],
+                "function" => 'select_report_comment'
             ],
 
             [
-                "params" => ["/^comment$/","/[0-9][select,]/","/[0-9][all,]/"],
-                "function" => 'select_all_comment'
+                "params" => ["/^comment$/","/[0-9][report,]/","/[0-9][select,]/","/[0-9][all,]/"],
+                "function" => 'select_all_report_comment'
             ],
 
             [
@@ -46,18 +46,16 @@ $dict = [
             ],
 
             [
-                "params" => ["/^comment$/","/[0-9][select,]/","/[0-9][all,]/","/[0-9][parametres?,]/"],
-                "function" => 'select_all_comment_with_parameter'
+                "params" => ["/^comment$/","/[0-9][report,]/","/[0-9][select,]/","/[0-9][all,]/","/[0-9][parametres?,]/"],
+                "function" => 'select_all_report_comment_with_parameter'
             ],
 
             [
-                "params" => ["/^comment$/","/[0-9][delete,]/"],
-                "function" => 'delete_comment'
+                "params" => ["/^comment$/","/[0-9][report,]/","/[0-9][delete,]/"],
+                "function" => 'delete_report_comment'
             ]
         ]
     ]
 ];
 
-
 $user_module = new Module($dict);
-

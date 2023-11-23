@@ -14,14 +14,14 @@ $dict = [
     ],
 
     "POST" => [
-        "params" => ["/report/"],
+        "params" => ["/post/"],
         "function" => 'create_report_post'
     ],
 
     "GET" => [
         "routes" => [
             [
-                "params" => ["/report/"],
+                "params" => ["/post/"],
                 //if (select_report_post($conn, $id) != null) {
                     "function" => 'create_report_post'
                 //} else {
@@ -30,37 +30,36 @@ $dict = [
             ],
 
             [
-                "params" => ["/^report$/","/[0-9][update,]/"],
+                "params" => ["/^post$/","/[0-9][report,]/","/[0-9][update,]/"],
                 "function" => 'update_report_post'
             ],
 
             [
-                "params" => ["/^report$/","/[0-9][update,]/","/[0-9][parametres?,]/"],
+                "params" => ["/^post$/","/[0-9][report,]/","/[0-9][update,]/","/[0-9][parametres?,]/"],
                 "function" => 'update_report_post_with_parameter'
             ],
 
             [
-                "params" => ["/^report$/","/[0-9][select,]/"],
+                "params" => ["/^post$/","/[0-9][report,]/","/[0-9][select,]/"],
                 "function" => 'select_report_post'
             ],
 
             [
-                "params" => ["/^report$/","/[0-9][select,]/","/[0-9][all,]/"],
+                "params" => ["/^post$/","/[0-9][report,]/","/[0-9][select,]/","/[0-9][all,]/"],
                 "function" => 'select_all_report_post'
             ],
 
             [
-                "params" => ["/^report$/","/[0-9][select,]/","/[0-9][all,]/","/[0-9][parametres?,]/"],
+                "params" => ["/^post$/","/[0-9][report,]/","/[0-9][select,]/","/[0-9][all,]/","/[0-9][parametres?,]/"],
                 "function" => 'select_all_report_post_with_parameter'
             ],
 
             [
-                "params" => ["/^report$/","/[0-9][delete,]/"],
+                "params" => ["/^post$/","/[0-9][report,]/","/[0-9][delete,]/"],
                 "function" => 'delete_report_post'
             ]
         ]
     ]
 ];
-
 
 $user_module = new Module($dict);

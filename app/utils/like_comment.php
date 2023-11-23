@@ -58,6 +58,4 @@ $dict = [
     ]
 ];
 
-
 $user_module = new Module($dict);
-
