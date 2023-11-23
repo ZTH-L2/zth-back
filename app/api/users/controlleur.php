@@ -7,7 +7,7 @@ require_once "api/db_connect.php";
 // Public
 function option_user($params){
     header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: OPTION, GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, DELETE');
 }
 // Public Protected by admin
 function get_user_by_id($params){
@@ -155,6 +155,7 @@ function login($params){
             $_SESSION["permission"] = $user["permission"];
             $_SESSION["restricted"] = $user["restricted"];
             $_SESSION["first_connexion"] = $user["first_connexion"];
+            $_SESSION["data_size"] = $user["data_size"];
 
             // echo 
             $user_data = make_data_of_user($_SESSION);
@@ -237,10 +238,11 @@ function register($params){
         $permission = 1;
         $restricted = 0;
         $first_connexion = date("Y-m-d");
-        
+        $data_size = 0;
+
         $conn = db_connect();
         // register the user in the db
-        $res = create_user($conn, $mail, $username, $password_hashed, $permission, $restricted, $first_connexion);
+        $res = create_user($conn, $mail, $username, $password_hashed, $permission, $restricted, $first_connexion, $data_size);
         if ($res)
         {
             $res = success_message_json(201, "201 Created: New user successfully created");
@@ -336,10 +338,11 @@ function update_my_account($params){
         $permission = $_SESSION["permission"];
         $restricted = $_SESSION["restricted"];
         $first_connexion = $_SESSION["first_connexion"];
+        $data_size = $_SESSION["data_size"];
 
         $conn = db_connect();
         // CRUD function
-        $res = update_user($conn, $mail, $username, $password_hashed, $permission, $restricted, $first_connexion, $id);
+        $res = update_user($conn, $mail, $username, $password_hashed, $permission, $restricted, $first_connexion, $data_size, $id);
 
         if ($res)
         {
@@ -395,7 +398,6 @@ function delete_my_account($params){
         return authentification_required_error_message();
     }
 }
-
 // Private
 function make_data_of_user($tab){
     $data = [
@@ -404,7 +406,8 @@ function make_data_of_user($tab){
         "username" => $tab["username"],
         "permission" => $tab["permission"],
         "restricted" => $tab["restricted"],
-        "first_connexion" => $tab["first_connexion"]
+        "first_connexion" => $tab["first_connexion"],
+        "data_size" => $tab["data_size"]
     ];
     return $data;
 }

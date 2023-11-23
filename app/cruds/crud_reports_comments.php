@@ -6,6 +6,26 @@
 // DELETE
 
 
+function select_by_id_comment_offset_amount($conn, $id_comment, $offset, $amount_per_page){
+     $stmt = $conn->prepare("SELECT * FROM report_comments WHERE id_comment = ? DESC LIMIT ? OFFSET ?");
+     $stmt->bind_param("iii", $id_comment, $amount_per_page, $offset); // "i" indicates integer type
+     $stmt->execute();
+     $result = $stmt->get_result();
+     $reports = $result->fetch_all(MYSQLI_ASSOC);
+     $stmt->close();
+     return $reports;
+}
+
+function select_by_id_user_offset_amount($conn, $id_user, $amount_per_page, $offset){
+     $stmt = $conn->prepare("SELECT * FROM report_comments WHERE id_user = ? DESC LIMIT ? OFFSET ?");
+     $stmt->bind_param("iii", $id_user, $amount_per_page, $offset); // "i" indicates integer type
+     $stmt->execute();
+     $result = $stmt->get_result();
+     $reports = $result->fetch_all(MYSQLI_ASSOC);
+     $stmt->close();
+     return $reports;
+}
+
         
         
 function create_report_comment($conn, $id_user, $id_comment, $report){
@@ -15,9 +35,11 @@ function create_report_comment($conn, $id_user, $id_comment, $report){
      *                      toutes les variables: valeurs des colonnes
      *              sortie: sql request
 */
-
-$sql = "INSERT INTO `reports_comments`(`id_user`, `id_comment`, `report`) VALUES('$id_user', '$id_comment', '$report')";
-return mysqli_query($conn, $sql);
+     $stmt = $conn->prepare("INSERT INTO `reports_comments`(`id_user`, `id_comment`, `report`) VALUES(?, ?, ?)");
+     $stmt->bind_param("iii", $id_user, $id_comment, $report); // "i" indicates integer type
+     $res = $stmt->execute();
+     $stmt->close();
+     return $res;
 }
     
         

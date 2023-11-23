@@ -1,18 +1,18 @@
 <?php
-function create_user($conn, $mail, $username, $password, $permission, $restricted, $first_connexion){
+function create_user($conn, $mail, $username, $password, $permission, $restricted, $first_connexion, $data_size){
 
 /* fonction pour ajouter / creer un(e) new 'user'
      *              entree: element de connexion
      *                      toutes les variables: valeurs des colonnes
      *              sortie: sql request
 */
-$sql = "INSERT INTO `users`(`mail`, `username`, `password`, `permission`, `restricted`, `first_connexion`) VALUES('$mail', '$username', '$password', '$permission', '$restricted', '$first_connexion') ";
+$sql = "INSERT INTO `users`(`mail`, `username`, `password`, `permission`, `restricted`, `first_connexion`, `data_size`) VALUES('$mail', '$username', '$password', '$permission', '$restricted', '$first_connexion', '$data_size') ";
 return mysqli_query($conn, $sql);
 }
     
         
         
-function update_user($conn, $mail, $username, $password, $permission, $restricted, $first_connexion, $id){
+function update_user($conn, $mail, $username, $password, $permission, $restricted, $first_connexion, $data_size, $id){
 
 /* fonction pour update / modifier un(e) 'user' en fonction de l'id
  *              entree: element de connexion
@@ -20,7 +20,7 @@ function update_user($conn, $mail, $username, $password, $permission, $restricte
  *              sortie: sql request
  */
 
-$sql = "UPDATE `users` set `mail`='$mail', `username`='$username', `password`='$password', `permission`='$permission', `restricted`='$restricted', `first_connexion`='$first_connexion' WHERE`id_user`=$id";
+$sql = "UPDATE `users` set `mail`='$mail', `username`='$username', `password`='$password', `permission`='$permission', `restricted`='$restricted', `first_connexion`='$first_connexion', `data_size`='$data_size' WHERE`id_user`=$id";
 return mysqli_query($conn, $sql);
 }
     

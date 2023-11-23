@@ -17,27 +17,17 @@ function get_by_id_comment_page_amount($params){
     if (!is_admin()){
         return permission_denied_error_message();
     }
-    // "/bycomment/", "/^[0-9]{1,}$/", "/^[0-9]{1,}$/", "/^[0-9]{1,}$/"
+    
     $id_comment = $params[1];
     $page = $params[2];
     $amount_per_page = $params[3];
     $offset = ($page - 1) * $amount_per_page;
 
     $conn = db_connect();
-    $stmt = $conn->prepare("SELECT * FROM report_comments WHERE id_comment = ? DESC LIMIT ? OFFSET ?");
-    $stmt->bind_param("iii", $id_comment, $amount_per_page, $offset); // "i" indicates integer type
+    // with prepare
+    $reports = select_by_id_comment_offset_amount($conn, $id_comment, $offset, $amount_per_page);
+    return json_encode($reports);
     
-    if ($stmt->execute())
-    {
-        $result = $stmt->get_result();
-        $reports = $result->fetch_all(MYSQLI_ASSOC);;
-        $stmt->close();
-        return json_encode($reports);
-    }
-    else
-    {
-        return error_message_json(500, "500 Internal Server Error: Could not get your comments at this page with this amount per page");
-    }
 }
 
 function get_by_id_user_page_amount($params){
@@ -54,20 +44,8 @@ function get_by_id_user_page_amount($params){
     $offset = ($page - 1) * $amount_per_page;
 
     $conn = db_connect();
-    $stmt = $conn->prepare("SELECT * FROM report_comments WHERE id_user = ? DESC LIMIT ? OFFSET ?");
-    $stmt->bind_param("iii", $id_user, $amount_per_page, $offset); // "i" indicates integer type
-    
-    if ($stmt->execute())
-    {
-        $result = $stmt->get_result();
-        $reports = $result->fetch_all(MYSQLI_ASSOC);;
-        $stmt->close();
-        return json_encode($reports);
-    }
-    else
-    {
-        return error_message_json(500, "500 Internal Server Error: Could not get your comments at this page with this amount per page");
-    }
+    $reports = select_by_id_user_offset_amount($conn, $id_user, $amount_per_page, $offset);
+    return json_encode($reports);
 }
 
 
@@ -101,19 +79,15 @@ function report($params){
     $id_user = $_SESSION["id_user"];
     $report_dirty = $_POST["report"];
     $conn = db_connect();
-    $stmt = $conn->prepare("INSERT INTO `reports_comments`(`id_user`, `id_comment`, `report`) VALUES(?, ?, ?)");
-    $stmt->bind_param("iii", $id_user, $id_comment, $report_dirty); // "i" indicates integer type
-    
-    if ($stmt->execute())
+    $res = create_report_comment($conn, $id_user, $id_comment, $report_dirty);
+    if ($res)
     {
-        $result = $stmt->get_result();
-        $reports = $result->fetch_all(MYSQLI_ASSOC);;
-        $stmt->close();
-        return json_encode($reports);
+        http_response_code(201);
+        return;
     }
     else
     {
-        return error_message_json(500, "500 Internal Server Error: Could not get your comments at this page with this amount per page");
+        return error_message_json(500, "500 Internal Server Error: Could not create report.");
     }
 }
 
