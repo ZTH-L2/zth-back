@@ -130,8 +130,7 @@ function delete_report_by_id($params){
     $conn = db_connect();
     if (delete_report_comment($conn, $id_report_comment))
     {
-        http_response_code(204);
-        return;
+        return http_response_code(204);
     }
     else
     {

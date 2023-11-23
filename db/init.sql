@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : dim. 19 nov. 2023 à 20:10
+-- Généré le : jeu. 23 nov. 2023 à 10:09
 -- Version du serveur : 8.2.0
 -- Version de PHP : 8.2.8
 
@@ -45,8 +45,7 @@ CREATE TABLE `comments` (
   `id_user` int NOT NULL,
   `id_parent_comment` int NOT NULL,
   `nb_like` int NOT NULL,
-  `nb_report` int NOT NULL,
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  `nb_report` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -123,9 +122,11 @@ CREATE TABLE `posts` (
   `category` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date` date NOT NULL,
   `privacy` tinyint(1) NOT NULL,
+  `published` tinyint(1) NOT NULL,
   `grade` float NOT NULL,
   `nb_note` int NOT NULL,
-  `nb_report` int NOT NULL
+  `nb_report` int NOT NULL,
+  `size` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -157,14 +158,13 @@ CREATE TABLE `reports_posts` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `subscriptions`
+-- Structure de la table `subscription`
 --
 
-CREATE TABLE `subscriptions` (
+CREATE TABLE `subscription` (
   `id_subscription` int NOT NULL,
   `id_user` int NOT NULL,
-  `id_major` int NOT NULL,
-  `id_year` int NOT NULL
+  `id_major` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -180,7 +180,8 @@ CREATE TABLE `users` (
   `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `permission` tinyint(1) NOT NULL,
   `restricted` tinyint(1) NOT NULL,
-  `first_connexion` date NOT NULL
+  `first_connexion` date NOT NULL,
+  `data_size` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -277,13 +278,12 @@ ALTER TABLE `reports_posts`
   ADD KEY `id_post` (`id_post`);
 
 --
--- Index pour la table `subscriptions`
+-- Index pour la table `subscription`
 --
-ALTER TABLE `subscriptions`
+ALTER TABLE `subscription`
   ADD PRIMARY KEY (`id_subscription`),
   ADD KEY `id_major` (`id_major`),
-  ADD KEY `id_user` (`id_user`),
-  ADD KEY `id_year` (`id_year`);
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Index pour la table `users`
@@ -362,9 +362,9 @@ ALTER TABLE `reports_posts`
   MODIFY `id_report_post` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `subscriptions`
+-- AUTO_INCREMENT pour la table `subscription`
 --
-ALTER TABLE `subscriptions`
+ALTER TABLE `subscription`
   MODIFY `id_subscription` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -442,12 +442,11 @@ ALTER TABLE `reports_posts`
   ADD CONSTRAINT `reports_posts_ibfk_2` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id_post`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `subscriptions`
+-- Contraintes pour la table `subscription`
 --
-ALTER TABLE `subscriptions`
-  ADD CONSTRAINT `subscriptions_ibfk_1` FOREIGN KEY (`id_major`) REFERENCES `majors` (`id_major`) ON DELETE CASCADE,
-  ADD CONSTRAINT `subscriptions_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
-  ADD CONSTRAINT `subscriptions_ibfk_3` FOREIGN KEY (`id_year`) REFERENCES `years` (`id_year`) ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `subscription`
+  ADD CONSTRAINT `subscription_ibfk_1` FOREIGN KEY (`id_major`) REFERENCES `majors` (`id_major`) ON DELETE CASCADE,
+  ADD CONSTRAINT `subscription_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

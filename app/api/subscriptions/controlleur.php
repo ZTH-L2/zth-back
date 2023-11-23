@@ -69,8 +69,7 @@ function post_subscription($params){
                 }
                 else
                 {
-                    invalid_format_data_error_message();
-                    return;
+                    return invalid_format_data_error_message();
                 }
 
                 // sanitize the data
@@ -81,8 +80,7 @@ function post_subscription($params){
 
                 if (!$id_user || !$id_major || !$id_year)
                 {
-                    unsafe_data_error_message();
-                    return;
+                    return unsafe_data_error_message();
                 }
                 $res = create_subscription($conn, $id_user, $id_major, $id_year);
                 if ($res)
@@ -156,8 +154,7 @@ function put_subscription($params){
                 }
                 else
                 {
-                    invalid_format_data_error_message();
-                    return;
+                    return invalid_format_data_error_message();
                 }
             
                 // sanitize the data
@@ -168,8 +165,7 @@ function put_subscription($params){
 
                 if (!$id || !$id_user || !$id_major || !$id_year)
                 {
-                    unsafe_data_error_message();
-                    return;
+                    return unsafe_data_error_message();
                 }
             
                 $res = update_subscription($conn, $id_user, $id_major, $id_year, $id);

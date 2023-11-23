@@ -70,8 +70,7 @@ function post_author($params){
                 }
                 else
                 {
-                    invalid_format_data_error_message();
-                    return;
+                    return invalid_format_data_error_message();
                 }
 
                 // sanitize the data
@@ -81,8 +80,7 @@ function post_author($params){
 
                 if (!$id_user || !$id_post)
                 {
-                    unsafe_data_error_message();
-                    return;
+                    return unsafe_data_error_message();
                 }
                 $res = create_author($conn, $id_user, $id_post);
                 if ($res)
@@ -155,8 +153,7 @@ function put_author($params){
                 }
                 else
                 {
-                    invalid_format_data_error_message();
-                    return;
+                    return invalid_format_data_error_message();
                 }
             
                 // sanitize the data
@@ -166,8 +163,7 @@ function put_author($params){
 
                 if (!$id || !$id_user || !$id_post)
                 {
-                    unsafe_data_error_message();
-                    return;
+                    return unsafe_data_error_message();
                 }
                 
                 $res = update_author($conn, $id_user, $id_post, $id);
