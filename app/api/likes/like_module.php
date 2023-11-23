@@ -9,8 +9,8 @@ $dict = [
     "GET" => [
         "routes" => [
             [
-                "params" => ["/^liked$/"],
-                "function" => 'those_i_liked'
+                "params" => ["/^liked$/", "/^[0-9]{1,}$/", "/^[0-9]{1,}$/"],
+                "function" => 'those_i_liked_page_amount'
             ],
             [
                 "params" => ["/^isliked$/","/^[0-9]{1,}$/"],

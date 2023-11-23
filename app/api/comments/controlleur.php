@@ -310,8 +310,7 @@ function make_comment($params){
     $res = create_comment($conn, $id_post, $id_user, $id_parent_comment, $nb_like, $nb_report, $content_dirty);
     if ($res)
     {
-        http_response_code(201);
-        return;
+        return http_response_code(201);
     }
     else
     {
@@ -404,8 +403,7 @@ function delete($params){
         // if delete success
         if ($res)
         {
-            http_response_code(204);
-            return;
+            return http_response_code(204);
         }
         else
         {

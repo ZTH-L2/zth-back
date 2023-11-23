@@ -39,8 +39,7 @@ function post_course($params){
                 }
                 else
                 {
-                    invalid_format_data_error_message();
-                    return;
+                    return invalid_format_data_error_message();
                 }
 
                 // sanitize the data
@@ -48,8 +47,7 @@ function post_course($params){
 
                 if (!$name)
                 {
-                    unsafe_data_error_message();
-                    return;
+                    return unsafe_data_error_message();
                 }
                 $res = create_course($conn, $name);
                 $id = select_max($conn);
@@ -59,8 +57,7 @@ function post_course($params){
                     $year = filter_var($subs[$i]["id_year"], FILTER_VALIDATE_INT);
                     if (!$major || !$year)
                     {
-                        unsafe_data_error_message();
-                        return;
+                        return unsafe_data_error_message();
                     }
                     private_post_majors_courses_link($id, $major, $year);
                 }
@@ -134,8 +131,7 @@ function put_course($params){
                 }
                 else
                 {
-                    invalid_format_data_error_message();
-                    return;
+                    return invalid_format_data_error_message();
                 }
             
                 // sanitize the data
@@ -145,8 +141,7 @@ function put_course($params){
             
                 if (!$name || !$id)
                 {
-                    unsafe_data_error_message();
-                    return;
+                    return unsafe_data_error_message();
                 }
                 $res = update_course($conn, $name, $id);
                 if ($res)

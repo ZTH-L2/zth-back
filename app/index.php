@@ -46,8 +46,4 @@ else
     echo "Welcome to our api, we currently have the /example/exparam/1 route available.<br>";
     echo "If you type an uri unavailable, you will face a not found error.";
 }
-
-
-    
-
 ?>

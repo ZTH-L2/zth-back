@@ -14,11 +14,19 @@ $dict = [
     ],
     "PUT" => [
         "params" => [],
-        "function" => 'put_post'
+        "function" => 'put_post_admin'
     ],
     "DELETE" => [
-        "params" => ["/^[0-9]{1,}$/"],
-        "function" => 'del_post'
+        "routes" => [
+            [
+                "params" => ["/^admin$/", "/^[0-9]{1,}$/"],
+                "function" => 'del_post_admin'
+            ],
+            [
+                "params" => ["/^[0-9]{1,}$/"],
+                "function" => 'del_post'
+            ]
+        ]
     ]
 ];
 

@@ -5,7 +5,25 @@
 // UPDATE
 // DELETE
 
+function select_like_with_comment_and_user($conn, $id_user, $id_comment){
+     $stmt = $conn->prepare("SELECT id_like FROM likes WHERE id_user = ? AND id_comment = ?");
+     $stmt->bind_param("ii", $id_user, $id_comment); // "ii" indicates integer type
+     $stmt->execute();
+     $result = $stmt->get_result();
+     $row = $result->fetch_assoc();
+     $stmt->close();
+     return $row;
+}
 
+function select_all_user_page_amount($conn, $id_user, $amount, $offset){
+    $stmt = $conn->prepare("SELECT * FROM likes WHERE id_user = ? DESC LIMIT ? OFFSET ?");
+    $stmt->bind_param("iii", $id_user, $amount, $offset); // "i" indicates integer type
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $likes = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    return $likes;
+}
         
         
 function create_like($conn, $id_user, $id_comment){
