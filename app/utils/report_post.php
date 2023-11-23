@@ -35,7 +35,7 @@ $dict = [
             ],
 
             [
-                "params" => ["/^report$/","/[0-9][update/parametres?,]/"],
+                "params" => ["/^report$/","/[0-9][update,]/","/[0-9][parametres?,]/"],
                 "function" => 'update_report_post_with_parameter'
             ],
 
@@ -45,12 +45,12 @@ $dict = [
             ],
 
             [
-                "params" => ["/^report$/","/[0-9][select/all,]/"],
+                "params" => ["/^report$/","/[0-9][select,]/","/[0-9][all,]/"],
                 "function" => 'select_all_report_post'
             ],
 
             [
-                "params" => ["/^report$/","/[0-9][select/all/parametres?,]/"],
+                "params" => ["/^report$/","/[0-9][select,]/","/[0-9][all,]/","/[0-9][parametres?,]/"],
                 "function" => 'select_all_report_post_with_parameter'
             ],
 

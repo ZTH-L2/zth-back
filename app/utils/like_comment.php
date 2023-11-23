@@ -31,7 +31,7 @@ $dict = [
             ],
 
             [
-                "params" => ["/^like$/","/[0-9][update/parametres?,]/"],
+                "params" => ["/^like$/","/[0-9][update?,]/","/[0-9][parametres?,]/"],
                 "function" => 'update_like_with_parameter'
             ],
             
@@ -41,12 +41,12 @@ $dict = [
             ],
 
             [
-                "params" => ["/^like$/","/[0-9][select/all,]/"],
+                "params" => ["/^like$/","/[0-9][select,]/","/[0-9][all,]/"],
                 "function" => 'select_all_like'
             ],
 
             [
-                "params" => ["/^like$/","/[0-9][select/all/parametres?,]/"],
+                "params" => ["/^like$/","/[0-9][select?,]/","/[0-9][all?,]/","/[0-9][parametres?,]/"],
                 "function" => 'select_all_like_with_parameter'
             ],
 

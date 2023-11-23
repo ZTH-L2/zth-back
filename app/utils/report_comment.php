@@ -26,7 +26,7 @@ $dict = [
             ],
 
             [
-                "params" => ["/^comment$/","/[0-9][update/parametres?,]/"],
+                "params" => ["/^comment$/","/[0-9][update,]/","/[0-9][parametres?,]/"],
                 "function" => 'update_comment_with_parameter'
             ],
 
@@ -36,17 +36,17 @@ $dict = [
             ],
 
             [
-                "params" => ["/^comment$/","/[0-9][select/all,]/"],
+                "params" => ["/^comment$/","/[0-9][select,]/","/[0-9][all,]/"],
                 "function" => 'select_all_comment'
             ],
 
             [
-                "params" => ["/^comment$/","/[0-9][report/select/all,]/"],
+                "params" => ["/^comment$/","/[0-9][report,]/","/[0-9][select,]/","/[0-9][all,]/"],
                 "function" => 'select_all_report_post'
             ],
 
             [
-                "params" => ["/^comment$/","/[0-9][select/all/parametres?,]/"],
+                "params" => ["/^comment$/","/[0-9][select,]/","/[0-9][all,]/","/[0-9][parametres?,]/"],
                 "function" => 'select_all_comment_with_parameter'
             ],
 
