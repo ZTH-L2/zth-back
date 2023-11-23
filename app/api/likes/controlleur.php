@@ -8,7 +8,7 @@ require_once "api/db_connect.php";
 // Public
 function option_like($params){
     header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: OPTION, DELETE, GET');
+    header('Access-Control-Allow-Methods: OPTIONS, GET, POST, DELETE');
 }
 
 // TO DO

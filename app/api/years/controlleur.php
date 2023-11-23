@@ -45,16 +45,14 @@ function post_year($params){
                 }
                 else
                 {
-                    invalid_format_data_error_message();
-                    return;
+                    return invalid_format_data_error_message();
                 }
 
                 // sanitize the data
                 $name = filter_var($name_dirty);
                 if (!$name)
                 {
-                    unsafe_data_error_message();
-                    return;
+                    return unsafe_data_error_message();
                 }
 
                 $res = create_year($conn, $name);
@@ -128,8 +126,7 @@ function put_year($params){
                 }
                 else
                 {
-                    invalid_format_data_error_message();
-                    return;
+                    return invalid_format_data_error_message();
                 }
             
                 // sanitize the data
@@ -139,8 +136,7 @@ function put_year($params){
             
                 if (!$name || !$id)
                 {
-                    unsafe_data_error_message();
-                    return;
+                    return unsafe_data_error_message();
                 }
                 $res = update_year($conn, $name, $id);
                 if ($res)

@@ -2,18 +2,17 @@
 header('Access-Control-Allow-Origin: *');
 
 require_once "api/utils/utils.php";
-require_once "cruds/crud_majors.php";
+require_once "cruds/crud_posts.php";
 require_once "api/db_connect.php";
-require_once "api/majors_courses_link/controlleur.php";
-function option_major($params){
+function option_post($params){
     header('Access-Control-Allow-Headers: *');
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 }
 
-function get_major($params){
+function get_post($params){
     $conn = db_connect();
     $id = $params[0];
-    $res = select_major($conn, $id);
+    $res = select_post($conn, $id);
     if (is_null($res))
     {
         return json_encode([]);
@@ -24,57 +23,60 @@ function get_major($params){
     }
 }
 
-function get_major_name($id_major){
-    $conn = db_connect();
-    $res = select_major($conn, $id_major);
-    return $res["name"];
-}
-function post_major($params){
+function post_post($params){
     if (is_logged_in())
     {
-        if (is_admin())
+        if (update_post_var())
         {
-            if (update_post_var())
+            $conn = db_connect();
+            // get the data
+            if (isset($_POST["id_creator"]) && isset($_POST["id_course"]) && isset($_POST["title"]) && isset($_POST["category"]) && isset($_POST["privacy"]))
             {
-                $conn = db_connect();
+                $id_creator_dirty = $_POST["id_creator"];
+                $id_course_dirty = $_POST["id_course"];
+                $title_dirty = $_POST["title"];
+                $category_dirty = $_POST["category"];
+                $privacy_dirty = $_POST["privacy"];
+            }
+            else
+            {
+                return invalid_format_data_error_message();
+            }
+            // sanitize the data
+            $id_creator = filter_var($id_creator_dirty, FILTER_VALIDATE_INT);
+            $id_course = filter_var($id_course_dirty, FILTER_VALIDATE_INT);
+            $title = filter_var($title_dirty);
+            $category = filter_var($category_dirty);
+            $privacy = filter_var($privacy_dirty, FILTER_VALIDATE_INT);
 
-                // get the data
-                if (isset($_POST["name"]))
-                {
-                    $name_dirty = $_POST["name"];
-                }
-                else
-                {
-                    invalid_format_data_error_message();
-                    return;
-                }
 
-                // sanitize the data
-                $name = filter_var($name_dirty);
+            if (!$id_creator || !$id_course || !$title || !$category || !$privacy)
+            {
+                return unsafe_data_error_message();
+            }
 
-                if (!$name)
-                {
-                    unsafe_data_error_message();
-                    return;
-                }
-                $res = create_major($conn, $name);
+            $date = getdate();
+            $date = $date["year"] + "-" + $date["mon"] +  "-" + $date["mday"];
+            if ($id_creator == $_SESSION["id_user"])
+            {
+                $res = create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, 0, 0, 0);
                 if ($res)
                 {
-                    return success_message_json(201, "201 Created: New major successfully created");
+                    return success_message_json(201, "201 Created: New post successfully created");
                 }
                 else
                 {
-                    return error_message_json(500, "500 Internal Server Error: Could not create the major");
+                    return error_message_json(500, "500 Internal Server Error: Could not create the post");
                 }
             }
             else
             {
-                no_data_error_message();   
+                return permission_denied_error_message();
             }
         }
         else
         {
-            return permission_denied_error_message();
+            no_data_error_message();   
         }
     }
     else
@@ -83,16 +85,16 @@ function post_major($params){
     }
 }
 
-function del_major($params){
+function del_post_admin($params){
     if (is_logged_in())
     {
         if (is_admin())
         {
             $conn = db_connect();
-            delete_major($conn, $params[0]);
+            delete_post($conn, $params[0]);
             if (mysqli_affected_rows($conn) > 0)
             {
-                return success_message_json(200, "200 OK: Deleted major successfully");
+                return success_message_json(200, "200 OK: Deleted post successfully");
             }
             else
             {
@@ -110,7 +112,37 @@ function del_major($params){
     }
 }
 
-function put_major($params){
+
+function del_post($params){
+    if (is_logged_in())
+    {
+        $conn = db_connect();
+        $post = select_post($conn, $params[0]);
+        if ($post["id_creator"] == $_SESSION["id_user"])
+        {
+            delete_post($conn, $params[0]);
+            if (mysqli_affected_rows($conn) > 0)
+            {
+                return success_message_json(200, "200 OK: Deleted post successfully");
+            }
+            else
+            {
+                return success_message_json(200, "200 OK: Deleted nothing but successfull");
+            }
+        }
+        else
+        {
+            return permission_denied_error_message();
+        }
+        
+    }
+    else
+    {
+        return authentification_required_error_message();
+    }
+}
+
+function put_post_admin($params){
     if (is_logged_in())
     {
         if (is_admin())
@@ -120,45 +152,115 @@ function put_major($params){
                 $conn = db_connect();
             
                 // get the data
-                if (isset($_POST["name"]) && (isset($_POST["id_major"])))
+                if (isset($_POST["id_post"]) && isset($_POST["id_creator"]) && isset($_POST["title"])&& isset($_POST["category"]) && isset($_POST["id_course"]) && isset($_POST["privacy"]) && isset($_POST["date"]) && isset($_POST["grade"]) && isset($_POST["nb_note"]) && isset($_POST["nb_report"]))
                 {
-                    $name_dirty = $_POST["name"];
-                    $id_dirty = $_POST["id_major"];
+                    $id_dirty = $_POST["id_post"];
+                    $id_creator_dirty = $_POST["id_creator"];
+                    $id_course_dirty = $_POST["id_course"];
+                    $title_dirty = $_POST["title"];
+                    $category_dirty = $_POST["category"];
+                    $privacy_dirty = $_POST["privacy"];
+                    $date = $_POST["date"];
+                    $grade_dirty = $_POST["grade"];
+                    $nb_note_dirty = $_POST["nb_note"];
+                    $nb_report_dirty = $_POST["nb_report"];
+
                 }
                 else
                 {
-                    invalid_format_data_error_message();
-                    return;
+                    return invalid_format_data_error_message();
                 }
-            
                 // sanitize the data
-                $name = filter_var($name_dirty);
                 $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
+                $id_creator = filter_var($id_creator_dirty, FILTER_VALIDATE_INT);
+                $id_course = filter_var($id_course_dirty, FILTER_VALIDATE_INT);
+                $title = filter_var($title_dirty);
+                $category = filter_var($category_dirty);
+                $nb_note = filter_var($nb_note_dirty, FILTER_VALIDATE_INT);
+                $nb_report = filter_var($nb_report_dirty, FILTER_VALIDATE_INT);
+                $grade = filter_var($grade_dirty, FILTER_VALIDATE_FLOAT);
+                $privacy = filter_var($privacy_dirty, FILTER_VALIDATE_INT);
 
-                if (!$name || !$id)
+                if (!$id || !$id_creator || !$id_course || !$title || !$category || !$nb_note || !$nb_report || !$grade || !$privacy)
                 {
-                    unsafe_data_error_message();
-                    return;
+                    return unsafe_data_error_message();
+                    
                 }
-            
-                $res = update_major($conn, $name, $id);
+                
+                $res = update_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $grade, $nb_note, $nb_report, $id);
                 if ($res)
                 {
-                    return success_message_json(200, "200 OK: Updated major's information successfully.") ;
+                    return success_message_json(200, "200 OK: Updated post's information successfully.") ;
                 }
                 else
                 {
-                    return error_message_json(500, "500 Internal Server Error: Could not update major's information.");
+                    return error_message_json(500, "500 Internal Server Error: Could not update post's information.");
                 }
             }
             else
             {
-                no_data_error_message();   
+                return no_data_error_message();   
             }
         }
         else
         {
             return permission_denied_error_message();
+        }
+    }
+    else
+    {
+        return authentification_required_error_message();
+    }
+}
+
+
+function put_post($params){
+    if (is_logged_in())
+    {
+        if (update_post_var())
+        {
+            $conn = db_connect();
+            
+            // get the data
+            if (isset($_POST["id_post"]) && isset($_POST["privacy"]) && isset($_POST["title"]) && isset($_POST["published"]))
+            {
+                $id_dirty = $_POST["id_post"];
+                $title_dirty = $_POST["title"];
+                $privacy_dirty = $_POST["privacy"];
+                $published_dirty = $_POST["published"];
+
+            }
+            else
+            {
+                return invalid_format_data_error_message();
+            }
+            
+            // sanitize the data
+            $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
+            $title = filter_var($title_dirty);
+            $privacy = filter_var($privacy_dirty, FILTER_VALIDATE_INT);
+            $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
+
+
+            if (!$id || !$title || !$privacy)
+            {
+                return unsafe_data_error_message();
+            }
+            $date = getdate();
+            $date = $date["year"] + "-" + $date["mon"] +  "-" + $date["mday"];
+            $res = update_post_user($conn, $title, $date, $privacy, $published, $id);
+            if ($res)
+            {
+                return success_message_json(200, "200 OK: Updated post's information successfully.") ;
+            }
+            else
+            {
+                return error_message_json(500, "500 Internal Server Error: Could not update post's information.");
+            }
+        }
+        else
+        {
+            no_data_error_message();   
         }
     }
     else

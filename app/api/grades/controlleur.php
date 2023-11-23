@@ -74,8 +74,7 @@ function post_grade($params){
             }
             else
             {
-                invalid_format_data_error_message();
-                return;
+                return invalid_format_data_error_message();
             }
             // sanitize the data
             $id_user = filter_var($id_user_dirty, FILTER_VALIDATE_INT);
@@ -85,8 +84,7 @@ function post_grade($params){
 
             if (!$id_user || !$id_post || !$grade)
             {
-                unsafe_data_error_message();
-                return;
+                return unsafe_data_error_message();
             }
             if ($id_user != $_SESSION["id_user"])
             {
@@ -140,8 +138,7 @@ function post_grade_admin($params){
                 }
                 else
                 {
-                    invalid_format_data_error_message();
-                    return;
+                    return invalid_format_data_error_message();
                 }
 
                 // sanitize the data
@@ -152,8 +149,7 @@ function post_grade_admin($params){
 
                 if (!$id_user || !$id_post || !$grade)
                 {
-                    unsafe_data_error_message();
-                    return;
+                    return unsafe_data_error_message();
                 }
 
                 $test = select_grade_user_post($conn, $id_user, $id_post);
@@ -236,8 +232,7 @@ function put_grade($params){
                 }
                 else
                 {
-                    invalid_format_data_error_message();
-                    return;
+                    return invalid_format_data_error_message();
                 }
             
                 // sanitize the data
@@ -248,8 +243,7 @@ function put_grade($params){
 
                 if (!$id || !$id_user || !$id_post || !$grade)
                 {
-                    unsafe_data_error_message();
-                    return;
+                    return unsafe_data_error_message();
                 }
             
                 $res = update_grade($conn, $id_user, $id_post, $grade, $id);
@@ -293,8 +287,7 @@ function put_grade_user($params){
             }
             else
             {
-                invalid_format_data_error_message();
-                return;
+                return invalid_format_data_error_message();
             }
         
             // sanitize the data

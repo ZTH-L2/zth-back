@@ -6,7 +6,7 @@ require_once "api/db_connect.php";
 
 function option_report_comment($params){
     header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: GET');
+    header('Access-Control-Allow-Methods: OPTION, GET, POST, DELETE');
 }
 
 function get_by_id_comment_page_amount($params){
@@ -104,8 +104,7 @@ function delete_report_by_id($params){
     $conn = db_connect();
     if (delete_report_comment($conn, $id_report_comment))
     {
-        http_response_code(204);
-        return;
+        return http_response_code(204);
     }
     else
     {
