@@ -6,7 +6,7 @@ require_once "api/db_connect.php";
 
 function option_report_comment($params){
     header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: GET');
+    header('Access-Control-Allow-Methods: OPTION, GET, POST, DELETE');
 }
 
 function get_by_id_comment_page_amount($params){

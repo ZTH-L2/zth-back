@@ -7,7 +7,7 @@ require_once "api/db_connect.php";
 // Public
 function option_user($params){
     header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: OPTION, GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, DELETE');
 }
 // Public Protected by admin
 function get_user_by_id($params){
