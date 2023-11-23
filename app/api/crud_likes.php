@@ -24,15 +24,16 @@ return mysqli_query($conn, $sql);
         
         
 function update_like($conn, $id_user, $id_comment, $id){
-
 /* fonction pour update / modifier un(e) 'like' en fonction de l'id
  *              entree: element de connexion
  *                      toutes les variables: valeurs des colonnes
  *              sortie: sql request
  */
-
-$sql = "UPDATE `likes` set `id_user`='$id_user', `id_comment`='$id_comment' WHERE`id_like`=$id";
-return mysqli_query($conn, $sql);
+     if (select_like($conn, $id) != null) {
+          delete_like($conn, $id);
+     } else {
+          create_like($conn, $id_user, $id_comment);
+     }
 }
     
 
