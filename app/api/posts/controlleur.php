@@ -152,7 +152,7 @@ function put_post_admin($params){
                 $conn = db_connect();
             
                 // get the data
-                if (isset($_POST["id_post"]) && isset($_POST["id_creator"]) && isset($_POST["id_course"]) && isset($_POST["privacy"]) && isset($_POST["date"]) && isset($_POST["grade"]) && isset($_POST["nb_note"]) && isset($_POST["nb_report"]))
+                if (isset($_POST["id_post"]) && isset($_POST["id_creator"]) && isset($_POST["title"])&& isset($_POST["category"]) && isset($_POST["id_course"]) && isset($_POST["privacy"]) && isset($_POST["date"]) && isset($_POST["grade"]) && isset($_POST["nb_note"]) && isset($_POST["nb_report"]))
                 {
                     $id_dirty = $_POST["id_post"];
                     $id_creator_dirty = $_POST["id_creator"];
@@ -222,18 +222,13 @@ function put_post($params){
             $conn = db_connect();
             
             // get the data
-            if (isset($_POST["id_post"]) && isset($_POST["id_creator"]) && isset($_POST["id_course"]) && isset($_POST["privacy"]) && isset($_POST["date"]) && isset($_POST["grade"]) && isset($_POST["nb_note"]) && isset($_POST["nb_report"]))
+            if (isset($_POST["id_post"]) && isset($_POST["privacy"]) && isset($_POST["title"]) && isset($_POST["published"]))
             {
                 $id_dirty = $_POST["id_post"];
-                $id_creator_dirty = $_POST["id_creator"];
-                $id_course_dirty = $_POST["id_course"];
                 $title_dirty = $_POST["title"];
-                $category_dirty = $_POST["category"];
                 $privacy_dirty = $_POST["privacy"];
-                $date = $_POST["date"];
-                $grade_dirty = $_POST["grade"];
-                $nb_note_dirty = $_POST["nb_note"];
-                $nb_report_dirty = $_POST["nb_report"];
+                $published_dirty = $_POST["published"];
+
             }
             else
             {
@@ -242,21 +237,18 @@ function put_post($params){
             
             // sanitize the data
             $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
-            $id_creator = filter_var($id_creator_dirty, FILTER_VALIDATE_INT);
-            $id_course = filter_var($id_course_dirty, FILTER_VALIDATE_INT);
             $title = filter_var($title_dirty);
-            $category = filter_var($category_dirty);
-            $nb_note = filter_var($nb_note_dirty, FILTER_VALIDATE_INT);
-            $nb_report = filter_var($nb_report_dirty, FILTER_VALIDATE_INT);
-            $grade = filter_var($grade_dirty, FILTER_VALIDATE_FLOAT);
             $privacy = filter_var($privacy_dirty, FILTER_VALIDATE_INT);
+            $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
 
-            if (!$id || !$id_creator || !$id_course || !$title || !$category || !$nb_note || !$nb_report || !$grade || !$privacy)
+
+            if (!$id || !$title || !$privacy)
             {
                 return unsafe_data_error_message();
             }
-                
-            $res = update_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $grade, $nb_note, $nb_report, $id);
+            $date = getdate();
+            $date = $date["year"] + "-" + $date["mon"] +  "-" + $date["mday"];
+            $res = update_post_user($conn, $title, $date, $privacy, $published, $id);
             if ($res)
             {
                 return success_message_json(200, "200 OK: Updated post's information successfully.") ;
