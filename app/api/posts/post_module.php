@@ -13,8 +13,17 @@ $dict = [
         "function" => 'post_post'
     ],
     "PUT" => [
-        "params" => [],
-        "function" => 'put_post_admin'
+        "routes" => [
+            [
+                "params" => ["/^admin$/"],
+                "function" => 'put_post_admin'
+            ],
+            [
+                "params" => [],
+                "function" => 'del_post'
+            ]
+        ]
+
     ],
     "DELETE" => [
         "routes" => [

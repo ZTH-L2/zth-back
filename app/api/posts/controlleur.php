@@ -59,7 +59,7 @@ function post_post($params){
             $date = $date["year"] + "-" + $date["mon"] +  "-" + $date["mday"];
             if ($id_creator == $_SESSION["id_user"])
             {
-                $res = create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, 0, 0, 0);
+                $res = create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy,1, 0, 0, 0);
                 if ($res)
                 {
                     return success_message_json(201, "201 Created: New post successfully created");
@@ -152,7 +152,7 @@ function put_post_admin($params){
                 $conn = db_connect();
             
                 // get the data
-                if (isset($_POST["id_post"]) && isset($_POST["id_creator"]) && isset($_POST["title"])&& isset($_POST["category"]) && isset($_POST["id_course"]) && isset($_POST["privacy"]) && isset($_POST["date"]) && isset($_POST["grade"]) && isset($_POST["nb_note"]) && isset($_POST["nb_report"]))
+                if (isset($_POST["id_post"]) && isset($_POST["id_creator"]) && isset($_POST["id_course"]) && isset($_POST["title"])&& isset($_POST["category"])  && isset($_POST["privacy"]) && isset($_POST["published"]) && isset($_POST["date"]) && isset($_POST["grade"]) && isset($_POST["nb_note"]) && isset($_POST["nb_report"]))
                 {
                     $id_dirty = $_POST["id_post"];
                     $id_creator_dirty = $_POST["id_creator"];
@@ -164,6 +164,7 @@ function put_post_admin($params){
                     $grade_dirty = $_POST["grade"];
                     $nb_note_dirty = $_POST["nb_note"];
                     $nb_report_dirty = $_POST["nb_report"];
+                    $published_dirty = $_POST["published"];
 
                 }
                 else
@@ -180,14 +181,15 @@ function put_post_admin($params){
                 $nb_report = filter_var($nb_report_dirty, FILTER_VALIDATE_INT);
                 $grade = filter_var($grade_dirty, FILTER_VALIDATE_FLOAT);
                 $privacy = filter_var($privacy_dirty, FILTER_VALIDATE_INT);
+                $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
 
-                if (!$id || !$id_creator || !$id_course || !$title || !$category || !$nb_note || !$nb_report || !$grade || !$privacy)
+                if (!$id || !$id_creator || !$id_course || !$title || !$category || !$published || !$nb_note || !$nb_report || !$grade || !$privacy)
                 {
                     return unsafe_data_error_message();
                     
                 }
                 
-                $res = update_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $grade, $nb_note, $nb_report, $id);
+                $res = update_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, $grade, $nb_note, $nb_report, $id);
                 if ($res)
                 {
                     return success_message_json(200, "200 OK: Updated post's information successfully.") ;
@@ -242,7 +244,7 @@ function put_post($params){
             $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
 
 
-            if (!$id || !$title || !$privacy)
+            if (!$id || !$title || !$privacy || !$published)
             {
                 return unsafe_data_error_message();
             }
@@ -251,7 +253,7 @@ function put_post($params){
             $res = update_post_user($conn, $title, $date, $privacy, $published, $id);
             if ($res)
             {
-                return success_message_json(200, "200 OK: Updated post's information successfully.") ;
+                return success_message_json(200, "200 OK: Updated post's information successfully.");
             }
             else
             {
@@ -260,7 +262,7 @@ function put_post($params){
         }
         else
         {
-            no_data_error_message();   
+            return no_data_error_message();   
         }
     }
     else
