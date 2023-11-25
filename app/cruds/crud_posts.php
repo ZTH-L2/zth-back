@@ -20,8 +20,8 @@ $sql = "INSERT INTO `posts`(`id_creator`, `id_course`, `title`, `category`, `dat
 return mysqli_query($conn, $sql);
 }
     
-        
-        
+
+
 function update_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, $grade, $nb_note, $nb_report, $id){
 
 /* fonction pour update / modifier un(e) 'post' en fonction de l'id
