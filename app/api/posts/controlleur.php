@@ -185,7 +185,7 @@ function put_post_admin($params){
                 $privacy = filter_var($privacy_dirty, FILTER_VALIDATE_INT);
                 $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
 
-                if (!$id || !$id_creator || !$id_course || !$title || !$category || !$published || !$nb_note || !$nb_report || !$grade || !$privacy)
+                if ($id  == "" || $id_creator  == "" || $id_course  == "" || $title  == "" || $category  == "" || $published  == "" || $nb_note  == "" || $nb_report  == "" || $grade  == "" || $privacy  == "")
                 {
                     return unsafe_data_error_message();
                     
@@ -246,7 +246,7 @@ function put_post($params){
             $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
 
 
-            if (!$id || !$title || !$privacy || !$published)
+            if ($id  == "" || $title  == "" || $privacy  == "" || $published == "" )
             {
                 return unsafe_data_error_message();
             }

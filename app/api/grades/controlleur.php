@@ -82,7 +82,7 @@ function post_grade($params){
             $grade = filter_var($grade_dirty, FILTER_VALIDATE_FLOAT);
 
 
-            if (!$id_user || !$id_post || !$grade)
+            if ($id_user == "" || $id_post == "" || $grade == "")
             {
                 return unsafe_data_error_message();
             }
@@ -147,7 +147,7 @@ function post_grade_admin($params){
                 $grade = filter_var($grade_dirty, FILTER_VALIDATE_FLOAT);
 
 
-                if (!$id_user || !$id_post || !$grade)
+                if ($id_user == "" || $id_post == "" || $grade == "")
                 {
                     return unsafe_data_error_message();
                 }
@@ -241,7 +241,7 @@ function put_grade($params){
                 $id_post = filter_var($id_post_dirty, FILTER_VALIDATE_INT);
                 $grade = filter_var($grade_dirty, FILTER_VALIDATE_FLOAT);
 
-                if (!$id || !$id_user || !$id_post || !$grade)
+                if ($id == "" || $id_user == "" || $id_post == "" || $grade == "")
                 {
                     return unsafe_data_error_message();
                 }
@@ -295,7 +295,7 @@ function put_grade_user($params){
             $id_post = filter_var($id_post_dirty, FILTER_VALIDATE_INT);
             $grade = filter_var($grade_dirty, FILTER_VALIDATE_FLOAT);
 
-            if (!$id_user || !$id_post || !$grade)
+            if ($id_user == "" || $id_post == "" || $grade == "")
             {
                 return unsafe_data_error_message();
             }

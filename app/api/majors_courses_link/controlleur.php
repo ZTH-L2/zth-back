@@ -50,7 +50,7 @@ function post_majors_courses_link($params){
                     $id_course = filter_var($id_course_dirty, FILTER_VALIDATE_INT);
                     $id_year = filter_var($id_year_dirty, FILTER_VALIDATE_INT);
 
-                    if (!$id_major || !$id_course || !$id_year)
+                    if ($id_major == "" || $id_course == "" || $id_year == "")
                     {
                         unsafe_data_error_message();
                         return;
@@ -142,7 +142,7 @@ function put_majors_courses_link($params){
                 $id_course = filter_var($id_course_dirty, FILTER_VALIDATE_INT);
                 $id_year = filter_var($id_year_dirty, FILTER_VALIDATE_INT);
             
-                if (!$id || !$id_major || !$id_course || !$id_year)
+                if ($id == "" || $id_major == "" || $id_course == "" || $id_year == "")
                 {
                     unsafe_data_error_message();
                     return;

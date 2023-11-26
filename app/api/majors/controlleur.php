@@ -52,7 +52,7 @@ function post_major($params){
                 // sanitize the data
                 $name = filter_var($name_dirty);
 
-                if (!$name)
+                if ($name == "")
                 {
                     unsafe_data_error_message();
                     return;
@@ -135,7 +135,7 @@ function put_major($params){
                 $name = filter_var($name_dirty);
                 $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
 
-                if (!$name || !$id)
+                if ($name == "" || $id == "")
                 {
                     unsafe_data_error_message();
                     return;

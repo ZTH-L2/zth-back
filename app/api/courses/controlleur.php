@@ -45,7 +45,7 @@ function post_course($params){
                 // sanitize the data
                 $name = filter_var($name_dirty);
 
-                if (!$name)
+                if ($name == "")
                 {
                     return unsafe_data_error_message();
                 }
@@ -55,7 +55,7 @@ function post_course($params){
                 for ($i = 0; $i < count($subs); $i++){
                     $major = filter_var($subs[$i]["id_major"], FILTER_VALIDATE_INT);
                     $year = filter_var($subs[$i]["id_year"], FILTER_VALIDATE_INT);
-                    if (!$major || !$year)
+                    if ($major == "" || $year == "")
                     {
                         return unsafe_data_error_message();
                     }
@@ -139,7 +139,7 @@ function put_course($params){
                 $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
             
             
-                if (!$name || !$id)
+                if ($name == "" || $id == "")
                 {
                     return unsafe_data_error_message();
                 }

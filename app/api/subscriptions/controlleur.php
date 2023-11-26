@@ -78,7 +78,7 @@ function post_subscription($params){
                 $id_year = filter_var($id_year_dirty, FILTER_VALIDATE_INT);
 
 
-                if (!$id_user || !$id_major || !$id_year)
+                if ($id_user == "" || $id_major == "" || $id_year == "")
                 {
                     return unsafe_data_error_message();
                 }
@@ -163,7 +163,7 @@ function put_subscription($params){
                 $id_major = filter_var($id_major_dirty, FILTER_VALIDATE_INT);
                 $id_year = filter_var($id_year_dirty, FILTER_VALIDATE_INT);
 
-                if (!$id || !$id_user || !$id_major || !$id_year)
+                if ($id == "" || $id_user == "" || $id_major == "" || $id_year == "")
                 {
                     return unsafe_data_error_message();
                 }

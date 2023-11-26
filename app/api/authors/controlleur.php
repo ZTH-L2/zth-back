@@ -78,7 +78,7 @@ function post_author($params){
                 $id_post = filter_var($id_post_dirty, FILTER_VALIDATE_INT);
 
 
-                if (!$id_user || !$id_post)
+                if ($id_user  == "" || $id_post == "")
                 {
                     return unsafe_data_error_message();
                 }
@@ -161,7 +161,7 @@ function put_author($params){
                 $id_post = filter_var($id_post_dirty, FILTER_VALIDATE_INT);
                 $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
 
-                if (!$id || !$id_user || !$id_post)
+                if ($id == "" || $id_user == "" || $id_post == "")
                 {
                     return unsafe_data_error_message();
                 }

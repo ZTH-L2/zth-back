@@ -50,7 +50,7 @@ function post_year($params){
 
                 // sanitize the data
                 $name = filter_var($name_dirty);
-                if (!$name)
+                if ($name == "")
                 {
                     return unsafe_data_error_message();
                 }
@@ -134,7 +134,7 @@ function put_year($params){
                 $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
             
             
-                if (!$name || !$id)
+                if ($name == "" || $id == "")
                 {
                     return unsafe_data_error_message();
                 }
