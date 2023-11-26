@@ -9,7 +9,9 @@ function update_post_var(){
     {
         // if empty, check if data was in json
         // if in json it's update $_POST
+            
         $_POST = json_decode(file_get_contents('php://input'), true);
+
     }
     return !is_null($_POST);
 }

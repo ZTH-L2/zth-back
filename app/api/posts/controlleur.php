@@ -30,36 +30,38 @@ function post_post($params){
         {
             $conn = db_connect();
             // get the data
-            if (isset($_POST["id_creator"]) && isset($_POST["id_course"]) && isset($_POST["title"]) && isset($_POST["category"]) && isset($_POST["privacy"]))
+            if (isset($_POST["id_creator"]) && isset($_POST["id_course"]) && isset($_POST["title"]) && isset($_POST["category"]) && isset($_POST["privacy"]) && isset($_POST["published"]))
             {
                 $id_creator_dirty = $_POST["id_creator"];
                 $id_course_dirty = $_POST["id_course"];
                 $title_dirty = $_POST["title"];
                 $category_dirty = $_POST["category"];
                 $privacy_dirty = $_POST["privacy"];
+                $published_dirty = $_POST["published"];
+
             }
             else
             {
                 return invalid_format_data_error_message();
             }
             // sanitize the data
+            print($_POST["1"]);
             $id_creator = filter_var($id_creator_dirty, FILTER_VALIDATE_INT);
             $id_course = filter_var($id_course_dirty, FILTER_VALIDATE_INT);
             $title = filter_var($title_dirty);
             $category = filter_var($category_dirty);
             $privacy = filter_var($privacy_dirty, FILTER_VALIDATE_INT);
+            $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
 
-
-            if (!$id_creator || !$id_course || !$title || !$category || !$privacy)
+            if ($id_creator == "" || $id_course == "" || $title == "" || $category == "" || $privacy == "" || $published == "")
             {
                 return unsafe_data_error_message();
             }
-
             $date = getdate();
-            $date = $date["year"] + "-" + $date["mon"] +  "-" + $date["mday"];
+            $date = $date["year"] . "-" . $date["mon"] .  "-" . $date["mday"];
             if ($id_creator == $_SESSION["id_user"])
             {
-                $res = create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy,1, 0, 0, 0);
+                $res = create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, 0, 0, 0, 0);
                 if ($res)
                 {
                     return success_message_json(201, "201 Created: New post successfully created");

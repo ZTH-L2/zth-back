@@ -11,6 +11,7 @@ require_once "api/majors_courses_link/majors_courses_link_module.php";
 require_once "api/subscriptions/subscription_module.php";
 require_once "api/authors/author_module.php";
 require_once "api/grades/grade_module.php";
+require_once "api/posts/post_module.php";
 
 
 $modules = [
@@ -25,6 +26,6 @@ $modules = [
     "majors_courses_link" => $majors_courses_link_module,
     "subscription" => $subscription_module,
     "author" => $author_module,
-    "grade" => $grade_module
-
+    "grade" => $grade_module,
+    "post" => $post_module
 ];

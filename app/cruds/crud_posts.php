@@ -8,7 +8,7 @@
 
         
         
-function create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, $grade, $nb_note, $nb_report){
+function create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, $grade, $nb_note, $nb_report, $size){
 
 /* fonction pour ajouter / creer un(e) new 'post'
      *              entree: element de connexion
@@ -16,7 +16,7 @@ function create_post($conn, $id_creator, $id_course, $title, $category, $date, $
      *              sortie: sql request
 */
 
-$sql = "INSERT INTO `posts`(`id_creator`, `id_course`, `title`, `category`, `date`, `privacy`, `published`, `grade`, `nb_note`, `nb_report`) VALUES('$id_creator', '$id_course', '$title', '$category', '$date', '$privacy', '$published', '$grade', '$nb_note', '$nb_report') ";
+$sql = "INSERT INTO `posts`(`id_creator`, `id_course`, `title`, `category`, `date`, `privacy`, `published`, `grade`, `nb_note`, `nb_report`, `size`) VALUES('$id_creator', '$id_course', '$title', '$category', '$date', '$privacy', '$published', '$grade', '$nb_note', '$nb_report', '$size') ";
 return mysqli_query($conn, $sql);
 }
     
