@@ -19,7 +19,14 @@ function create_post($conn, $id_creator, $id_course, $title, $category, $date, $
 $sql = "INSERT INTO `posts`(`id_creator`, `id_course`, `title`, `category`, `date`, `privacy`, `published`, `grade`, `nb_note`, `nb_report`, `size`) VALUES('$id_creator', '$id_course', '$title', '$category', '$date', '$privacy', '$published', '$grade', '$nb_note', '$nb_report', '$size') ";
 return mysqli_query($conn, $sql);
 }
-    
+
+function nbr_posts($conn){
+     $sql = "SELECT MAX(`id_post`) FROM `posts`";
+     if($ret=mysqli_query($conn, $sql)){
+          $ret=mysqli_fetch_assoc($ret);
+      }
+      return $ret;
+}
 
 
 function update_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, $grade, $nb_note, $nb_report, $id){

@@ -3,10 +3,12 @@ header('Access-Control-Allow-Origin: *');
 
 require_once "api/utils/utils.php";
 require_once "cruds/crud_posts.php";
+require_once "cruds/crud_users.php";
+
 require_once "api/db_connect.php";
 function option_post($params){
     header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, FILES');
 }
 
 function get_post($params){
@@ -30,6 +32,8 @@ function post_post($params){
         {
             $conn = db_connect();
             // get the data
+            
+            
             if (isset($_POST["id_creator"]) && isset($_POST["id_course"]) && isset($_POST["title"]) && isset($_POST["category"]) && isset($_POST["privacy"]) && isset($_POST["published"]))
             {
                 $id_creator_dirty = $_POST["id_creator"];
@@ -38,14 +42,13 @@ function post_post($params){
                 $category_dirty = $_POST["category"];
                 $privacy_dirty = $_POST["privacy"];
                 $published_dirty = $_POST["published"];
-
+                
             }
             else
             {
                 return invalid_format_data_error_message();
             }
             // sanitize the data
-            print($_POST["1"]);
             $id_creator = filter_var($id_creator_dirty, FILTER_VALIDATE_INT);
             $id_course = filter_var($id_course_dirty, FILTER_VALIDATE_INT);
             $title = filter_var($title_dirty);
@@ -61,13 +64,33 @@ function post_post($params){
             $date = $date["year"] . "-" . $date["mon"] .  "-" . $date["mday"];
             if ($id_creator == $_SESSION["id_user"])
             {
-                $res = create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, 0, 0, 0, 0);
+
+
+
+                $i = 1;
+                $data_size = 0;
+                $id_post = nbr_posts($conn)["MAX(`id_post`)"];
+                mkdir("./POSTS_DATA/" . $id_post, 0777);
+                while (isset($_FILES[$i])){
+                    if ($_FILES[$i]["size"] > 500000){
+                        return unsafe_data_error_message();
+                    }
+                    if( file_exists("./POSTS_DATA/" . $id_post) ){
+                        return unsafe_data_error_message();
+                    }
+                    $data_size += $_FILES[$i]["size"];
+                    move_uploaded_file($_FILES[$i]["tmp_name"], "./POSTS_DATA/" . $id_post . "/". $_FILES[$i]["name"]);
+                    $i += 1;
+                }
+                update_data_user($conn, $data_size, $id_creator);
+                $res = create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, 0, 0, 0, $data_size);
                 if ($res)
                 {
                     return success_message_json(201, "201 Created: New post successfully created");
                 }
                 else
                 {
+                    rmdir("./POSTS_DATA/" . $id_post);
                     return error_message_json(500, "500 Internal Server Error: Could not create the post");
                 }
             }

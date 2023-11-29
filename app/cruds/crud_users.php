@@ -24,7 +24,10 @@ $sql = "UPDATE `users` set `mail`='$mail', `username`='$username', `password`='$
 return mysqli_query($conn, $sql);
 }
     
-
+function update_data_user($conn, $data_size, $id){
+     $sql = "UPDATE `users` SET `data_size`= `data_size` + '$data_size' WHERE`id_user`=$id";
+     return mysqli_query($conn, $sql);
+}
 
 function update_user_with_parameter($conn, $parameter_name, $parameter_value, $id){
 
