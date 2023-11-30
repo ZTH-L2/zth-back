@@ -24,7 +24,7 @@ function those_i_liked($params){
     $offset = ($page - 1) * $amount_per_page;
 
     $conn = db_connect();
-    $likes = select_all_user_page_amount($conn, $_SESSION["id_user"], $amount_per_page, $offset);
+    $likes = select_all_by_user_page_amount($conn, $_SESSION["id_user"], $amount_per_page, $offset);
     
     return json_encode($likes);
 }
@@ -114,7 +114,6 @@ function did_i_liked_those($params){
     return; 
 }
 
-// TO DO
 function unlike_one($params){
     if (!is_logged_in())
     {

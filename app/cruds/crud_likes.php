@@ -15,7 +15,7 @@ function select_like_with_comment_and_user($conn, $id_user, $id_comment){
      return $row;
 }
 
-function select_all_user_page_amount($conn, $id_user, $amount, $offset){
+function select_all_by_user_page_amount($conn, $id_user, $amount, $offset){
     $stmt = $conn->prepare("SELECT * FROM likes WHERE id_user = ? DESC LIMIT ? OFFSET ?");
     $stmt->bind_param("iii", $id_user, $amount, $offset); // "i" indicates integer type
     $stmt->execute();
