@@ -8,7 +8,7 @@
 
         
         
-function create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, $grade, $nb_note, $nb_report, $size){
+function create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, $grade, $nb_note, $nb_report, $size, $text){
 
 /* fonction pour ajouter / creer un(e) new 'post'
      *              entree: element de connexion
@@ -16,7 +16,7 @@ function create_post($conn, $id_creator, $id_course, $title, $category, $date, $
      *              sortie: sql request
 */
 
-$sql = "INSERT INTO `posts`(`id_creator`, `id_course`, `title`, `category`, `date`, `privacy`, `published`, `grade`, `nb_note`, `nb_report`, `size`) VALUES('$id_creator', '$id_course', '$title', '$category', '$date', '$privacy', '$published', '$grade', '$nb_note', '$nb_report', '$size') ";
+$sql = "INSERT INTO `posts`(`id_creator`, `id_course`, `title`, `category`, `date`, `privacy`, `published`, `grade`, `nb_note`, `nb_report`, `size`, `text`) VALUES('$id_creator', '$id_course', '$title', '$category', '$date', '$privacy', '$published', '$grade', '$nb_note', '$nb_report', '$size', '$text') ";
 return mysqli_query($conn, $sql);
 }
 
@@ -29,7 +29,7 @@ function nbr_posts($conn){
 }
 
 
-function update_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, $grade, $nb_note, $nb_report, $id){
+function update_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, $grade, $nb_note, $nb_report, $text, $id){
 
 /* fonction pour update / modifier un(e) 'post' en fonction de l'id
  *              entree: element de connexion
@@ -37,11 +37,11 @@ function update_post($conn, $id_creator, $id_course, $title, $category, $date, $
  *              sortie: sql request
  */
 
-$sql = "UPDATE `posts` set `id_creator`='$id_creator', `id_course`='$id_course', `title`='$title', `category`='$category', `date`='$date', `privacy`='$privacy', `published`='$published', `grade`='$grade', `nb_note`='$nb_note', `nb_report`='$nb_report' WHERE`id_post`=$id";
+$sql = "UPDATE `posts` set `id_creator`='$id_creator', `id_course`='$id_course', `title`='$title', `category`='$category', `date`='$date', `privacy`='$privacy', `published`='$published', `grade`='$grade', `nb_note`='$nb_note', `nb_report`='$nb_report' , `text`='$text'WHERE`id_post`=$id";
 return mysqli_query($conn, $sql);
 }
 
-function update_post_user($conn, $title, $date, $privacy, $published, $id){
+function update_post_user($conn, $title, $date, $privacy, $published, $text, $id){
 
      /* fonction pour update / modifier un(e) 'post' en fonction de l'id
       *              entree: element de connexion
@@ -49,7 +49,7 @@ function update_post_user($conn, $title, $date, $privacy, $published, $id){
       *              sortie: sql request
       */
      
-     $sql = "UPDATE `posts` set `title`='$title', `date`='$date', `privacy`='$privacy', `published`='$published' WHERE`id_post`=$id";
+     $sql = "UPDATE `posts` set `title`='$title', `date`='$date', `privacy`='$privacy', `published`='$published', `text`='$text' WHERE`id_post`=$id";
      return mysqli_query($conn, $sql);
      }
 
@@ -83,6 +83,21 @@ if($ret=mysqli_query($conn, $sql)){
 }
 return $ret;
 }
+
+function select_id_creator($conn, $id){
+
+     /* fonction pour selectionner un(e) 'post' en fonction de l'id
+          *              entree: element de connexion
+          *                      id: id de 'post' a recuperer
+          *              sortie: element
+     */
+     
+     $sql = "SELECT `id_creator` FROM `posts` WHERE `id_post`=$id";
+     if($ret=mysqli_query($conn, $sql)){
+         $ret=mysqli_fetch_assoc($ret);
+     }
+     return $ret;
+     }
     
 
 function select_all_post($conn){

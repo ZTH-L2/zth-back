@@ -9,20 +9,25 @@ $dict = [
         "function" => 'get_post'
     ],
     "POST" => [
-        "params" => [],
-        "function" => 'post_post'
-    ],
-    "PUT" => [
         "routes" => [
             [
-                "params" => ["/^admin$/"],
-                "function" => 'put_post_admin'
+                "params" => [],
+                "function" => 'post_post'
             ],
             [
-                "params" => [],
-                "function" => 'del_post'
+                "params" => ["/^put$/"],
+                "function" => 'put_post'
+            ],
+            [
+                "params" => ["/^del$/"],
+                "function" => 'del_files_post'
             ]
         ]
+
+    ],
+    "PUT" => [
+                "params" => [],
+            "function" => 'put_post'
 
     ],
     "DELETE" => [

@@ -18,7 +18,6 @@ $dict = [
                 "params" => ["/^post$/","/^[0-9]{1}$/"],
                 "function" => 'get_author_by_post'
             ]
-        
         ]
         
     ],

@@ -5,7 +5,6 @@ require_once "api/utils/utils.php";
 require_once "cruds/crud_subscriptions.php";
 require_once "api/db_connect.php";
 require_once "api/majors/controlleur.php";
-require_once "api/years/controlleur.php";
 
 function option_subscription($params){
     header('Access-Control-Allow-Headers: *');
@@ -41,7 +40,7 @@ function get_subscription_by_id($params){
             $data = [];
             for ($i=0; $i < count($res); $i++)
             {
-                $data[] = ["major_name" => get_major_name($res[$i][2]), "year_name" => get_year_name($res[$i][3])];
+                $data[] = ["major_name" => get_major_name($res[$i][2])];
             }
             return json_encode($data);
         }
@@ -61,11 +60,10 @@ function post_subscription($params){
                 $conn = db_connect();
 
                 // get the data
-                if (isset($_POST["id_user"]) && isset($_POST["id_major"]) && isset($_POST["id_year"]))
+                if (isset($_POST["id_user"]) && isset($_POST["id_major"]))
                 {
                     $id_user_dirty = $_POST["id_user"];
                     $id_major_dirty = $_POST["id_major"];
-                    $id_year_dirty = $_POST["id_year"];
                 }
                 else
                 {
@@ -75,14 +73,13 @@ function post_subscription($params){
                 // sanitize the data
                 $id_user = filter_var($id_user_dirty, FILTER_VALIDATE_INT);
                 $id_major = filter_var($id_major_dirty, FILTER_VALIDATE_INT);
-                $id_year = filter_var($id_year_dirty, FILTER_VALIDATE_INT);
 
 
-                if ($id_user == "" || $id_major == "" || $id_year == "")
+                if ($id_user == "" || $id_major == "")
                 {
                     return unsafe_data_error_message();
                 }
-                $res = create_subscription($conn, $id_user, $id_major, $id_year);
+                $res = create_subscription($conn, $id_user, $id_major);
                 if ($res)
                 {
                     return success_message_json(201, "201 Created: New subscription successfully created");
@@ -145,12 +142,11 @@ function put_subscription($params){
                 $conn = db_connect();
             
                 // get the data
-                if (isset($_POST["id_subscription"]) && isset($_POST["id_user"]) && isset($_POST["id_major"]) && isset($_POST["id_year"]))
+                if (isset($_POST["id_subscription"]) && isset($_POST["id_user"]) && isset($_POST["id_major"]))
                 {
                     $id_dirty = $_POST["id_subscription"];
                     $id_user_dirty = $_POST["id_user"];
                     $id_major_dirty = $_POST["id_major"];
-                    $id_year_dirty = $_POST["id_year"];
                 }
                 else
                 {
@@ -161,14 +157,13 @@ function put_subscription($params){
                 $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
                 $id_user = filter_var($id_user_dirty, FILTER_VALIDATE_INT);
                 $id_major = filter_var($id_major_dirty, FILTER_VALIDATE_INT);
-                $id_year = filter_var($id_year_dirty, FILTER_VALIDATE_INT);
 
-                if ($id == "" || $id_user == "" || $id_major == "" || $id_year == "")
+                if ($id == "" || $id_user == "" || $id_major == "")
                 {
                     return unsafe_data_error_message();
                 }
             
-                $res = update_subscription($conn, $id_user, $id_major, $id_year, $id);
+                $res = update_subscription($conn, $id_user, $id_major, $id);
                 if ($res)
                 {
                     return success_message_json(200, "200 OK: Updated subscription's information successfully.") ;

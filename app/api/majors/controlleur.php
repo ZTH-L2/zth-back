@@ -29,6 +29,7 @@ function get_major_name($id_major){
     $res = select_major($conn, $id_major);
     return $res["name"];
 }
+
 function post_major($params){
     if (is_logged_in())
     {
@@ -39,9 +40,10 @@ function post_major($params){
                 $conn = db_connect();
 
                 // get the data
-                if (isset($_POST["name"]))
+                if (isset($_POST["name"]) && isset($_POST["year"]))
                 {
                     $name_dirty = $_POST["name"];
+                    $year_dirty = $_POST["year"];
                 }
                 else
                 {
@@ -51,13 +53,15 @@ function post_major($params){
 
                 // sanitize the data
                 $name = filter_var($name_dirty);
+                $year = filter_var($year_dirty);
 
-                if ($name == "")
+
+                if ($name == "" || $year == "")
                 {
                     unsafe_data_error_message();
                     return;
                 }
-                $res = create_major($conn, $name);
+                $res = create_major($conn, $name, $year);
                 if ($res)
                 {
                     return success_message_json(201, "201 Created: New major successfully created");
@@ -120,10 +124,11 @@ function put_major($params){
                 $conn = db_connect();
             
                 // get the data
-                if (isset($_POST["name"]) && (isset($_POST["id_major"])))
+                if (isset($_POST["name"]) && isset($_POST["id_major"])  && isset($_POST["year"]))
                 {
                     $name_dirty = $_POST["name"];
                     $id_dirty = $_POST["id_major"];
+                    $year_dirty = $_POST["year"];
                 }
                 else
                 {
@@ -134,14 +139,16 @@ function put_major($params){
                 // sanitize the data
                 $name = filter_var($name_dirty);
                 $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
+                $year = filter_var($year_dirty);
 
-                if ($name == "" || $id == "")
+
+                if ($name == "" || $id == "" || $year == "")
                 {
                     unsafe_data_error_message();
                     return;
                 }
             
-                $res = update_major($conn, $name, $id);
+                $res = update_major($conn, $name, $year, $id);
                 if ($res)
                 {
                     return success_message_json(200, "200 OK: Updated major's information successfully.") ;
