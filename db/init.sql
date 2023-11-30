@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : jeu. 23 nov. 2023 à 10:09
+-- Généré le : jeu. 30 nov. 2023 à 20:13
 -- Version du serveur : 8.2.0
 -- Version de PHP : 8.2.8
 
@@ -92,7 +92,8 @@ CREATE TABLE `likes` (
 
 CREATE TABLE `majors` (
   `id_major` int NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `year` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -104,8 +105,7 @@ CREATE TABLE `majors` (
 CREATE TABLE `majors_courses_link` (
   `id_majors_courses_link` int NOT NULL,
   `id_major` int NOT NULL,
-  `id_course` int NOT NULL,
-  `id_year` int NOT NULL
+  `id_course` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -126,7 +126,8 @@ CREATE TABLE `posts` (
   `grade` float NOT NULL,
   `nb_note` int NOT NULL,
   `nb_report` int NOT NULL,
-  `size` int NOT NULL
+  `size` int NOT NULL,
+  `text` text COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -184,17 +185,6 @@ CREATE TABLE `users` (
   `data_size` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `years`
---
-
-CREATE TABLE `years` (
-  `id_year` int NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 --
 -- Index pour les tables déchargées
 --
@@ -250,8 +240,7 @@ ALTER TABLE `majors`
 ALTER TABLE `majors_courses_link`
   ADD PRIMARY KEY (`id_majors_courses_link`),
   ADD KEY `id_major` (`id_major`),
-  ADD KEY `id_course` (`id_course`),
-  ADD KEY `majors_courses_link_ibfk_3` (`id_year`);
+  ADD KEY `id_course` (`id_course`);
 
 --
 -- Index pour la table `posts`
@@ -290,12 +279,6 @@ ALTER TABLE `subscription`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`);
-
---
--- Index pour la table `years`
---
-ALTER TABLE `years`
-  ADD PRIMARY KEY (`id_year`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -374,12 +357,6 @@ ALTER TABLE `users`
   MODIFY `id_user` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `years`
---
-ALTER TABLE `years`
-  MODIFY `id_year` int NOT NULL AUTO_INCREMENT;
-
---
 -- Contraintes pour les tables déchargées
 --
 
@@ -417,8 +394,7 @@ ALTER TABLE `likes`
 --
 ALTER TABLE `majors_courses_link`
   ADD CONSTRAINT `majors_courses_link_ibfk_1` FOREIGN KEY (`id_major`) REFERENCES `majors` (`id_major`) ON DELETE CASCADE,
-  ADD CONSTRAINT `majors_courses_link_ibfk_2` FOREIGN KEY (`id_course`) REFERENCES `courses` (`id_course`) ON DELETE CASCADE,
-  ADD CONSTRAINT `majors_courses_link_ibfk_3` FOREIGN KEY (`id_year`) REFERENCES `years` (`id_year`) ON DELETE CASCADE;
+  ADD CONSTRAINT `majors_courses_link_ibfk_2` FOREIGN KEY (`id_course`) REFERENCES `courses` (`id_course`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `posts`
