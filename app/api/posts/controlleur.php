@@ -21,6 +21,10 @@ function get_post($params){
     }
     else
     {
+        $files = scandir("./POSTS_DATA/" . $id);
+        for ($i = 2; $i<count($files); $i++) {
+            $res[] = "./POSTS_DATA/" . $id ."/". $files[$i];
+        }
         return json_encode($res);
     }
 }
@@ -70,12 +74,15 @@ function post_post($params){
                 $i = 1;
                 $data_size = 0;
                 $id_post = nbr_posts($conn)["MAX(`id_post`)"];
+                if( file_exists("./POSTS_DATA/" . $id_post)){
+                    rmdir("./POSTS_DATA/" . $id_post);
+                }
                 mkdir("./POSTS_DATA/" . $id_post, 0777);
                 while (isset($_FILES[$i])){
                     if ($_FILES[$i]["size"] > 500000){
                         return unsafe_data_error_message();
                     }
-                    if( file_exists("./POSTS_DATA/" . $id_post) ){
+                    if( file_exists("./POSTS_DATA/" . $id_post . "/". $_FILES[$i]["name"])){
                         return unsafe_data_error_message();
                     }
                     $data_size += $_FILES[$i]["size"];
@@ -90,7 +97,6 @@ function post_post($params){
                 }
                 else
                 {
-                    rmdir("./POSTS_DATA/" . $id_post);
                     return error_message_json(500, "500 Internal Server Error: Could not create the post");
                 }
             }
