@@ -32,10 +32,9 @@ function post_course($params){
                 $conn = db_connect();
 
                 // get the data
-                if (isset($_POST["name"]) && isset($_POST["subs"]))
+                if (isset($_POST["name"]))
                 {
                     $name_dirty = $_POST["name"];
-                    $subs = $_POST["subs"];
                 }
                 else
                 {
@@ -50,17 +49,6 @@ function post_course($params){
                     return unsafe_data_error_message();
                 }
                 $res = create_course($conn, $name);
-                $id = select_max($conn);
-                $id = $id["MAX(`id_course`)"];
-                for ($i = 0; $i < count($subs); $i++){
-                    $major = filter_var($subs[$i]["id_major"], FILTER_VALIDATE_INT);
-                    $year = filter_var($subs[$i]["id_year"], FILTER_VALIDATE_INT);
-                    if ($major == "" || $year == "")
-                    {
-                        return unsafe_data_error_message();
-                    }
-                    private_post_majors_courses_link($id, $major, $year);
-                }
                 if ($res)
                 {
                     return success_message_json(201, "201 Created: New course successfully created");

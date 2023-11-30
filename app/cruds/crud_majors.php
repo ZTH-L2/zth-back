@@ -8,7 +8,7 @@
 
         
         
-function create_major($conn, $name){
+function create_major($conn, $name, $year){
 
 /* fonction pour ajouter / creer un(e) new 'major'
      *              entree: element de connexion
@@ -16,13 +16,13 @@ function create_major($conn, $name){
      *              sortie: sql request
 */
 
-$sql = "INSERT INTO `majors`(`name`) VALUES('$name') ";
+$sql = "INSERT INTO `majors`(`name`, `year`) VALUES('$name', '$year') ";
 return mysqli_query($conn, $sql);
 }
     
         
         
-function update_major($conn, $name, $id){
+function update_major($conn, $name, $year, $id){
 
 /* fonction pour update / modifier un(e) 'major' en fonction de l'id
  *              entree: element de connexion
@@ -30,7 +30,7 @@ function update_major($conn, $name, $id){
  *              sortie: sql request
  */
 
-$sql = "UPDATE `majors` set `name`='$name' WHERE`id_major`=$id";
+$sql = "UPDATE `majors` set `name`='$name', `year`='$year' WHERE`id_major`=$id";
 return mysqli_query($conn, $sql);
 }
     

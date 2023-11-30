@@ -8,7 +8,7 @@
 
         
         
-function create_major_course_link($conn, $id_major, $id_course, $id_year){
+function create_major_course_link($conn, $id_major, $id_course){
 
 /* fonction pour ajouter / creer un(e) new 'major_course_link'
      *              entree: element de connexion
@@ -16,13 +16,13 @@ function create_major_course_link($conn, $id_major, $id_course, $id_year){
      *              sortie: sql request
 */
 
-$sql = "INSERT INTO `majors_courses_link`(`id_major`, `id_course`, `id_year`) VALUES('$id_major', '$id_course', '$id_year') ";
+$sql = "INSERT INTO `majors_courses_link`(`id_major`, `id_course`) VALUES('$id_major', '$id_course') ";
 return mysqli_query($conn, $sql);
 }
     
         
         
-function update_major_course_link($conn, $id_major, $id_course, $id_year, $id){
+function update_major_course_link($conn, $id_major, $id_course, $id){
 
 /* fonction pour update / modifier un(e) 'major_course_link' en fonction de l'id
  *              entree: element de connexion
@@ -30,7 +30,7 @@ function update_major_course_link($conn, $id_major, $id_course, $id_year, $id){
  *              sortie: sql request
  */
 
-$sql = "UPDATE `majors_courses_link` set `id_major`='$id_major', `id_course`='$id_course', `id_year`='$id_year' WHERE`id_majors_courses_link`=$id";
+$sql = "UPDATE `majors_courses_link` set `id_major`='$id_major', `id_course`='$id_course' WHERE`id_majors_courses_link`=$id";
 return mysqli_query($conn, $sql);
 }
     
