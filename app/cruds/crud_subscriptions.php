@@ -16,7 +16,7 @@ function create_subscription($conn, $id_user, $id_major){
      *              sortie: sql request
 */
 
-$sql = "INSERT INTO `subscriptions`(`id_user`, `id_major`) VALUES('$id_user', '$id_major') ";
+$sql = "INSERT INTO `subscription`(`id_user`, `id_major`) VALUES('$id_user', '$id_major') ";
 return mysqli_query($conn, $sql);
 }
     
@@ -30,7 +30,7 @@ function update_subscription($conn, $id_user, $id_major, $id){
  *              sortie: sql request
  */
 
-$sql = "UPDATE `subscriptions` set `id_user`='$id_user', `id_major`='$id_major' WHERE`id_subscription`=$id";
+$sql = "UPDATE `subscription` set `id_user`='$id_user', `id_major`='$id_major' WHERE`id_subscription`=$id";
 return mysqli_query($conn, $sql);
 }
     
@@ -45,7 +45,7 @@ function update_subscription_with_parameter($conn, $parameter_name, $parameter_v
  *              sortie: sql request
  */
 
-$sql = "UPDATE `subscriptions` set `$parameter_name`='$parameter_value' WHERE `id_subscription`=$id";
+$sql = "UPDATE `subscription` set `$parameter_name`='$parameter_value' WHERE `id_subscription`=$id";
 return mysqli_query($conn, $sql);
 }
     
@@ -59,7 +59,7 @@ function select_subscription($conn, $id){
      *              sortie: element
 */
 
-$sql = "SELECT * FROM `subscriptions` WHERE `id_subscription`=$id";
+$sql = "SELECT * FROM `subscription` WHERE `id_subscription`=$id";
 if($ret=mysqli_query($conn, $sql)){
     $ret=mysqli_fetch_assoc($ret);
 }
@@ -74,7 +74,7 @@ function select_subscription_by_user($conn, $id){
           *              sortie: element
      */
      
-     $sql = "SELECT * FROM `subscriptions` WHERE `id_user`=$id";
+     $sql = "SELECT * FROM `subscription` WHERE `id_user`=$id";
      $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
      return $ret;
      }
@@ -86,7 +86,7 @@ function select_all_subscription($conn){
      *              sortie: tableau d'elements
 */
 
-$sql = "SELECT * FROM `subscriptions`";
+$sql = "SELECT * FROM `subscription`";
 $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
 return $ret ;
 }
@@ -101,7 +101,7 @@ function select_all_subscription_with_parameter($conn, $parameter_name, $paramet
      *              sortie: tableau d'elements
 */
 
-$sql = "SELECT * FROM `subscriptions` WHERE `$parameter_name`=$parameter_value";
+$sql = "SELECT * FROM `subscription` WHERE `$parameter_name`=$parameter_value";
 $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
 return $ret ;
 }
@@ -116,7 +116,7 @@ function delete_subscription($conn, $id){
      *              sortie: sql request
 */
 
-$sql = "DELETE FROM `subscriptions` WHERE `id_subscription`=$id";
+$sql = "DELETE FROM `subscription` WHERE `id_subscription`=$id";
 return mysqli_query($conn, $sql);
 }
 ?>

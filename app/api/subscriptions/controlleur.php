@@ -52,8 +52,6 @@ function get_subscription_by_id($params){
 function post_subscription($params){
     if (is_logged_in())
     {
-        if (is_admin())
-        {
             if (update_post_var())
             {
                 $conn = db_connect();
@@ -78,25 +76,27 @@ function post_subscription($params){
                 {
                     return unsafe_data_error_message();
                 }
-                $res = create_subscription($conn, $id_user, $id_major);
-                if ($res)
-                {
-                    return success_message_json(201, "201 Created: New subscription successfully created");
+                if ($id_user == $_SESSION["id_user"]){
+                    $res = create_subscription($conn, $id_user, $id_major);
+                    if ($res)
+                    {
+                        return success_message_json(201, "201 Created: New subscription successfully created");
+                    }
+                    else
+                    {
+                        return error_message_json(500, "500 Internal Server Error: Could not create the subscription");
+                    }
                 }
                 else
                 {
-                    return error_message_json(500, "500 Internal Server Error: Could not create the subscription");
+                    return authentification_required_error_message();
                 }
+                
             }
             else
             {
-                no_data_error_message();   
+                return permission_denied_error_message();  
             }
-        }
-        else
-        {
-            return permission_denied_error_message();
-        }
     }
     else
     {
