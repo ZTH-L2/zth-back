@@ -124,7 +124,6 @@ function delet_user_by_id($params){
 }
 // Public Require authentification
 function login($params){
-    var_dump($_SERVER);
     if (update_post_var())
     {
         
