@@ -11,6 +11,7 @@ require_once "api/subscriptions/subscription_module.php";
 require_once "api/authors/author_module.php";
 require_once "api/grades/grade_module.php";
 require_once "api/posts/post_module.php";
+require_once "api/data/data_module.php";
 
 
 $modules = [
@@ -25,5 +26,6 @@ $modules = [
     "subscription" => $subscription_module,
     "author" => $author_module,
     "grade" => $grade_module,
-    "post" => $post_module
+    "post" => $post_module,
+    "data" => $data_module
 ];

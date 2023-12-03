@@ -23,7 +23,7 @@ function get_post($params){
     {
         $files = scandir("./POSTS_DATA/" . $id);
         for ($i = 2; $i<count($files); $i++) {
-            $res[] = "./POSTS_DATA/" . $id ."/". $files[$i];
+            $res[] = $files[$i];
         }
         return json_encode($res);
     }
@@ -74,7 +74,7 @@ function post_post($params){
             {
                 $i = 1;
                 $data_size = 0;
-                $id_post = nbr_posts($conn)["MAX(`id_post`)"];
+                $id_post = nbr_posts($conn)["MAX(`id_post`)"] + 1; 
                 if( file_exists("./POSTS_DATA/" . $id_post)){
                     rmdir("./POSTS_DATA/" . $id_post);
                 }

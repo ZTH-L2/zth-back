@@ -9,6 +9,33 @@ function option_user($params){
     header('Access-Control-Allow-Headers: *');
     header('Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, DELETE');
 }
+
+
+//Public
+function get_name_by_id($params){
+    if (1)
+    {
+        $conn = db_connect();
+        $id = $params[1];
+        // CRUD function
+        $user_data = select_user_name($conn, $id);
+        if (is_null($user_data))
+        {
+            $user_json = json_encode([]);
+        }
+        else
+        {
+            $user_json = json_encode($user_data); 
+        }
+        return $user_json;
+        
+    }
+    else
+    {
+        return authentification_required_error_message();
+    }
+}
+
 // Public Protected by admin
 function get_user_by_id($params){
     if (is_logged_in())

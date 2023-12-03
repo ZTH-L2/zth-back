@@ -11,6 +11,11 @@ $dict = [
         "routes" => [
             [
                 // admin only
+                "params" => ["/^name$/", "/^[0-9]{1,}$/"],
+                "function" => 'get_name_by_id'
+            ],
+            [
+                // admin only
                 "params" => ["/^[0-9]{1,}$/"],
                 "function" => 'get_user_by_id'
             ],

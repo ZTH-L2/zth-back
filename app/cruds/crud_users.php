@@ -59,6 +59,22 @@ if($ret=mysqli_query($conn, $sql)){
 return $ret;
 }
 
+
+function select_user_name($conn, $id){
+
+     /* fonction pour selectionner un(e) 'user' en fonction de l'id
+          *              entree: element de connexion
+          *                      id: id de 'user' a recuperer
+          *              sortie: element
+     */
+     
+     $sql = "SELECT `username` FROM `users` WHERE `id_user`=$id";
+     if($ret=mysqli_query($conn, $sql)){
+         $ret=mysqli_fetch_assoc($ret);
+     }
+     return $ret;
+     }
+
 function select_user_by_username($conn, $username){
 
      /* fonction pour selectionner un(e) 'user' en fonction de username
