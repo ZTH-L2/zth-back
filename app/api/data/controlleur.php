@@ -9,7 +9,7 @@ function option_data($params){
 
 function get_data($params){
     $id_post = $params[0];
-    $name = $params[1];
+    $name = urldecode($params[1]);
     $fullPath = "./POSTS_DATA/". $id_post . "/". $name;
     if (file_exists($fullPath)) {
         // Assurez-vous que le fichier existe
