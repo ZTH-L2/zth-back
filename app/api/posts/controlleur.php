@@ -298,12 +298,13 @@ function put_post($params){
             $date = getdate();
             $date = $date["year"] . "-" . $date["mon"] .  "-" . $date["mday"];
             $res = update_post_user($conn, $title, $date, $privacy, $published, $text, $id);
+            $data_size= 0;
             if ($res)
             {
-                $i = 0;
+                $i = 1;
                 while (isset($_FILES[$i])){
 
-                    if ($_FILES[$i]["size"] > 500000){
+                    if ($_FILES[$i]["size"] > 5000000){
                         return unsafe_data_error_message();
                     }
                     if( file_exists("./POSTS_DATA/" . $id . "/". $_FILES[$i]["name"])){
