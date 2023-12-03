@@ -112,8 +112,9 @@ $sql = "SELECT * FROM `comments`";
 $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
 return $ret ;
 }
-    
 
+
+ 
 function select_all_comment_with_parameter($conn, $parameter_name, $parameter_value){
 
 /* fonction pour selectionner tous les 'comment' dans la table en fonction d'un parametre

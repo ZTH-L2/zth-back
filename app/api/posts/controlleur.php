@@ -12,23 +12,53 @@ function option_post($params){
 }
 
 function get_post($params){
-    $conn = db_connect();
-    $id = $params[0];
-    $res = select_post($conn, $id);
-    if (is_null($res))
+    if (is_logged_in())
     {
-        return json_encode([]);
+        $conn = db_connect();
+        $id = $params[0];
+        $res = select_post($conn, $id);
+        if (is_null($res))
+        {
+            return json_encode([]);
+        }
+        else
+        {
+            $files = scandir("./POSTS_DATA/" . $id);
+            for ($i = 2; $i<count($files); $i++) {
+                $res[] = $files[$i];
+            }
+            return json_encode($res);
+        }
     }
     else
     {
-        $files = scandir("./POSTS_DATA/" . $id);
-        for ($i = 2; $i<count($files); $i++) {
-            $res[] = $files[$i];
-        }
-        return json_encode($res);
+        return authentification_required_error_message();
     }
 }
 
+
+
+function get_post_course($params){
+    if (is_logged_in())
+    {
+        $conn = db_connect();
+        $id_course = $params[0];
+        $category = $params[1];
+        $res = select_all_post_course($conn, $id_course, $category);
+        if (is_null($res))
+        {
+            return json_encode([]);
+        }
+        else
+        {
+            return json_encode($res);
+        }
+    }
+    else
+    {
+        return authentification_required_error_message();
+    }
+}
 function post_post($params){
     if (is_logged_in())
     {

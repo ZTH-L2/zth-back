@@ -204,7 +204,7 @@ function get_parent_page_amount($params){
     $amount_per_page = $params[3];
     $offset = ($page-1)*$amount_per_page;
 
-    $stmt = $conn->prepare("SELECT * FROM comments WHERE id_post = ? AND id_parent_comment = 0 ORDER BY nb_like DESC LIMIT ? OFFSET ?");
+    $stmt = $conn->prepare("SELECT * FROM comments WHERE id_post = ? AND id_parent_comment = NULL ORDER BY nb_like DESC LIMIT ? OFFSET ?");
     $stmt->bind_param("iii", $id_post, $amount_per_page, $offset); // "i" indicates integer type
     
     if ($stmt->execute())

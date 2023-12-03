@@ -111,7 +111,19 @@ $sql = "SELECT * FROM `posts`";
 $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
 return $ret ;
 }
-    
+
+function select_all_post_course($conn, $id_course, $category){
+
+     /* fonction pour selectionner tous les 'post' dans la table
+          *              entree: element de connexion
+          *              sortie: tableau d'elements
+     */
+     
+     $sql = "SELECT `id_post`, `id_creator`, `title`, `date`, `grade`, `nb_note` FROM `posts` WHERE `id_course`= $id_course AND `category`= '$category'";
+     $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
+     return $ret ;
+     }
+         
 
 function select_all_post_with_parameter($conn, $parameter_name, $parameter_value){
 

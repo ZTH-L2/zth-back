@@ -43,7 +43,7 @@ $dict = [
                 // /my//page/nb_by_page
                 "params" => ["/^me$/","/^[0-9]{1}$/","/^[0-9]{1,2}$/"],
                 "function" => 'get_my_comments_page_amount_sorted_by_likes' 
-            ] 
+            ]
         ]
     ],
     "POST" => [
