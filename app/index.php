@@ -1,5 +1,4 @@
 <?php
-
 include "./modules/tab_modules.php";
 // Get the uri of the url
 // Example url : localhost:8080/example/1
