@@ -1,5 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 require_once "api/utils/utils.php";
 require_once "cruds/crud_comments.php";
 require_once "cruds/crud_posts.php";

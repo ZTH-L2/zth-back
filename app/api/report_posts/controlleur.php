@@ -1,6 +1,5 @@
 <?php
 
-header('Access-Control-Allow-Origin: *');
 
 require_once "api/utils/utils.php";
 require_once "api/db_connect.php";

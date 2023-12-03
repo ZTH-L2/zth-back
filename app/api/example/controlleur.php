@@ -1,5 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 
 function option_example($params){
     header('Access-Control-Allow-Headers: *');
