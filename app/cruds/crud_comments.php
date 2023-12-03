@@ -17,7 +17,11 @@ function create_comment($conn, $id_post, $id_user, $id_parent_comment, $nb_like,
 */
 
 // chat gpt made
+if ($id_parent_comment == 0){
+     $id_parent_comment = NULL;
+}
 $sql = "INSERT INTO `comments` (`id_post`, `id_user`, `id_parent_comment`, `nb_like`, `nb_report`, `content`) VALUES (?, ?, ?, ?, ?, ?)";
+
 $stmt = mysqli_prepare($conn, $sql);
 
 if ($stmt) {

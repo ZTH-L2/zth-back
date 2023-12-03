@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : jeu. 30 nov. 2023 à 20:13
+-- Généré le : dim. 03 déc. 2023 à 09:54
 -- Version du serveur : 8.2.0
 -- Version de PHP : 8.2.8
 
@@ -43,7 +43,7 @@ CREATE TABLE `comments` (
   `id_comment` int NOT NULL,
   `id_post` int NOT NULL,
   `id_user` int NOT NULL,
-  `id_parent_comment` int NOT NULL,
+  `id_parent_comment` int DEFAULT NULL,
   `nb_like` int NOT NULL,
   `nb_report` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -127,7 +127,7 @@ CREATE TABLE `posts` (
   `nb_note` int NOT NULL,
   `nb_report` int NOT NULL,
   `size` int NOT NULL,
-  `text` text COLLATE utf8mb4_general_ci NOT NULL
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -373,7 +373,7 @@ ALTER TABLE `authors`
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id_post`) ON DELETE CASCADE,
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comments_ibfk_3` FOREIGN KEY (`id_parent_comment`) REFERENCES `comments` (`id_comment`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `comments_ibfk_3` FOREIGN KEY (`id_parent_comment`) REFERENCES `comments` (`id_comment`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `grades`

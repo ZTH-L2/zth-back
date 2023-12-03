@@ -1,5 +1,7 @@
 <?php
 header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Credentials: true');
+
 require_once "api/utils/utils.php";
 require_once "cruds/crud_users.php";
 require_once "api/db_connect.php";
@@ -13,7 +15,7 @@ function option_user($params){
 
 //Public
 function get_name_by_id($params){
-    if (1)
+    if (is_logged_in())
     {
         $conn = db_connect();
         $id = $params[1];
@@ -186,6 +188,7 @@ function login($params){
 
             // echo 
             $user_data = make_data_of_user($_SESSION);
+
             return json_encode($user_data);
         }
         else

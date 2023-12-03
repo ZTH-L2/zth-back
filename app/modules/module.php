@@ -8,6 +8,7 @@ class Module
     }
 
     public function api($method, $params){
+        session_start();
         header('Content-Type: application/json');
         // $method should be one of OPTION, GET, POST, PUT, DELETE
         if (array_key_exists($method, $this->api_function_dict))
