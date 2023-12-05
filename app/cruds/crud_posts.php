@@ -112,6 +112,18 @@ $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
 return $ret ;
 }
 
+function select_all_post_user($conn, $id){
+
+     /* fonction pour selectionner tous les 'post' dans la table
+          *              entree: element de connexion
+          *              sortie: tableau d'elements
+     */
+     
+     $sql = "SELECT `id_post`, `id_creator`, `title`, `date`, `grade`, `nb_note` FROM `posts` WHERE `id_creator` = $id";
+     $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
+     return $ret ;
+}
+
 function select_all_post_course($conn, $id_course, $category){
 
      /* fonction pour selectionner tous les 'post' dans la table

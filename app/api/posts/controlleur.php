@@ -23,9 +23,11 @@ function get_post($params){
         }
         else
         {
-            $files = scandir("./POSTS_DATA/" . $id);
-            for ($i = 2; $i<count($files); $i++) {
-                $res[] = $files[$i];
+            if (file_exists("./POSTS_DATA/" . $id)){
+                $files = scandir("./POSTS_DATA/" . $id);
+                for ($i = 2; $i<count($files); $i++) {
+                    $res[] = $files[$i];
+                }
             }
             return json_encode($res);
         }
@@ -37,7 +39,26 @@ function get_post($params){
 }
 
 
-
+function get_post_user($params){
+    if (is_logged_in())
+    {
+        $conn = db_connect();
+        $id = $params[1];
+        $res = select_all_post_user($conn, $id);
+        if (is_null($res))
+        {
+            return json_encode([]);
+        }
+        else
+        {
+            return json_encode($res);
+        }
+    }
+    else
+    {
+        return authentification_required_error_message();
+    }
+}
 function get_post_course($params){
     if (is_logged_in())
     {
@@ -346,7 +367,7 @@ function put_post($params){
                     }
                     $i += 1;
                 }
-                return success_message_json(200, "200 OK: Updated subscription's information successfully.") ;
+                return success_message_json(200, "200 OK: Updated post's information successfully.") ;
             }
             else
             {

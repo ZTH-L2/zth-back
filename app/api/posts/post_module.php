@@ -14,6 +14,10 @@ $dict = [
             [
                 "params" => ["/^[0-9]{1,}$/", "/^[a-zA-Z]*$/"],
                 "function" => 'get_post_course'
+            ],
+            [
+                "params" => ["/^user$/","/^[0-9]{1,}$/"],
+                "function" => 'get_post_user'
             ]
         ]
     ],
