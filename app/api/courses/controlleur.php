@@ -20,6 +20,9 @@ function get_course($params){
         return json_encode($res);
     }
 }
+function get_coursename($conn, $id){
+    return select_coursename($conn, $id)["name"];
+}
 
 function post_course($params){
     if (is_logged_in())

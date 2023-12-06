@@ -39,7 +39,7 @@ function get_subscription_by_id($params){
             $data = [];
             for ($i=0; $i < count($res); $i++)
             {
-                $data[] = ["major_name" => get_major_name($res[$i][2])];
+                $data[] = ["id_major" => $res[$i][2], "major_name" => get_major_name($res[$i][2])[0], "year" => get_major_name($res[$i][2])[1]];
             }
             return json_encode($data);
         }

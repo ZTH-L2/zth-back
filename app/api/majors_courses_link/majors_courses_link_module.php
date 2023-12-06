@@ -5,8 +5,17 @@ require_once "controlleur.php";
 
 $dict = [
     "GET" => [
-        "params" => ["/^[0-9]{1,}$/"],
-        "function" => 'get_majors_courses_link'
+        "routes" => [
+            [
+                "params" => ["/^[0-9]{1,}$/"],
+                "function" => 'get_majors_courses_link'
+            ],
+            [
+                "params" => ["/^major$/", "/^[0-9]{1,}$/"],
+                "function" => 'get_courses_major'
+            ]
+        ]
+        
     ],
     "POST" => [
         "params" => [],

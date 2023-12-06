@@ -71,7 +71,14 @@ if($ret=mysqli_query($conn, $sql)){
 }
 return $ret;
 }
-    
+
+function select_coursename($conn, $id){
+     $sql = "SELECT `name` FROM `courses` WHERE `id_course`=$id";
+     if($ret=mysqli_query($conn, $sql)){
+          $ret=mysqli_fetch_assoc($ret);
+     }
+     return $ret;
+}
 
 function select_all_course($conn){
 

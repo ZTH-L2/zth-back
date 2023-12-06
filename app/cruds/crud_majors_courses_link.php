@@ -78,7 +78,18 @@ $sql = "SELECT * FROM `majors_courses_link`";
 $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
 return $ret ;
 }
-    
+
+function select_courses_major($conn, $id){
+
+     /* fonction pour selectionner tous les 'major_course_link' dans la table
+          *              entree: element de connexion
+          *              sortie: tableau d'elements
+     */
+     
+     $sql = "SELECT * FROM `majors_courses_link` WHERE `id_major` = $id";
+     $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
+     return $ret ;
+     }
 
 function select_all_major_course_link_with_parameter($conn, $parameter_name, $parameter_value){
 

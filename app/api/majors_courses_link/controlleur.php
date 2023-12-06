@@ -3,6 +3,8 @@
 require_once "api/utils/utils.php";
 require_once "cruds/crud_majors_courses_link.php";
 require_once "api/db_connect.php";
+require_once "api/courses/controlleur.php";
+
 function option_majors_courses_link($params){
     header('Access-Control-Allow-Headers: *');
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
@@ -10,19 +12,52 @@ function option_majors_courses_link($params){
 
 //public
 function get_majors_courses_link($params){
-    $conn = db_connect();
-    $id = $params[0];
-    $res = select_major_course_link($conn, $id);
-    if (is_null($res))
+    if (is_logged_in())
     {
-        return json_encode([]);
+        $conn = db_connect();
+        $id = $params[0];
+        $res = select_major_course_link($conn, $id);
+        if (is_null($res))
+        {
+            return json_encode([]);
+        }
+        else
+        {
+            return json_encode($res);
+        }
     }
     else
     {
-        return json_encode($res);
+    return authentification_required_error_message();
     }
 }
 
+
+function get_courses_major($params){
+    if (is_logged_in())
+    {
+        $conn = db_connect();
+        $id = $params[1];
+        $res = select_courses_major($conn, $id);
+        if (is_null($res))
+        {
+            return json_encode([]);
+        }
+        else
+        {
+            $data = [];
+                for ($i=0; $i < count($res); $i++)
+            {
+                $data[] = ["id_course" => $res[$i][2], "course_name" => get_coursename($conn, $res[$i][2])];
+            }
+            return json_encode($data);
+        }
+    }
+    else
+    {
+        return authentification_required_error_message();
+    }
+}
 // public protected
 function post_majors_courses_link($params){
     if (is_logged_in())
@@ -35,7 +70,6 @@ function post_majors_courses_link($params){
                 {
                     $id_major_dirty = $_POST["id_major"];
                     $id_course_dirty = $_POST["id_course"];
-                    $id_year_dirty = $_POST["id_year"];
                     $conn = db_connect();
                 }
                     else
@@ -47,7 +81,6 @@ function post_majors_courses_link($params){
                     // sanitize the data
                     $id_major = filter_var($id_major_dirty, FILTER_VALIDATE_INT);
                     $id_course = filter_var($id_course_dirty, FILTER_VALIDATE_INT);
-                    $id_year = filter_var($id_year_dirty, FILTER_VALIDATE_INT);
 
                     if ($id_major == "" || $id_course == "")
                     {

@@ -12,13 +12,33 @@ function get_data($params){
     $name = urldecode($params[1]);
     $fullPath = "./POSTS_DATA/". $id_post . "/". $name;
     if (file_exists($fullPath)) {
-        // Assurez-vous que le fichier existe
         $extension = pathinfo($fullPath, PATHINFO_EXTENSION);
-        if ($extension == "pdf"){
-            header('Content-Type: application/pdf');
+        switch ($extension) {
+            case 'jpeg':
+            case 'jpg':
+                header('Content-Type: image/jpeg');
+                break;
+            case 'png':
+                header('Content-Type: image/png');
+                break;
+            case 'gif':
+                header('Content-Type: image/gif');
+                break;
+            case 'pdf':
+                header('Content-Type: application/pdf');
+                break;
+            case 'txt':
+                header('Content-Type: text/plain');
+                break;
+            case 'json':
+                header('Content-Type: application/json');
+                break;
+            
+            default:
+                header('Content-Type: application/octet-stream');
         }
-        readfile($fullPath); // Lit et renvoie le contenu du fichier
+        readfile($fullPath);
     } else {
-        http_response_code(404); // Si le fichier n'existe pas, renvoie une réponse 404
+        http_response_code(404);
     }
 }

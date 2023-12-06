@@ -14,7 +14,6 @@ $dict = [
                 "params" => ["/^user$/"],
                 "function" => 'get_subscription_by_id'
             ]
-        
         ]
     ],
     "POST" => [

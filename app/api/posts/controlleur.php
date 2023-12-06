@@ -121,32 +121,34 @@ function post_post($params){
             $date = $date["year"] . "-" . $date["mon"] .  "-" . $date["mday"];
             if ($id_creator == $_SESSION["id_user"])
             {
-                $i = 1;
-                $data_size = 0;
-                $id_post = nbr_posts($conn)["MAX(`id_post`)"] + 1; 
-                if( file_exists("./POSTS_DATA/" . $id_post)){
-                    rmdir("./POSTS_DATA/" . $id_post);
-                }
-                mkdir("./POSTS_DATA/" . $id_post, 0777);
-                while (isset($_FILES[$i])){
-
-                    if ($_FILES[$i]["size"] > 500000){
-                        return unsafe_data_error_message();
-                    }
-                    if( file_exists("./POSTS_DATA/" . $id_post . "/". $_FILES[$i]["name"])){
-                        return unsafe_data_error_message();
-                    }
-                    $data_size += $_FILES[$i]["size"];
-                    if ( !move_uploaded_file($_FILES[$i]["tmp_name"], "./POSTS_DATA/" . $id_post . "/". $_FILES[$i]["name"])){
-                        delete_post($conn, $id_post);
-                        return unsafe_data_error_message();
-                    }
-                    $i += 1;
-                }
-                update_data_user($conn, $data_size, $id_creator);
-                $res = create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, 0, 0, 0, $data_size, $text);
+                
+                $res = create_post($conn, $id_creator, $id_course, $title, $category, $date, $privacy, $published, 0, 0, 0, 0, $text);
                 if ($res)
                 {
+                    $i = 1;
+                    $data_size = 0;
+                    $id_post = nbr_posts($conn)["MAX(`id_post`)"]; 
+                    if( file_exists("./POSTS_DATA/" . $id_post)){
+                        rmdir("./POSTS_DATA/" . $id_post);
+                    }
+                    mkdir("./POSTS_DATA/" . $id_post, 0777);
+                    while (isset($_FILES[$i])){
+
+                        if ($_FILES[$i]["size"] > 500000){
+                            return unsafe_data_error_message();
+                        }
+                        if( file_exists("./POSTS_DATA/" . $id_post . "/". $_FILES[$i]["name"])){
+                            return unsafe_data_error_message();
+                        }
+                        $data_size += $_FILES[$i]["size"];
+                        if ( !move_uploaded_file($_FILES[$i]["tmp_name"], "./POSTS_DATA/" . $id_post . "/". $_FILES[$i]["name"])){
+                            delete_post($conn, $id_post);
+                            return unsafe_data_error_message();
+                        }
+                        $i += 1;
+                    }
+                    update_data_user($conn, $data_size, $id_creator);
+                    update_post_with_parameter($conn, "size", $data_size, $id_post);
                     return success_message_json(201, "201 Created: New post successfully created");
                 }
                 else
@@ -388,56 +390,18 @@ function put_post($params){
 function del_files_post($params){
     if (is_logged_in())
     {
-        if (is_admin())
-        {
-            if (update_post_var())
-            {
-                $conn = db_connect();
-            
-                // get the data
-                if (isset($_POST["id_post"]))
-                {
-                    $id_dirty = $_POST["id_post"];
-
-
+        $conn = db_connect();
+        $params[2] = str_replace("%20", " ", $params[2]);
+        $id_creator = select_id_creator($conn, $params[1])["id_creator"];
+        if ($id_creator == $_SESSION["id_user"]){
+            $files = scandir("./POSTS_DATA/" . $params[1]);
+            $j = 2;
+            while ($j <count($files)){
+                if ($files[$j] == $params[2]){
+                    unlink("./POSTS_DATA/" . $params[1] ."/". $files[$j]);
                 }
-                else
-                {
-                    return invalid_format_data_error_message();
-                }
-                // sanitize the data
-                $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
-
-
-                if ($id  == "")
-                {
-                    return unsafe_data_error_message();
-                    
-                }
-                $id_creator = select_id_creator($conn, $id)["id_creator"];
-                if ($id_creator == $_SESSION["id_user"]){
-                    $i = 1;
-                    while (isset($_POST[$i])){
-                        $files = scandir("./POSTS_DATA/" . $id);
-                        $j = 2;
-                        while ($j <count($files)){
-                            if ($files[$j] == $_POST[$i]){
-                                unlink("./POSTS_DATA/" . $id ."/". $files[$j]);
-                            }
-                            $j = $j + 1;
-                        }
-                        $i = $i + 1;
-                    }
-                }
+                $j = $j + 1;
             }
-            else
-            {
-                return no_data_error_message();   
-            }
-        }
-        else
-        {
-            return permission_denied_error_message();
         }
     }
     else

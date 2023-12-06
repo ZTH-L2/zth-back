@@ -18,6 +18,10 @@ $dict = [
             [
                 "params" => ["/^user$/","/^[0-9]{1,}$/"],
                 "function" => 'get_post_user'
+            ],
+            [
+                "params" => ["/^file/","/^[0-9]{1,}$/", "/.*/"],
+                "function" => 'del_files_post'
             ]
         ]
     ],
@@ -30,10 +34,6 @@ $dict = [
             [
                 "params" => ["/^put$/"],
                 "function" => 'put_post'
-            ],
-            [
-                "params" => ["/^del$/"],
-                "function" => 'del_files_post'
             ]
         ]
 
