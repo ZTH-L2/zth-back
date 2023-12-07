@@ -8,7 +8,7 @@ require_once "cruds/crud_users.php";
 require_once "api/db_connect.php";
 function option_post($params){
     header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, FILES');
+    header('Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, DELETE, FILES');
 }
 
 function get_post($params){
