@@ -390,6 +390,7 @@ function put_post($params){
 function del_files_post($params){
     if (is_logged_in())
     {
+        print($params[2]);
         $conn = db_connect();
         $params[2] = str_replace("%20", " ", $params[2]);
         $id_creator = select_id_creator($conn, $params[1])["id_creator"];
