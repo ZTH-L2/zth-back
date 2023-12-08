@@ -20,6 +20,21 @@ function get_course($params){
         return json_encode($res);
     }
 }
+
+function get_course_name($params){
+    $conn = db_connect();
+    $id = $params[1];
+    $res = get_coursename($conn, $id);
+    if (is_null($res))
+    {
+        return json_encode([]);
+    }
+    else
+    {
+        return json_encode($res);
+    }
+}
+//private
 function get_coursename($conn, $id){
     return select_coursename($conn, $id)["name"];
 }
