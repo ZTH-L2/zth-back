@@ -9,6 +9,19 @@ function option_major($params){
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 }
 
+function get_all_major($params){
+    $conn = db_connect();
+    $res = select_all_major($conn);
+    if (is_null($res))
+    {
+        return json_encode([]);
+    }
+    else
+    {
+        return json_encode($res);
+    }
+}
+
 function get_major($params){
     $conn = db_connect();
     $id = $params[0];
