@@ -19,7 +19,7 @@ function create_course($conn, $name){
 $sql = "INSERT INTO `courses`(`name`) VALUES('$name') ";
 return mysqli_query($conn, $sql);
 }
-    
+
 function select_max($conn){
      $sql = "SELECT MAX(`id_course`) FROM `courses`";
      if($ret=mysqli_query($conn, $sql)){
@@ -55,6 +55,16 @@ $sql = "UPDATE `courses` set `$parameter_name`='$parameter_value' WHERE `id_cour
 return mysqli_query($conn, $sql);
 }
     
+
+function select_all_course_page_amount($conn, $amount_per_page, $page){
+     $offset = ($page)*$amount_per_page;
+     $sql = "SELECT `id_course`, `name` FROM `courses` ORDER BY `id_course` LIMIT $amount_per_page OFFSET $offset";
+     if ($res = mysqli_query($conn, $sql))
+     {
+          $res = mysqli_fetch_all($res);
+     }
+     return $res;
+}
 
 
 function select_course($conn, $id){

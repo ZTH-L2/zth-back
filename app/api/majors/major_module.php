@@ -11,6 +11,10 @@ $dict = [
                 "function" => 'get_all_major'    
             ],
             [
+                "params" => ["/^[0-9]{1,}$/", "/^[0-9]{1,}$/"],
+                "function" => 'get_all_major_page_amount'    
+            ],
+            [
                 "params" => ["/^[0-9]{1,}$/"],
                 "function" => 'get_major'
             ]

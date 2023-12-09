@@ -65,7 +65,18 @@ if($ret=mysqli_query($conn, $sql)){
 }
 return $ret;
 }
-    
+
+
+function select_all_major_page_amount($conn, $amount_per_page, $page){
+     $offset = ($page)*$amount_per_page;
+     $sql = "SELECT `id_major`, `name`, `year` FROM `majors` ORDER BY `id_major` LIMIT $amount_per_page OFFSET $offset";
+     if ($res = mysqli_query($conn, $sql))
+     {
+          $res = mysqli_fetch_all($res);
+     }
+     return $res;
+}
+
 
 function select_all_major($conn){
 

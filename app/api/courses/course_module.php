@@ -7,6 +7,10 @@ $dict = [
     "GET" => [
         "routes" => [
             [
+                "params" => ["/^[0-9]{1,}$/", "/^[0-9]{1,}$/"],
+                "function" => 'get_all_course_page_amount'
+            ],
+            [
                 "params" => ["/^[0-9]{1,}$/"],
                 "function" => 'get_course'
             ],

@@ -7,6 +7,21 @@ function option_course($params){
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 }
 
+function get_all_course_page_amount($params){
+    if (!is_logged_in()){ return authentification_required_error_message(); }
+    else 
+    {
+        if (!is_admin()){ return permission_denied_error_message();}
+        else 
+        {
+            $conn = db_connect();
+            $res = select_all_course_page_amount($conn, $params[0], $params[1]);
+            return json_encode($res);
+        }
+    }
+    
+}
+
 function get_course($params){
     $conn = db_connect();
     $id = $params[0];
