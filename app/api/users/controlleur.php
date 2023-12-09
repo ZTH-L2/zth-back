@@ -20,7 +20,7 @@ function get_all_users($params){
         {
             $conn = db_connect(); 
             $res = select_all_user($conn);
-            return $res;
+            return json_encode($res);
         }
     }
 }
