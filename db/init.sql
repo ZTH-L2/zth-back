@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4deb2+deb11u1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:3306
--- Généré le : jeu. 16 nov. 2023 à 09:36
--- Version du serveur :  10.5.21-MariaDB-0+deb11u1
--- Version de PHP : 7.4.33
+-- Hôte : db:3306
+-- Généré le : dim. 03 déc. 2023 à 09:54
+-- Version du serveur : 8.2.0
+-- Version de PHP : 8.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `db_garrigues`
+-- Base de données : `zth_db`
 --
 
 -- --------------------------------------------------------
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `authors` (
-  `id_author` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_post` int(11) NOT NULL
+  `id_author` int NOT NULL,
+  `id_user` int NOT NULL,
+  `id_post` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -40,12 +40,12 @@ CREATE TABLE `authors` (
 --
 
 CREATE TABLE `comments` (
-  `id_comment` int(11) NOT NULL,
-  `id_post` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_parent_comment` int(11) NOT NULL,
-  `nb_like` int(11) NOT NULL,
-  `nb_report` int(11) NOT NULL
+  `id_comment` int NOT NULL,
+  `id_post` int NOT NULL,
+  `id_user` int NOT NULL,
+  `id_parent_comment` int DEFAULT NULL,
+  `nb_like` int NOT NULL,
+  `nb_report` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -55,8 +55,8 @@ CREATE TABLE `comments` (
 --
 
 CREATE TABLE `courses` (
-  `id_course` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL
+  `id_course` int NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -66,9 +66,9 @@ CREATE TABLE `courses` (
 --
 
 CREATE TABLE `grades` (
-  `id_grade` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_post` int(11) NOT NULL,
+  `id_grade` int NOT NULL,
+  `id_user` int NOT NULL,
+  `id_post` int NOT NULL,
   `grade` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -79,9 +79,9 @@ CREATE TABLE `grades` (
 --
 
 CREATE TABLE `likes` (
-  `id_like` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_comment` int(11) NOT NULL
+  `id_like` int NOT NULL,
+  `id_user` int NOT NULL,
+  `id_comment` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -91,8 +91,9 @@ CREATE TABLE `likes` (
 --
 
 CREATE TABLE `majors` (
-  `id_major` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL
+  `id_major` int NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `year` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -102,10 +103,9 @@ CREATE TABLE `majors` (
 --
 
 CREATE TABLE `majors_courses_link` (
-  `id_majors_courses_link` int(11) NOT NULL,
-  `id_major` int(11) NOT NULL,
-  `id_course` int(11) NOT NULL,
-  `id_year` int(11) NOT NULL
+  `id_majors_courses_link` int NOT NULL,
+  `id_major` int NOT NULL,
+  `id_course` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -115,16 +115,19 @@ CREATE TABLE `majors_courses_link` (
 --
 
 CREATE TABLE `posts` (
-  `id_post` int(11) NOT NULL,
-  `id_creator` int(11) NOT NULL,
-  `id_course` int(11) NOT NULL,
-  `title` varchar(100) NOT NULL,
-  `category` varchar(100) NOT NULL,
+  `id_post` int NOT NULL,
+  `id_creator` int NOT NULL,
+  `id_course` int NOT NULL,
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `category` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date` date NOT NULL,
   `privacy` tinyint(1) NOT NULL,
+  `published` tinyint(1) NOT NULL,
   `grade` float NOT NULL,
-  `nb_note` int(11) NOT NULL,
-  `nb_report` int(11) NOT NULL
+  `nb_note` int NOT NULL,
+  `nb_report` int NOT NULL,
+  `size` int NOT NULL,
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -134,10 +137,10 @@ CREATE TABLE `posts` (
 --
 
 CREATE TABLE `reports_comments` (
-  `id_report_comment` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_comment` int(11) NOT NULL,
-  `report` text NOT NULL
+  `id_report_comment` int NOT NULL,
+  `id_user` int NOT NULL,
+  `id_comment` int NOT NULL,
+  `report` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -147,10 +150,10 @@ CREATE TABLE `reports_comments` (
 --
 
 CREATE TABLE `reports_posts` (
-  `id_report_post` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_post` int(11) NOT NULL,
-  `report` text NOT NULL
+  `id_report_post` int NOT NULL,
+  `id_user` int NOT NULL,
+  `id_post` int NOT NULL,
+  `report` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -160,9 +163,9 @@ CREATE TABLE `reports_posts` (
 --
 
 CREATE TABLE `subscription` (
-  `id_subscription` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_major` int(11) NOT NULL
+  `id_subscription` int NOT NULL,
+  `id_user` int NOT NULL,
+  `id_major` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -172,24 +175,14 @@ CREATE TABLE `subscription` (
 --
 
 CREATE TABLE `users` (
-  `id_user` int(11) NOT NULL,
-  `mail` varchar(100) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
+  `id_user` int NOT NULL,
+  `mail` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `permission` tinyint(1) NOT NULL,
   `restricted` tinyint(1) NOT NULL,
-  `first_connexion` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `years`
---
-
-CREATE TABLE `years` (
-  `id_year` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL
+  `first_connexion` date NOT NULL,
+  `data_size` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -210,7 +203,8 @@ ALTER TABLE `authors`
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`id_comment`),
   ADD KEY `id_post` (`id_post`),
-  ADD KEY `id_user` (`id_user`);
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_parent_comment` (`id_parent_comment`);
 
 --
 -- Index pour la table `courses`
@@ -246,8 +240,7 @@ ALTER TABLE `majors`
 ALTER TABLE `majors_courses_link`
   ADD PRIMARY KEY (`id_majors_courses_link`),
   ADD KEY `id_major` (`id_major`),
-  ADD KEY `id_course` (`id_course`),
-  ADD KEY `majors_courses_link_ibfk_3` (`id_year`);
+  ADD KEY `id_course` (`id_course`);
 
 --
 -- Index pour la table `posts`
@@ -288,20 +281,80 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- Index pour la table `years`
---
-ALTER TABLE `years`
-  ADD PRIMARY KEY (`id_year`);
-
---
 -- AUTO_INCREMENT pour les tables déchargées
 --
+
+--
+-- AUTO_INCREMENT pour la table `authors`
+--
+ALTER TABLE `authors`
+  MODIFY `id_author` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id_comment` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `courses`
+--
+ALTER TABLE `courses`
+  MODIFY `id_course` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `grades`
+--
+ALTER TABLE `grades`
+  MODIFY `id_grade` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `likes`
+--
+ALTER TABLE `likes`
+  MODIFY `id_like` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `majors`
+--
+ALTER TABLE `majors`
+  MODIFY `id_major` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `majors_courses_link`
+--
+ALTER TABLE `majors_courses_link`
+  MODIFY `id_majors_courses_link` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `id_post` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `reports_comments`
+--
+ALTER TABLE `reports_comments`
+  MODIFY `id_report_comment` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `reports_posts`
+--
+ALTER TABLE `reports_posts`
+  MODIFY `id_report_post` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `subscription`
 --
 ALTER TABLE `subscription`
-  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_subscription` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
@@ -319,7 +372,8 @@ ALTER TABLE `authors`
 --
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`id_post`) REFERENCES `posts` (`id_post`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comments_ibfk_3` FOREIGN KEY (`id_parent_comment`) REFERENCES `comments` (`id_comment`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `grades`
@@ -340,8 +394,7 @@ ALTER TABLE `likes`
 --
 ALTER TABLE `majors_courses_link`
   ADD CONSTRAINT `majors_courses_link_ibfk_1` FOREIGN KEY (`id_major`) REFERENCES `majors` (`id_major`) ON DELETE CASCADE,
-  ADD CONSTRAINT `majors_courses_link_ibfk_2` FOREIGN KEY (`id_course`) REFERENCES `courses` (`id_course`) ON DELETE CASCADE,
-  ADD CONSTRAINT `majors_courses_link_ibfk_3` FOREIGN KEY (`id_year`) REFERENCES `years` (`id_year`) ON DELETE CASCADE;
+  ADD CONSTRAINT `majors_courses_link_ibfk_2` FOREIGN KEY (`id_course`) REFERENCES `courses` (`id_course`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `posts`

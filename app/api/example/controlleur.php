@@ -1,5 +1,9 @@
 <?php
 
+function option_example($params){
+    header('Access-Control-Allow-Headers: *');
+    header('Access-Control-Allow-Methods: GET');
+}
 /*
 This fill is purely for example
 We should make all the checks here 
@@ -9,11 +13,11 @@ We should make all the checks here
 // it's simple and doesn't make any verification
 
 //----- this part should be in the crud ----
-function get_from_crud(){
+function get_from_crud($params){
     $data = array(
         'example' => "easy",
         'working' => true,
-        'number' => 1
+        'number' => intval($params[1])
     );
 
     $jsonData = json_encode($data);
@@ -21,18 +25,8 @@ function get_from_crud(){
 }
 //-----  ----
 
-function get($params){
-    
-    header('Content-Type: application/json');
-    if (count($params) == 0)
-    {
-        echo get_from_crud();
-    }
-
-    else
-    {
-        http_response_code(404);
-        echo json_encode(['error' => 'Resource not found']);
-    }
-    
+function get_example($params){
+    echo get_from_crud($params);
 };
+
+
