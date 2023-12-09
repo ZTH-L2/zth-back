@@ -4,7 +4,7 @@ require_once "controlleur.php";
 
 $dict = [
     "OPTIONS" => [
-        "function" => 'option_comment'
+        "function" => 'option_like'
     ],
     "GET" => [
         "routes" => [

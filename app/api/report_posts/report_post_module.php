@@ -3,7 +3,7 @@ require_once "modules/module.php";
 require_once "controlleur.php";
 
 $dict = [
-    "OPTION" => [
+    "OPTIONS" => [
         "function" => 'option_report_post'
 
     ],

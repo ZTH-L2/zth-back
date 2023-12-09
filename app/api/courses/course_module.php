@@ -4,6 +4,9 @@ require_once "controlleur.php";
 
 
 $dict = [
+    "OPTIONS" => [
+        "function" => 'option_course'
+    ],
     "GET" => [
         "routes" => [
             [

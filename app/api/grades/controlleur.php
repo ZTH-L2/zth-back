@@ -8,7 +8,7 @@ require_once "api/db_connect.php";
 require_once "api/posts/controlleur.php";
 function option_grade($params){
     header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, DELETE');
 }
 
 function get_grade($params){

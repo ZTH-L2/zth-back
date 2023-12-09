@@ -2,9 +2,10 @@
 require_once "api/utils/utils.php";
 require_once "cruds/crud_courses.php";
 require_once "api/db_connect.php";
+
 function option_course($params){
     header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, DELETE');
 }
 
 function get_all_course_page_amount($params){

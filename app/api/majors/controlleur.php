@@ -6,7 +6,7 @@ require_once "api/db_connect.php";
 require_once "api/majors_courses_link/controlleur.php";
 function option_major($params){
     header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, DELETE');
 }
 
 function get_all_major($params){
