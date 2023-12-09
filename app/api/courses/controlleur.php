@@ -15,7 +15,7 @@ function get_all_course_page_amount($params){
         else 
         {
             $conn = db_connect();
-            $res = select_all_course_page_amount($conn, $params[0], $params[1]);
+            $res = select_all_course_page_amount($conn, $params[1], $params[0]);
             return json_encode($res);
         }
     }
