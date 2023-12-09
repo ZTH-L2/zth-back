@@ -11,15 +11,17 @@ function option_user($params){
 }
 
 
-function get_all_users($params){
+function get_all_users_page_amount($params){
     if (!is_logged_in()){ return authentification_required_error_message(); }
     else 
     {
         if (!is_admin()){ return permission_denied_error_message();}
         else 
         {
-            $conn = db_connect(); 
-            $res = select_all_user($conn);
+            $conn = db_connect();
+            $page = $params[1];
+            $amount_per_page = $params[2];
+            $res = select_all_user($conn, $amount_per_page, $page);
             return json_encode($res);
         }
     }

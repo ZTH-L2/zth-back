@@ -11,8 +11,8 @@ $dict = [
         "routes" => [
             [
                 // admin only
-                "params" => [],
-                "function" => 'get_all_users'
+                "params" => ["/^[0-9]{1,}$/", "/^[0-9]{1,}$/"],
+                "function" => 'get_all_users_page_amount'
             ],
             [
                 // admin only
