@@ -11,6 +11,23 @@ function option_post($params){
     header('Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, DELETE, FILES');
 }
 
+
+function get_all_post($params){
+    if (!is_logged_in()){ return authentification_required_error_message(); }
+    else 
+    {
+        if (!is_admin()){ return permission_denied_error_message();}
+        else 
+        {
+            $conn = db_connect();
+            $page = intval($params[0]);
+            $amount_per_page = intval($params[1]);
+            $res = select_all_post_page_amount($conn, $amount_per_page, $page);
+            return json_encode($res);
+        }
+    }
+}
+
 function get_post($params){
     if (is_logged_in())
     {

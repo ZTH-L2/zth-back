@@ -8,6 +8,10 @@ $dict = [
     "GET" => [
         "routes" => [
             [
+                "params" => ["/^[0-9]{1,}$/","/^[0-9]{1,}$/"],
+                "function" => 'get_all_post'
+            ],
+            [
                 "params" => ["/^[0-9]{1,}$/"],
                 "function" => 'get_post'
             ],

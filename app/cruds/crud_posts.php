@@ -114,6 +114,16 @@ function select_id_creator($conn, $id){
      }
     
 
+function select_all_post_page_amount($conn, $amount_per_page, $page){
+     $offset = ($page)*$amount_per_page;
+     $sql = "SELECT `id_post`, `id_creator`, `id_course`, `title`, `category`, `date`, `privacy`, `published`, `grade`, `nb_note`, `nb_report`, `size`, `text` FROM `posts` ORDER BY `id_post` LIMIT $amount_per_page OFFSET $offset";
+     if ($res = mysqli_query($conn, $sql))
+     {
+          $res = mysqli_fetch_all($res);
+     }
+     return $res;
+}
+
 function select_all_post($conn){
 
 /* fonction pour selectionner tous les 'post' dans la table
