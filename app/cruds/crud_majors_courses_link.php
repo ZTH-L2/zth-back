@@ -65,7 +65,18 @@ if($ret=mysqli_query($conn, $sql)){
 }
 return $ret;
 }
-    
+
+
+function select_all_major_course_link_page_amount($conn, $amount_per_page, $page){
+     $offset = ($page)*$amount_per_page;
+     $sql = "SELECT `id_majors_courses_link`, `id_major`, `id_course` FROM `majors_courses_link` ORDER BY `id_majors_courses_link` LIMIT $amount_per_page OFFSET $offset";
+     if ($res = mysqli_query($conn, $sql))
+     {
+          $res = mysqli_fetch_all($res);
+     }
+     return $res;
+}
+
 
 function select_all_major_course_link($conn){
 

@@ -24,15 +24,8 @@ function get_all_major($params){
 
 function get_all_major_page_amount($params){
     $conn = db_connect();
-    $res = select_all_major_page_amount($conn, $params[0], $params[1]);
-    if (is_null($res))
-    {
-        return json_encode([]);
-    }
-    else
-    {
-        return json_encode($res);
-    }
+    $res = select_all_major_page_amount($conn, $params[1], $params[0]);
+    return json_encode($res);
 }
 
 function get_major($params){

@@ -7,7 +7,20 @@ require_once "api/courses/controlleur.php";
 
 function option_majors_courses_link($params){
     header('Access-Control-Allow-Headers: *');
-    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, DELETE');
+}
+
+function get_all_majors_courses_link_page_amount($params){
+    if (is_logged_in())
+    {
+        $conn = db_connect();
+        $res = select_all_major_course_link_page_amount($conn, $params[1], $params[0]);
+        return json_encode($res);
+    }
+    else
+    {
+    return authentification_required_error_message();
+    }
 }
 
 //public
