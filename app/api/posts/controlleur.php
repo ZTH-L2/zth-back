@@ -82,7 +82,7 @@ function get_post_course($params){
 }
 
 function add_grade($conn, $grade, $id_post){
-    add_grade_data($conn, $id_post, $grade);
+    add_grade_data($conn, $grade, $id_post);
     return select_grade_post_a($conn, $id_post);
 }
 //private

@@ -145,7 +145,7 @@ function select_all_post_course($conn, $id_course, $category){
           *              sortie: tableau d'elements
      */
      
-     $sql = "SELECT `id_post`, `id_creator`, `title`, `date`, `grade`, `nb_note` FROM `posts` WHERE `id_course`= $id_course AND `category`= '$category'";
+     $sql = "SELECT `id_post`, `id_creator`, `title`, `date`, `grade`, `nb_note` FROM `posts` WHERE `id_course`= $id_course AND `category`= '$category' ORDER BY `grade` DESC";
      $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
      return $ret ;
      }

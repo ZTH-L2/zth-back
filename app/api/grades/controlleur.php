@@ -89,7 +89,6 @@ function post_grade($params){
             if (is_null($test))
             {
                 $res = create_grade($conn, $id_user, $id_post, $grade);
-                
                 if ($res)
                 {
                     $value = add_grade($conn, $grade, $id_post);
