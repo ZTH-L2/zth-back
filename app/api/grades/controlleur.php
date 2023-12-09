@@ -5,6 +5,7 @@ header('Access-Control-Allow-Credentials: true');
 require_once "api/utils/utils.php";
 require_once "cruds/crud_grades.php";
 require_once "api/db_connect.php";
+require_once "api/posts/controlleur.php";
 function option_grade($params){
     header('Access-Control-Allow-Headers: *');
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
@@ -13,23 +14,16 @@ function option_grade($params){
 function get_grade($params){
     if (is_logged_in())
     {
-        if (is_admin())
+        $conn = db_connect();
+        $id = $params[0];
+        $res = select_grade($conn, $id);
+        if (is_null($res))
         {
-            $conn = db_connect();
-            $id = $params[0];
-            $res = select_grade($conn, $id);
-            if (is_null($res))
-            {
-                return json_encode([]);
-            }
-            else
-            {
-                return json_encode($res);
-            }
+            return json_encode([]);
         }
         else
         {
-            return permission_denied_error_message();
+            return json_encode($res);
         }
     }
     else
@@ -95,9 +89,11 @@ function post_grade($params){
             if (is_null($test))
             {
                 $res = create_grade($conn, $id_user, $id_post, $grade);
+                
                 if ($res)
                 {
-                    return success_message_json(201, "201 Created: New grade successfully created");
+                    $value = add_grade($conn, $grade, $id_post);
+                    return json_encode($value);
                 }
                 else
                 {
@@ -106,8 +102,17 @@ function post_grade($params){
             }
             else
             {
-                return error_message_json(422, "422 Unprocessable Entity: The grade already exist");
-            }
+                $value = modify_grade($conn, $test["grade"], $grade, $id_post);
+                $res = update_grade_with_parameter($conn, "grade", $grade, $test["id_grade"]);
+                if ($res)
+                {
+                    return json_encode($value);
+                }
+                else
+                {
+                    return error_message_json(500, "500 Internal Server Error: Could not modify the grade");
+                }
+                }
         }
         else
         {
@@ -269,57 +274,5 @@ function put_grade($params){
     }
     {
     return authentification_required_error_message();
-    }
-}
-
-function put_grade_user($params){
-    if (is_logged_in())
-    {
-        if (update_post_var())
-        {
-            $conn = db_connect();
-        
-            // get the data
-            if (isset($_POST["id_user"]) && isset($_POST["id_post"]) && isset($_POST["grade"]))
-            {
-                $id_user_dirty = $_POST["id_user"];
-                $id_post_dirty = $_POST["id_post"];
-                $grade_dirty = $_POST["grade"];
-            }
-            else
-            {
-                return invalid_format_data_error_message();
-            }
-        
-            // sanitize the data
-            $id_user = filter_var($id_user_dirty, FILTER_VALIDATE_INT);
-            $id_post = filter_var($id_post_dirty, FILTER_VALIDATE_INT);
-            $grade = filter_var($grade_dirty, FILTER_VALIDATE_FLOAT);
-
-            if ($id_user == "" || $id_post == "" || $grade == "")
-            {
-                return unsafe_data_error_message();
-            }
-            if ($grade > 5 || $grade < 0){
-                return invalid_data_error_message();
-            }
-            if ($id_user != $_SESSION["id_user"])
-            {
-                return permission_denied_error_message();
-            }
-            $res = modify_grade($conn, $id_user, $id_post, $grade);
-            if ($res)
-            {
-                return success_message_json(200, "200 OK: Updated grade's information successfully.") ;
-            }
-            else
-            {
-                return error_message_json(500, "500 Internal Server Error: Could not update grade's information.");
-            }
-        }
-    }
-    else
-    {
-        return permission_denied_error_message();
     }
 }

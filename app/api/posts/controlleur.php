@@ -80,6 +80,17 @@ function get_post_course($params){
         return authentification_required_error_message();
     }
 }
+
+function add_grade($conn, $grade, $id_post){
+    add_grade_data($conn, $id_post, $grade);
+    return select_grade_post_a($conn, $id_post);
+}
+//private
+function modify_grade($conn, $oldgrade, $newgrade, $id_post){
+    modify_grade_data($conn, $oldgrade, $newgrade, $id_post);
+    return select_grade_post_a($conn, $id_post);
+
+}
 function post_post($params){
     if (is_logged_in())
     {
