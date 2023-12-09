@@ -13,6 +13,14 @@ $dict = [
             [
                 "params" => ["/^user$/"],
                 "function" => 'get_subscription_by_id'
+            ],
+            [
+                "params" => ["/^user$/", "/^[0-9]{1,}$/"],
+                "function" => 'get_is_subscibe'
+            ],
+            [
+                "params" => ["/^delete$/", "/^user$/", "/^[0-9]{1,}$/"],
+                "function" => 'delete_sub'
             ]
         ]
     ],
