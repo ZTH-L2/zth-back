@@ -88,7 +88,6 @@ function post_post($params){
             $conn = db_connect();
             // get the data
             
-            
             if (isset($_POST["id_creator"]) && isset($_POST["id_course"]) && isset($_POST["title"]) && isset($_POST["category"]) && isset($_POST["privacy"]) && isset($_POST["published"]) && isset($_POST["text"]))
             {
                 $id_creator_dirty = $_POST["id_creator"];
@@ -113,7 +112,7 @@ function post_post($params){
             $text = filter_var($text_dirty);
 
 
-            if ($id_creator == "" || $id_course == "" || $title == "" || $category == "" || $privacy == "" || $published == "" || $text == "")
+            if ($id_creator == "" || $id_course == "" || $title == "" || $category == "" || $privacy == "" || $published == "")
             {
                 return unsafe_data_error_message();
             }
@@ -149,7 +148,7 @@ function post_post($params){
                     }
                     update_data_user($conn, $data_size, $id_creator);
                     update_post_with_parameter($conn, "size", $data_size, $id_post);
-                    return success_message_json(201, "201 Created: New post successfully created");
+                    return json_encode(["id_post"=>$id_post]);
                 }
                 else
                 {
