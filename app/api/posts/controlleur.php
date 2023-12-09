@@ -371,7 +371,7 @@ function put_post($params){
             $text = filter_var($text_dirty);
 
 
-            if ($id  == "" || $title  == "" || $privacy  == "" || $published == "" || $text == "" )
+            if ($id  == "" || $title  == "" || $privacy  == "" || $published == "")
             {
                 return unsafe_data_error_message();
             }
