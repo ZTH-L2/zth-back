@@ -59,6 +59,14 @@ if($ret=mysqli_query($conn, $sql)){
 return $ret;
 }
 
+function select_all_user($conn){
+     $sql = "SELECT `id_user`, `mail`, `username`, `permission`, `restricted`, `first_connexion`, `data_size` FROM `users`";
+     if ($res = mysqli_query($conn, $sql))
+     {
+          $res = mysqli_fetch_all($res, MYSQLI_ASSOC);
+     }
+     return $res;
+}
 
 function select_user_name($conn, $id){
 

@@ -11,6 +11,20 @@ function option_user($params){
 }
 
 
+function get_all_users($params){
+    if (!is_logged_in()){ return authentification_required_error_message(); }
+    else 
+    {
+        if (!is_admin()){ return permission_denied_error_message();}
+        else 
+        {
+            $conn = db_connect(); 
+            $res = select_all_user($conn);
+            return $res;
+        }
+    }
+}
+
 //Public
 function get_name_by_id($params){
     if (is_logged_in())
