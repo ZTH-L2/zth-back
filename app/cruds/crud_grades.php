@@ -34,17 +34,6 @@ $sql = "UPDATE `grades` set `id_user`='$id_user', `id_post`='$id_post', `grade`=
 return mysqli_query($conn, $sql);
 }
     
-function modify_grade($conn, $id_user, $id_post, $grade){
-
-     /* fonction pour update / modifier un(e) 'grade' en fonction de l'id
-      *              entree: element de connexion
-      *                      toutes les variables: valeurs des colonnes
-      *              sortie: sql request
-      */
-     
-     $sql = "UPDATE `grades` set `grade`='$grade' WHERE `id_post`=$id_post and `id_user`=$id_user";
-     return mysqli_query($conn, $sql);
-     }
 
 
 function update_grade_with_parameter($conn, $parameter_name, $parameter_value, $id){

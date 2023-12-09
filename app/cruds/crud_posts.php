@@ -66,8 +66,22 @@ function update_post_with_parameter($conn, $parameter_name, $parameter_value, $i
 $sql = "UPDATE `posts` set `$parameter_name`='$parameter_value' WHERE `id_post`=$id";
 return mysqli_query($conn, $sql);
 }
-    
 
+function select_grade_post_a($conn, $id_post){
+     $sql = "SELECT `grade`,`nb_note`  FROM `posts` WHERE `id_post`=$id_post";
+     if($ret=mysqli_query($conn, $sql)){
+         $ret=mysqli_fetch_assoc($ret);
+     }
+     return $ret;
+     }
+function add_grade_data($conn, $grade, $id_post){
+     $sql = "UPDATE `posts` set `grade` = (`grade`*`nb_note` + '$grade') / (`nb_note` + 1), `nb_note`= `nb_note` + 1 WHERE `id_post`=$id_post";
+     return mysqli_query($conn, $sql);
+}
+function modify_grade_data($conn, $oldgrade, $newgrade, $id_post){
+     $sql = "UPDATE `posts` set `grade` = (`grade`*`nb_note` - '$oldgrade' + '$newgrade') / `nb_note` WHERE `id_post`=$id_post";
+     return mysqli_query($conn, $sql);
+}
 
 function select_post($conn, $id){
 
@@ -131,7 +145,7 @@ function select_all_post_course($conn, $id_course, $category){
           *              sortie: tableau d'elements
      */
      
-     $sql = "SELECT `id_post`, `id_creator`, `title`, `date`, `grade`, `nb_note` FROM `posts` WHERE `id_course`= $id_course AND `category`= '$category'";
+     $sql = "SELECT `id_post`, `id_creator`, `title`, `date`, `grade`, `nb_note` FROM `posts` WHERE `id_course`= $id_course AND `category`= '$category' ORDER BY `grade` DESC";
      $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
      return $ret ;
      }

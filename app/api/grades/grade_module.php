@@ -8,11 +8,11 @@ $dict = [
         "routes" => [
             [
                 "params" => [],
-                "function" => 'post_grade_admin'
+                "function" => 'get_grade_admin'
             ],
             [
                 "params" => ["/^user$/"],
-                "function" => 'post_grade'
+                "function" => 'get_grade'
             ]
         ]
     ],
