@@ -24,6 +24,47 @@ function get_subscription($params){
     }
 }
 
+function get_is_subscibe($params){
+    if (is_logged_in())
+    {
+        $conn = db_connect();
+        $id_user = $_SESSION["id_user"];
+        $major = $params[1];
+        $res = is_subscribe($conn, $id_user, $major);
+        if ($res == []){
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
+    else
+    {
+        return authentification_required_error_message();
+    }
+}
+
+function delete_sub($params){
+    if (is_logged_in())
+    {
+        $conn = db_connect();
+        $id_user = $_SESSION["id_user"];
+        $major = $params[2];
+        delete_sub_data($conn, $id_user, $major);
+        if (mysqli_affected_rows($conn) > 0)
+        {
+            return success_message_json(200, "200 OK: Deleted subscription successfully");
+        }
+        else
+        {
+            return success_message_json(200, "200 OK: Deleted nothing but successfull");
+        }
+    }
+    else
+    {
+        return authentification_required_error_message();
+    }
+}
 function get_subscription_by_id($params){
     if (is_logged_in())
     {

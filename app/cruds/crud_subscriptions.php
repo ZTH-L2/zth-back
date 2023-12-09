@@ -49,6 +49,11 @@ $sql = "UPDATE `subscription` set `$parameter_name`='$parameter_value' WHERE `id
 return mysqli_query($conn, $sql);
 }
     
+function is_subscribe($conn, $id_user, $id_major){
+     $sql = "SELECT * FROM `subscription` WHERE `id_user`= $id_user AND `id_major`= $id_major";
+     $ret=mysqli_fetch_all(mysqli_query($conn, $sql));
+     return $ret;
+}
 
 
 function select_subscription($conn, $id){
@@ -116,7 +121,13 @@ function delete_subscription($conn, $id){
      *              sortie: sql request
 */
 
-$sql = "DELETE FROM `subscription` WHERE `id_subscription`=$id";
-return mysqli_query($conn, $sql);
+     $sql = "DELETE FROM `subscription` WHERE `id_subscription`=$id";
+     return mysqli_query($conn, $sql);
+}
+
+function delete_sub_data($conn, $id_user, $major){
+     $sql = "DELETE FROM `subscription` WHERE `id_user`=$id_user AND `id_major`=$major";
+     return mysqli_query($conn, $sql);
+
 }
 ?>
