@@ -4,7 +4,9 @@ require_once "controlleur.php";
 
 
 $dict = [
-    
+    "OPTIONS" => [
+        "function" => 'option_post'
+    ],
     "GET" => [
         "routes" => [
             [
@@ -43,9 +45,8 @@ $dict = [
 
     ],
     "PUT" => [
-                "params" => [],
+            "params" => [],
             "function" => 'put_post'
-
     ],
     "DELETE" => [
         "routes" => [

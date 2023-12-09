@@ -1,5 +1,5 @@
 <?php
-header('Access-Control-Allow-Credentials: true');
+// header('Access-Control-Allow-Credentials: true');
 
 require_once "api/utils/utils.php";
 require_once "cruds/crud_posts.php";
@@ -205,7 +205,7 @@ function del_post_admin($params){
         if (is_admin())
         {
             $conn = db_connect();
-            delete_post($conn, $params[0]);
+            delete_post($conn, $params[1]);
             if (mysqli_affected_rows($conn) > 0)
             {
                 rmdir("./POSTS_DATA/" . $params[0]);
