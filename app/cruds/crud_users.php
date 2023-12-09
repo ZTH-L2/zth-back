@@ -60,11 +60,11 @@ return $ret;
 }
 
 function select_all_user($conn, $amount_per_page, $page){
-     $offset = ($page-1)*$amount_per_page;
-     $sql = "SELECT `id_user`, `mail`, `username`, `permission`, `restricted`, `first_connexion`, `data_size` FROM `users` ORDER BY nb_report DESC LIMIT $amount_per_page OFFSET $offset";
+     $offset = ($page)*$amount_per_page;
+     $sql = "SELECT `id_user`, `mail`, `username`, `permission`, `restricted`, `first_connexion`, `data_size` FROM `users` ORDER BY `id_user` DESC LIMIT $amount_per_page OFFSET $offset";
      if ($res = mysqli_query($conn, $sql))
      {
-          $res = mysqli_fetch_all($res, MYSQLI_ASSOC);
+          $res = mysqli_fetch_all($res);
      }
      return $res;
 }

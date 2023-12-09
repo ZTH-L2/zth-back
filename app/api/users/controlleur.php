@@ -19,8 +19,8 @@ function get_all_users_page_amount($params){
         else 
         {
             $conn = db_connect();
-            $page = $params[1];
-            $amount_per_page = $params[2];
+            $page = intval($params[0]);
+            $amount_per_page = intval($params[1]);
             $res = select_all_user($conn, $amount_per_page, $page);
             return json_encode($res);
         }
