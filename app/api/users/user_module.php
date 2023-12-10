@@ -15,7 +15,6 @@ $dict = [
                 "function" => 'get_all_users_page_amount'
             ],
             [
-                // admin only
                 "params" => ["/^name$/", "/^[0-9]{1,}$/"],
                 "function" => 'get_name_by_id'
             ],

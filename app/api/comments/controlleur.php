@@ -134,8 +134,8 @@ function get_nb_total_parent($params){
     }
 
     // stmt for statement
-    $stmt = $conn->prepare("SELECT COUNT(id_comment) AS comment_count FROM comments WHERE id_post = ? AND id_parent_comment = 0");
-    $stmt->bind_param("i", $id_post); // "i" indicates integer type
+    $stmt = $conn->prepare("SELECT COUNT(id_comment) AS comment_count FROM comments WHERE id_post = ? AND id_parent_comment IS NULL");
+    $stmt->bind_param("i",$id_post); // "i" indicates integer type
     
     if ($stmt->execute())
     {
@@ -204,13 +204,13 @@ function get_parent_page_amount($params){
     $amount_per_page = $params[3];
     $offset = ($page-1)*$amount_per_page;
 
-    $stmt = $conn->prepare("SELECT * FROM comments WHERE id_post = ? AND id_parent_comment = NULL ORDER BY nb_like DESC LIMIT ? OFFSET ?");
+    $stmt = $conn->prepare("SELECT * FROM comments WHERE id_post = ? AND id_parent_comment IS NULL ORDER BY nb_like DESC LIMIT ? OFFSET ?");
     $stmt->bind_param("iii", $id_post, $amount_per_page, $offset); // "i" indicates integer type
     
     if ($stmt->execute())
     {
         $result = $stmt->get_result();
-        $comments = $result->fetch_all(MYSQLI_ASSOC);;
+        $comments = $result->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
         return json_encode($comments);
     }
