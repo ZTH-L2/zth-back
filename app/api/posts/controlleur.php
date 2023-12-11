@@ -240,11 +240,13 @@ function del_post($params){
             delete_post($conn, $id);
             if (mysqli_affected_rows($conn) > 0)
             {
-                $files = scandir("./POSTS_DATA/" . $id);
-                for ($i = 2; $i<count($files); $i++) {
-                    unlink("./POSTS_DATA/" . $id ."/". $files[$i]);
+                if (file_exists("./POSTS_DATA/" . $id)){
+                    $files = scandir("./POSTS_DATA/" . $id);
+                    for ($i = 2; $i<count($files); $i++) {
+                        unlink("./POSTS_DATA/" . $id ."/". $files[$i]);
+                    }
+                    rmdir("./POSTS_DATA/" . $id);
                 }
-                rmdir("./POSTS_DATA/" . $id);
                 return success_message_json(200, "200 OK: Deleted post successfully");
             }
             else
