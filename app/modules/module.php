@@ -4,7 +4,7 @@ header('Access-Control-Allow-Origin: https://zth-l2.netlify.app');
 header('Access-Control-Allow-Origin: https://notesync.aekhy.codes/connexion');
 
 //header('Access-Control-Allow-Credentials: true');
-session_set_cookie_params(['SameSite' => 'None', 'Secure' => true]);
+// session_set_cookie_params(['SameSite' => 'None', 'Secure' => true]);
 session_start();
 class Module
 {
