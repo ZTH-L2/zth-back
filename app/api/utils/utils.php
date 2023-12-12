@@ -77,6 +77,13 @@ function unsafe_data_error_message(){
     return error_message_json(400, "400 Bad Request: The submitted data contains invalid or malicious content.");
 }
 
+function file_message_error_messages( $string ){
+	/**
+	$string le message d'erreur associé
+	*/
+	return error_message_json(400, $string );
+}
+
 // 401 Unauthorized:
 // Explanation: Indicates that the request has not been applied because it lacks valid authentication credentials.
 // Example: Accessing a protected resource without providing valid authentication.
