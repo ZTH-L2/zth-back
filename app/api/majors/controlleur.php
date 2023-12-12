@@ -155,9 +155,9 @@ function put_major($params){
                 }
             
                 // sanitize the data
-                $name = filter_var($name_dirty);
+                $name = filter_var($name_dirty, FILTER_SANITIZE_ENCODED);
                 $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
-                $year = filter_var($year_dirty);
+                $year = filter_var($year_dirty, FILTER_SANITIZE_ENCODED);
 
 
                 if ($name == "" || $id == "" || $year == "")

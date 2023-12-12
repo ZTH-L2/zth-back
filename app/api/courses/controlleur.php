@@ -75,7 +75,7 @@ function post_course($params){
                 }
 
                 // sanitize the data
-                $name = filter_var($name_dirty);
+                $name = filter_var($name_dirty, FILTER_SANITIZE_ENCODED);
 
                 if ($name == "")
                 {
@@ -156,7 +156,7 @@ function put_course($params){
                 }
             
                 // sanitize the data
-                $name = filter_var($name_dirty);
+                $name = filter_var($name_dirty, FILTER_SANITIZE_ENCODED);
                 $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
             
             
