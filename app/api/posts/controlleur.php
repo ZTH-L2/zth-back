@@ -372,33 +372,49 @@ function put_post($params){
             $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
             $text = filter_var($text_dirty);
 
+			$STRING_ERROR = "";
 
             if ($id  == "" || $title  == "" || $privacy  == "" || $published == "")
             {
-                return unsafe_data_error_message();
+                // return unsafe_data_error_message();
+				
+				$STRING_ERROR = "400 Bad Request: Invalid Syntax Request";
+				return file_message_error_messages($STRING_ERROR);
             }
             $date = getdate();
             $date = $date["year"] . "-" . $date["mon"] .  "-" . $date["mday"];
             $res = update_post_user($conn, $title, $date, $privacy, $published, $text, $id);
             $data_size= 0;
+			
+			$max_bit_size = 5000000; // define max size of file in bit
+			
             if ($res)
             {
                 $i = 1;
                 while (isset($_FILES[$i])){
 
-                    if ($_FILES[$i]["size"] > 5000000){
-                        return unsafe_data_error_message();
+                    if ($_FILES[$i]["size"] > $max_bit_size){	// si fichier supérieur à
+                        // return unsafe_data_error_message();
+						$STRING_ERROR .= "400 Bad Request: The file '{$_FILES[$i]["name"]}' exceeds {$max_bit_size} bits, Maximum Size Exceeded\n";
                     }
-                    if( file_exists("./POSTS_DATA/" . $id . "/". $_FILES[$i]["name"])){
-                        return unsafe_data_error_message();
+                    if( file_exists("./POSTS_DATA/" . $id . "/". $_FILES[$i]["name"])){	// si fichier existe deja
+                        // return unsafe_data_error_message();
+						$STRING_ERROR .= "400 Bad Request: The file '{$_FILES[$i]["name"]}' Already Exists in the Server Directory\n";
                     }
                     $data_size += $_FILES[$i]["size"];
-                    if ( !move_uploaded_file($_FILES[$i]["tmp_name"], "./POSTS_DATA/" . $id . "/". $_FILES[$i]["name"])){
-                        return unsafe_data_error_message();
+                    if ( !move_uploaded_file($_FILES[$i]["tmp_name"], "./POSTS_DATA/" . $id . "/". $_FILES[$i]["name"])){	// si move pas possible
+                        // return unsafe_data_error_message();
+						$STRING_ERROR .= "400 Bad Request: The file '{$_FILES[$i]["name"]}' contains invalid or malicious content|title\n";
                     }
                     $i += 1;
                 }
-                return success_message_json(200, "200 OK: Updated post's information successfully.") ;
+				if(empty($STRING_ERROR)){
+					return success_message_json(200, "200 OK: Updated post's information successfully.") ;
+				}
+				else{
+					return file_message_error_messages( $STRING_ERROR );
+				}
+                
             }
             else
             {
