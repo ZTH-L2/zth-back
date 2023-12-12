@@ -49,9 +49,22 @@ function update_post_user($conn, $title, $date, $privacy, $published, $text, $id
       *              sortie: sql request
       */
      
-     $sql = "UPDATE `posts` set `title`='$title', `date`='$date', `privacy`='$privacy', `published`='$published', `text`='$text' WHERE`id_post`=$id";
-     return mysqli_query($conn, $sql);
+     //$sql = "UPDATE `posts` set `title`='$title', `date`='$date', `privacy`='$privacy', `published`='$published', `text`='$text' WHERE`id_post`=$id";
+     //print($sql);
+     //return mysqli_query($conn, $sql);
+     $sql = "UPDATE `posts` set `title`= ?, `date`= ?, `privacy`= ?, `published`= ?, `text`= ? WHERE`id_post`= ?";
+
+     $stmt = mysqli_prepare($conn, $sql);
+     
+     if ($stmt) {
+         mysqli_stmt_bind_param($stmt, "ssiisi", $title, $date, $privacy, $published, $text, $id);
+         mysqli_stmt_execute($stmt);
+         mysqli_stmt_close($stmt);
+         return true; // Return true on success
+     } else {
+         return false; // Return false on failure
      }
+}
 
 
 function update_post_with_parameter($conn, $parameter_name, $parameter_value, $id){

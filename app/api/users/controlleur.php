@@ -155,9 +155,10 @@ function login($params){
         }
 
         // sanitize the data
-        $username = filter_var($username_dirty);
+        $username = filter_var($username_dirty, FILTER_SANITIZE_ENCODED);
         $password_raw = filter_var($password_dirty_raw);
-        
+
+
         if (!$username || !$password_raw)
         {
             return unsafe_data_error_message();
@@ -242,7 +243,7 @@ function register($params){
         }
 
         // sanitize the data
-        $username = filter_var($username_dirty);
+        $username = filter_var($username_dirty, FILTER_SANITIZE_ENCODED);
         $mail = filter_var($mail_dirty, FILTER_SANITIZE_EMAIL);
         $password_raw = filter_var($password_dirty_raw);
         
@@ -254,7 +255,6 @@ function register($params){
         // validate the data format
         $password_regex  = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
         $username_regex  = '/^[a-zA-Z0-9_-]{3,16}$/';
-        
         if (!filter_var($username, FILTER_VALIDATE_REGEXP, ["options" => ["regexp" => $username_regex]]) ||
         !filter_var($password_raw, FILTER_VALIDATE_REGEXP, ["options" => ["regexp" => $password_regex]]) || 
             !filter_var($mail, FILTER_VALIDATE_EMAIL))
@@ -332,9 +332,9 @@ function update_my_account($params){
         }
 
         // sanitize the data
-        $username = filter_var($username_dirty);
+        $username = filter_var($username_dirty, FILTER_SANITIZE_ENCODED);
         $mail = filter_var($mail_dirty, FILTER_SANITIZE_EMAIL);
-        $password_raw = filter_var($password_dirty_raw);
+        $password_raw = filter_var($password_dirty_raw, FILTER_SANITIZE_ENCODED);
         
         if (!$username || !$mail || !$password_raw)
         {

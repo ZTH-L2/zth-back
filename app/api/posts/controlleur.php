@@ -133,11 +133,11 @@ function post_post($params){
             // sanitize the data
             $id_creator = filter_var($id_creator_dirty, FILTER_VALIDATE_INT);
             $id_course = filter_var($id_course_dirty, FILTER_VALIDATE_INT);
-            $title = filter_var($title_dirty);
-            $category = filter_var($category_dirty);
+            $title = filter_var($title_dirty, FILTER_SANITIZE_ENCODED);
+            $category = filter_var($category_dirty, FILTER_SANITIZE_ENCODED);
             $privacy = filter_var($privacy_dirty, FILTER_VALIDATE_INT);
             $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
-            $text = filter_var($text_dirty);
+            $text = filter_var($text_dirty, FILTER_SANITIZE_ENCODED);
 
 
             if ($id_creator == "" || $id_course == "" || $title == "" || $category == "" || $privacy == "" || $published == "")
@@ -301,14 +301,14 @@ function put_post_admin($params){
                 $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
                 $id_creator = filter_var($id_creator_dirty, FILTER_VALIDATE_INT);
                 $id_course = filter_var($id_course_dirty, FILTER_VALIDATE_INT);
-                $title = filter_var($title_dirty);
-                $category = filter_var($category_dirty);
+                $title = filter_var($title_dirty, FILTER_SANITIZE_ENCODED);
+                $category = filter_var($category_dirty, FILTER_SANITIZE_ENCODED);
                 $nb_note = filter_var($nb_note_dirty, FILTER_VALIDATE_INT);
                 $nb_report = filter_var($nb_report_dirty, FILTER_VALIDATE_INT);
                 $grade = filter_var($grade_dirty, FILTER_VALIDATE_FLOAT);
                 $privacy = filter_var($privacy_dirty, FILTER_VALIDATE_INT);
                 $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
-                $text = filter_var($text_dirty);
+                $text = filter_var($text_dirty, FILTER_SANITIZE_ENCODED);
 
 
                 if ($id  == "" || $id_creator  == "" || $id_course  == "" || $title  == "" || $category  == "" || $published  == "" || $nb_note  == "" || $nb_report  == "" || $grade  == "" || $privacy  == "" || $text  == "")
@@ -367,7 +367,7 @@ function put_post($params){
             
             // sanitize the data
             $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
-            $title = filter_var($title_dirty);
+            $title = filter_var($title_dirty, FILTER_SANITIZE_ENCODED);
             $privacy = filter_var($privacy_dirty, FILTER_VALIDATE_INT);
             $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
             $text = filter_var($text_dirty);
