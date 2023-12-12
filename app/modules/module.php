@@ -1,7 +1,8 @@
 <?php
 header('Access-Control-Allow-Origin: http://localhost:5173');
-header('Access-Control-Allow-Origin: https://zth-l2.netlify.app');
-header('Access-Control-Allow-Origin: https://notesync.aekhy.codes');
+// décommenter
+//header('Access-Control-Allow-Origin: https://zth-l2.netlify.app');
+//header('Access-Control-Allow-Origin: https://notesync.aekhy.codes');
 
 //header('Access-Control-Allow-Credentials: true');
 // session_set_cookie_params(['SameSite' => 'None', 'Secure' => true]);
