@@ -365,7 +365,7 @@ function put_post($params){
             
             // sanitize the data
             $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
-            $title = filter_var($title_dirty, FILTER_SANITIZE_ENCODED);
+            $title = filter_var($title_dirty);
             $privacy = filter_var($privacy_dirty, FILTER_VALIDATE_INT);
             $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
             $text = filter_var($text_dirty);
