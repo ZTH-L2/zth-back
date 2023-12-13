@@ -133,13 +133,11 @@ function post_post($params){
             // sanitize the data
             $id_creator = filter_var($id_creator_dirty, FILTER_VALIDATE_INT);
             $id_course = filter_var($id_course_dirty, FILTER_VALIDATE_INT);
-            $title = filter_var($title_dirty, FILTER_SANITIZE_ENCODED);
+            $title = filter_var($title_dirty);
             $category = filter_var($category_dirty, FILTER_SANITIZE_ENCODED);
             $privacy = filter_var($privacy_dirty, FILTER_VALIDATE_INT);
             $published = filter_var($published_dirty, FILTER_VALIDATE_INT);
             $text = filter_var($text_dirty, FILTER_SANITIZE_ENCODED);
-
-
             if ($id_creator == "" || $id_course == "" || $title == "" || $category == "" || $privacy == "" || $published == "")
             {
                 return unsafe_data_error_message();
@@ -383,15 +381,17 @@ function put_post($params){
             }
             $date = getdate();
             $date = $date["year"] . "-" . $date["mon"] .  "-" . $date["mday"];
-            $res = update_post_user($conn, $title, $date, $privacy, $published, $text, $id);
-            $data_size= 0;
-			
-			$max_bit_size = 5000000; // define max size of file in bit
-			
-            if ($res)
-            {
-                $i = 1;
-                while (isset($_FILES[$i])){
+            $id_creator = select_id_creator($conn, $id)["id_creator"];
+            if ($id_creator == $_SESSION["id_user"]){
+                $res = update_post_user($conn, $title, $date, $privacy, $published, $text, $id);
+                $data_size= 0;
+                
+			    $max_bit_size = 5000000; // define max size of file in bit
+                
+                if ($res)
+                {
+                    $i = 1;
+                    while (isset($_FILES[$i])){
 
                     if ($_FILES[$i]["size"] > $max_bit_size){	// si fichier supérieur à
                         // return unsafe_data_error_message();
@@ -415,10 +415,15 @@ function put_post($params){
 					return file_message_error_messages( $STRING_ERROR );
 				}
                 
+                }
+                else
+                {
+                    return error_message_json(500, "500 Internal Server Error: Could not update post's information.");
+                }
             }
             else
             {
-                return error_message_json(500, "500 Internal Server Error: Could not update post's information.");
+                return permission_denied_error_message();
             }
         }
         else
