@@ -299,7 +299,7 @@ function put_post_admin($params){
                 $id = filter_var($id_dirty, FILTER_VALIDATE_INT);
                 $id_creator = filter_var($id_creator_dirty, FILTER_VALIDATE_INT);
                 $id_course = filter_var($id_course_dirty, FILTER_VALIDATE_INT);
-                $title = filter_var($title_dirty, FILTER_SANITIZE_ENCODED);
+                $title = filter_var($title_dirty);
                 $category = filter_var($category_dirty, FILTER_SANITIZE_ENCODED);
                 $nb_note = filter_var($nb_note_dirty, FILTER_VALIDATE_INT);
                 $nb_report = filter_var($nb_report_dirty, FILTER_VALIDATE_INT);

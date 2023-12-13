@@ -16,8 +16,21 @@ function create_post($conn, $id_creator, $id_course, $title, $category, $date, $
      *              sortie: sql request
 */
 
-$sql = "INSERT INTO `posts`(`id_creator`, `id_course`, `title`, `category`, `date`, `privacy`, `published`, `grade`, `nb_note`, `nb_report`, `size`, `text`) VALUES('$id_creator', '$id_course', '$title', '$category', '$date', '$privacy', '$published', '$grade', '$nb_note', '$nb_report', '$size', '$text') ";
-return mysqli_query($conn, $sql);
+     // $sql = "INSERT INTO `posts`(`id_creator`, `id_course`, `title`, `category`, `date`, `privacy`, `published`, `grade`, `nb_note`, `nb_report`, `size`, `text`) VALUES('$id_creator', '$id_course', '$title', '$category', '$date', '$privacy', '$published', '$grade', '$nb_note', '$nb_report', '$size', '$text') ";
+     // return mysqli_query($conn, $sql);
+     $sql = "INSERT INTO `posts`(`id_creator`, `id_course`, `title`, `category`, `date`, `privacy`, `published`, `grade`, `nb_note`, `nb_report`, `size`, `text`) 
+     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+
+     $stmt = mysqli_prepare($conn, $sql);
+     
+     if ($stmt) {
+         mysqli_stmt_bind_param($stmt, "iisssiiiiiis", $id_creator, $id_course, $title, $category, $date, $privacy, $published, $grade, $nb_note, $nb_report, $size, $text);
+         mysqli_stmt_execute($stmt);
+         mysqli_stmt_close($stmt);
+         return true; // Return true on success
+     } else {
+         return false; // Return false on failure
+     }
 }
 
 function nbr_posts($conn){
