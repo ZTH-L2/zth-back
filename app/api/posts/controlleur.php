@@ -395,16 +395,16 @@ function put_post($params){
 
                     if ($_FILES[$i]["size"] > $max_bit_size){	// si fichier supérieur à
                         // return unsafe_data_error_message();
-						$STRING_ERROR .= "400 Bad Request: The file '{$_FILES[$i]["name"]}' exceeds {$max_bit_size} bits, Maximum Size Exceeded<br>";
+						$STRING_ERROR .= "Le fichier: '{$_FILES[$i]["name"]}' dépasse {$max_bit_size} bits<br>";
                     }
                     if( file_exists("./POSTS_DATA/" . $id . "/". $_FILES[$i]["name"])){	// si fichier existe deja
                         // return unsafe_data_error_message();
-						$STRING_ERROR .= "400 Bad Request: The file '{$_FILES[$i]["name"]}' Already Exists in the Server Directory<br>";
+						$STRING_ERROR .= "Le fichier: '{$_FILES[$i]["name"]}' est déjà présent dans le répertoire courant<br>";
                     }
                     $data_size += $_FILES[$i]["size"];
                     if ( !move_uploaded_file($_FILES[$i]["tmp_name"], "./POSTS_DATA/" . $id . "/". $_FILES[$i]["name"])){	// si move pas possible
                         // return unsafe_data_error_message();
-						$STRING_ERROR .= "400 Bad Request: The file '{$_FILES[$i]["name"]}' contains invalid or malicious content|title<br>";
+						$STRING_ERROR .= "Le fichier: '{$_FILES[$i]["name"]}' contient un titre ou un contenu invalide ou malicieux<br>";
                     }
                     $i += 1;
                 }
