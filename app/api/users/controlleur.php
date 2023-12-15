@@ -155,7 +155,7 @@ function login($params){
         }
 
         // sanitize the data
-        $username = filter_var($username_dirty, FILTER_SANITIZE_ENCODED);
+        $username = filter_var($username_dirty);
         $password_raw = filter_var($password_dirty_raw);
 
 
@@ -163,7 +163,10 @@ function login($params){
         {
             return unsafe_data_error_message();
         }
-        
+        $username_regex  = '/^[a-zA-Z0-9_-]{3,16}$/';
+        if (!filter_var($username, FILTER_VALIDATE_REGEXP, ["options" => ["regexp" => $username_regex]])){
+            return unsafe_data_error_message();
+        }
         $conn = db_connect();
         // search for username in users
         $user = select_user_by_username($conn, $username);
@@ -243,7 +246,7 @@ function register($params){
         }
 
         // sanitize the data
-        $username = filter_var($username_dirty, FILTER_SANITIZE_ENCODED);
+        $username = filter_var($username_dirty);
         $mail = filter_var($mail_dirty, FILTER_SANITIZE_EMAIL);
         $password_raw = filter_var($password_dirty_raw);
         
